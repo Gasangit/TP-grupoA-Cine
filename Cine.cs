@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,18 @@ namespace TP_grupoA_Cine
         public List<Pelicula> peliculas { get; set; }
         public Usuario usuarioActual { get; set; }
 
+        private readonly static Cine _instancia = new Cine(); //patron singleton para que siempre haya un solo objeto Cine
+
+        private Cine() { }; //patron singleton para que siempre haya un solo objeto Cine
+
+        public static Cine Instancia  //patron singleton para que siempre haya un solo objeto Cine
+        {
+            get
+            { 
+                return _instancia;
+            }
+        }
+        
         public Usuario altaUsuario(int dni, string nombre,
                                     string apellido, string mail, string password, 
                                     DateTime fechaNacimiento, bool esAdmin)
@@ -22,8 +35,11 @@ namespace TP_grupoA_Cine
             //la clase Usuario tiene que tener un constructor para el ALTA
             Usuario usuario = new Usuario(dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin);
             //hay que ver como asignar el id al usuario
+            
+            Console.WriteLine($">>> Se CREÓ el usuario {usuario.Nombre}" +
+                                        $" {usuario.Apellido} con ID {usuario.ID}");
         }
-
+        /* no se que dato se dara para la baja, no creo que el usuario use el ID*/
         public void BajaUsuario(int idUsuario )
         {
             for (int i = 0; i < usuarios.Count; i++) 
@@ -34,14 +50,15 @@ namespace TP_grupoA_Cine
                     /*  no se si para dar de baja bloqueo el usuario como se hace en las bases
                      *  de datos o lo borramos */
 
-                    Console.WriteLine($">>> Se eliminó al usuario {usuarios[i].Nombre}" + 
+                    Console.WriteLine($">>> Se ELIMINÓ el usuario {usuarios[i].Nombre}" + 
                                         $" {usuarios[i].Apellido} con ID {usuarios[i].ID}");
-
                     break;
                 }
             }
         }
 
+        public void modificacionUsuario() { 
+        }
         public 
 
         public Sala altaBajaModificacionSala()
