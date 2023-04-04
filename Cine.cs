@@ -15,13 +15,38 @@ namespace TP_grupoA_Cine
         public List<Pelicula> peliculas { get; set; }
         public Usuario usuarioActual { get; set; }
 
-        public int num = 1; 
-
-        int num = 2;
-
-        public Usuario abmUsuario()
+        public Usuario altaUsuario(int dni, string nombre,
+                                    string apellido, string mail, string password, 
+                                    DateTime fechaNacimiento, bool esAdmin)
         {
-            num = 2;
+            //la clase Usuario tiene que tener un constructor para el ALTA
+            Usuario usuario = new Usuario(dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin);
+            //hay que ver como asignar el id al usuario
+        }
+
+        public void BajaUsuario(int idUsuario )
+        {
+            for (int i = 0; i < usuarios.Count; i++) 
+            {
+                if (usuarios[i].ID == idUsuario)
+                {
+                    usuarios[i].Bloqueado = true;
+                    /*  no se si para dar de baja bloqueo el usuario como se hace en las bases
+                     *  de datos o lo borramos */
+
+                    Console.WriteLine($">>> Se eliminó al usuario {usuarios[i].Nombre}" + 
+                                        $" {usuarios[i].Apellido} con ID {usuarios[i].ID}");
+
+                    break;
+                }
+            }
+        }
+
+        public 
+
+        public Sala altaBajaModificacionSala()
+        {
+
         }
 
         public void cargarCredito(int idUsuario, double importe)
@@ -70,7 +95,7 @@ namespace TP_grupoA_Cine
             return peliculas.ToList();
         }
 
-        public Funcion buscarFuncion(string ubicacion, Date fecha, double costo, string pelicula)
+        public Funcion buscarFuncion(string ubicacion, DateTime fecha, double costo, string pelicula)
         { 
         
         }
