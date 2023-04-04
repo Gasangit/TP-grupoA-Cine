@@ -15,10 +15,13 @@ namespace TP_grupoA_Cine
         public List<Pelicula> peliculas { get; set; }
         public Usuario usuarioActual { get; set; }
 
+        public int num = 1; 
+
+        int num = 2;
 
         public Usuario abmUsuario()
         {
-
+            num = 2;
         }
 
         public void cargarCredito(int idUsuario, double importe)
