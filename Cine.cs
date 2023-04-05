@@ -39,8 +39,9 @@ namespace TP_grupoA_Cine
             Console.WriteLine($">>> Se CREÓ el usuario {usuario.Nombre}" +
                                         $" {usuario.Apellido} con ID {usuario.ID}");
         }
-        /* no se que dato se dara para la baja, no creo que el usuario use el ID*/
-        public void BajaUsuario(int idUsuario )
+        
+
+        public void bajaUsuario(int idUsuario)
         {
             for (int i = 0; i < usuarios.Count; i++) 
             {
@@ -57,7 +58,7 @@ namespace TP_grupoA_Cine
             }
         }
 
-        public void modificacionUsuario() { 
+        public void modificacionUsuario(int idUsuario) { 
         }
         public 
 
