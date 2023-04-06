@@ -34,42 +34,67 @@ namespace TP_grupoA_Cine
         {
             //la clase Usuario tiene que tener un constructor para el ALTA
             Usuario usuario = new Usuario(dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin);
-            //hay que ver como asignar el id al usuario
+            //el ID se puede generar automaticamente con un atributo estatico en la clase Usuario
             
-            Console.WriteLine($">>> Se CREÓ el usuario {usuario.Nombre}" +
+            Console.WriteLine($">>> Se CREÓ el USUARIO {usuario.Nombre}" +
                                         $" {usuario.Apellido} con ID {usuario.ID}");
+            return usuario;
         }
         
 
         public void bajaUsuario(int idUsuario)
         {
-            for (int i = 0; i < usuarios.Count; i++) 
-            {
-                if (usuarios[i].ID == idUsuario)
-                {
-                    usuarios[i].Bloqueado = true;
-                    /*  no se si para dar de baja bloqueo el usuario como se hace en las bases
-                     *  de datos o lo borramos */
-
-                    Console.WriteLine($">>> Se ELIMINÓ el usuario {usuarios[i].Nombre}" + 
-                                        $" {usuarios[i].Apellido} con ID {usuarios[i].ID}");
-                    break;
-                }
-            }
+            Usuario usuario = devolverObjetoDeLista(idUsuario, "usuario");
+            usuario.Bloqueado = true;
+            Console.WriteLine($">>> Se ELIMINÓ el USUARIO {usuario.Nombre}" + 
+                                $" {usuario.Apellido} con ID {usuario.ID}");            
         }
 
-        public void modificacionUsuario(int idUsuario) { 
+        public void modificacionUsuario(int idUsuario) {
+
+            //acá se pueden llamar los datos del usuario en la base de datos y verificar cual es diferente
+            //para cambiarlo. Mientras tanto se modifica el objeto.
+
+            Usuario usuario = devolverObjetoDeLista(idUsuario, "usuario");
+            Console.WriteLine($">>> Se MODIFICÓ el USUARIO {usuario.Nombre}" +
+                                $" {usuario.Apellido} con ID {usuario.ID}");
+            return usuario; ; //devuelvo un objeto, no se si el form puede usar los atributos.
+             
+
         }
         public 
 
-        public Sala altaBajaModificacionSala()
-        {
+        public Sala altaSala(string ubicacion, int capacidad)
+        {   
+            //tiene que haber un contructor en sala especial para crearla. El ID se puede generar
+            //automaticamente con un atributo estatico en la clase Sala.
+            Sala sala = new Sala(ubicacion, capacidad);
 
+            Console.WriteLine($">>> Se CREÓ la SALA ubicada en {sala.Ubicacion}" + 
+                                $" con capacidad para {sala.Capacidad} espectadores");
+            return sala;
+        }
+
+        public void bajaSala(int idSala)
+        {
+            
+
+            Console.WriteLine($">>> Se ELIMINÓ la SALA ubicada en {salas[i].Ubicacion}" +
+                                $" con capacidad para {salas[i].Capacidad} espectadores");
+                   
         }
 
         public void cargarCredito(int idUsuario, double importe)
-        { 
-        
+        {
+            for (int i = 0; i < usuarios.Count; i++)
+            {
+                if (usuarios[i].ID == idUsuario)
+                {
+                    Console.WriteLine($">>> Se MODIFICÓ el USUARIO {usuarios[i].Nombre}" +
+                                        $" {usuarios[i].Apellido} con ID {usuarios[i].ID}");
+                    return usuarios[i]; //devuelvo un objeto, no se si el form puede usar los atributos.
+                }
+            }
         }
 
         public void comprarEntrada(int idUsuario, int idFuncion, int cantidad)
@@ -118,6 +143,53 @@ namespace TP_grupoA_Cine
         
         }
 
+        private Object devolverObjetoDeLista(int ID, string tipoObjeto)
+        {
+            if (tipoObjeto.ToLower() == "usuario")
+            {
+                for (int i = 0; i < usuarios.Count; i++)
+                {
+                    if (usuarios[i].ID == ID)
+                    {
+                        Usuario usuario = new Usuario();
+                        return usuario;
+                    }
+                }
+            }
+            else if (tipoObjeto.ToLower() == "sala")
+            {
+                for (int i = 0; i < salas.Count; i++)
+                {
+                    if (salas[i].ID == ID)
+                    {
+                        Sala sala = new Sala();
+                        return sala;
+                    }
+                }
+            }
+            else if (tipoObjeto.ToLower() == "funcion")
+            {
+                for (int i = 0; i < funciones.Count; i++)
+                {
+                    if (funciones[i].ID == ID)
+                    {
+                        Funcion funcion = new Funcion();
+                        return usuario;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < peliculas.Count; i++)
+                {
+                    if (peliculas[i].ID == ID)
+                    {
+                        Pelicula pelicula = new Pelicula();
+                        return pelicula;
+                    }
+                }
+            }
+        }
 
     }
 }
