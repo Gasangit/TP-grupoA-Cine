@@ -2,6 +2,7 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -45,7 +46,8 @@ namespace TP_grupoA_Cine
         public void bajaUsuario(int idUsuario)
         {
             Usuario usuario = devolverObjetoDeLista(idUsuario, "usuario");
-            usuario.Bloqueado = true;
+            usuario.Bloqueado = true;   //no se si se lo bloquea, se lo pasa a null.
+                                        //Seguro si se lo saca de la lista
             Console.WriteLine($">>> Se ELIMINÓ el USUARIO {usuario.Nombre}" + 
                                 $" {usuario.Apellido} con ID {usuario.ID}");            
         }
@@ -86,20 +88,20 @@ namespace TP_grupoA_Cine
 
         public void cargarCredito(int idUsuario, double importe)
         {
-            for (int i = 0; i < usuarios.Count; i++)
-            {
-                if (usuarios[i].ID == idUsuario)
-                {
-                    Console.WriteLine($">>> Se MODIFICÓ el USUARIO {usuarios[i].Nombre}" +
-                                        $" {usuarios[i].Apellido} con ID {usuarios[i].ID}");
-                    return usuarios[i]; //devuelvo un objeto, no se si el form puede usar los atributos.
-                }
-            }
+            Usuario usuario = devolverObjetoDeLista(idUsuario, "usuario");
+            usuario.Credito = usuario.Credito + importe;
+            Console.WriteLine($"Se CARGARON $ {importe} quedando el CRÉDITO en {usuario.Credito}\nID usuario : {usuario.ID}");
         }
 
         public void comprarEntrada(int idUsuario, int idFuncion, int cantidad)
-        { 
-        
+        {
+            Usuario usuario = devolverObjetoDeLista(idUsuario, "usuario");
+            Usuario funcion = devolverObjetoDeLista(idFuncion, "funcion");
+
+            if (funcion.Costo > usuario.Credito)
+            {
+                Console.WriteLine($">>> CRÉDITO insuficiente para comprar la/s {cantidad} entrada/s");
+            }
         }
 
         public void devolverEntrada(int idUsuario, int cantidad)
@@ -109,7 +111,7 @@ namespace TP_grupoA_Cine
 
         public void iniciarSesion(string mail, string password) 
         {
-        
+            
         }
 
         public void cerrarSesion()
@@ -138,58 +140,116 @@ namespace TP_grupoA_Cine
             return peliculas.ToList();
         }
 
-        public Funcion buscarFuncion(string ubicacion, DateTime fecha, double costo, string pelicula)
+        public Funcion buscarFuncion(DateTime fecha, string ubicacion = "no", double costo = -3, string pelicula = "no")
         { 
         
         }
 
-        private Object devolverObjetoDeLista(int ID, string tipoObjeto)
+        private object devolverObjetoDeLista(int ID, string tipoObjeto)
         {
+            Object objeto = new Object();
+
             if (tipoObjeto.ToLower() == "usuario")
             {
-                for (int i = 0; i < usuarios.Count; i++)
+                for (int i = 0; i < usuarios.Count(); i++)
                 {
                     if (usuarios[i].ID == ID)
                     {
-                        Usuario usuario = new Usuario();
-                        return usuario;
+                        objeto = new Usuario();
                     }
                 }
             }
             else if (tipoObjeto.ToLower() == "sala")
             {
-                for (int i = 0; i < salas.Count; i++)
+                for (int i = 0; i < salas.Count(); i++)
                 {
                     if (salas[i].ID == ID)
                     {
-                        Sala sala = new Sala();
-                        return sala;
+                        objeto = new Sala();
                     }
                 }
             }
             else if (tipoObjeto.ToLower() == "funcion")
             {
-                for (int i = 0; i < funciones.Count; i++)
+                for (int i = 0; i < funciones.Count(); i++)
                 {
                     if (funciones[i].ID == ID)
                     {
-                        Funcion funcion = new Funcion();
-                        return usuario;
+                        objeto = new Funcion();
                     }
                 }
             }
-            else
+            else if (tipoObjeto.ToLower() == "pelicula")
             {
-                for (int i = 0; i < peliculas.Count; i++)
+                for (int i = 0; i < peliculas.Count(); i++)
                 {
                     if (peliculas[i].ID == ID)
                     {
-                        Pelicula pelicula = new Pelicula();
-                        return pelicula;
+                        objeto = new Pelicula();
                     }
                 }
             }
+            else { Console.WriteLine(">>> Se devuelve un OBJETO GENERICO, no se identificó el objeto que desea generar"); }
+            return objeto;
         }
 
+        private bool darDeBajaObjeto(int ID, string lista)
+        {
+            string mensaje = (" <<< No se generó el mensaje >>> ");
+            bool resultado = false;
+
+            if (lista.ToLower() == "usuarios")
+            {
+                for (int i = 0; i < this.usuarios.Count(); i++)
+                {
+                    if (this.usuarios[i].ID == ID)
+                    {
+                        mensaje = $" el USUARIO {this.usuarios[i].Nombre}" + $"{this.usuarios[i].Apellido} con ID {this.usuarios[i].ID}";
+                        resultado = true;
+                        usuarios.Remove(this.usuarios[i]);
+                    }
+                }
+            }
+            else if (lista.ToLower() == "funciones")
+            {
+                for (int i = 0; i < this.funciones.Count(); i++)
+                {
+                    if (this.funciones[i].ID == ID)
+                    {
+                        mensaje = $" la FUNCION con ID {this.funciones[i].ID}";
+                        resultado = true;
+                        funciones.Remove(this.funciones[i]);
+                    }
+                }
+            }
+            else if (lista.ToLower() == "salas")
+            {
+                for (int i = 0; i < this.salas.Count(); i++)
+                {
+                    if (salas[i].ID == ID)
+                    {
+                        mensaje = $" la SALA con ID {this.salas[i].ID}";
+                        resultado = true;
+                        salas.Remove(this.salas[i]);
+                    }
+                }
+            }
+            else if (lista.ToLower() == "peliculas")
+            {
+                for (int i = 0; i < this.peliculas.Count(); i++)
+                {
+                    if (this.peliculas[i].ID == ID)
+                    {
+                        mensaje = $" la PELICULA con ID {this.peliculas[i].ID}";
+                        resultado = true;
+                        salas.Remove(this.peliculas[i]);
+                    }
+                }
+            }
+            else { Console.WriteLine(">> No se pudo realizar la BAJA. Verificar ID y NOMBRE DE LISTA"); }
+
+            Console.WriteLine($"Se dió de BAJA {mensaje}");
+            return resultado;
+        }
     }
 }
