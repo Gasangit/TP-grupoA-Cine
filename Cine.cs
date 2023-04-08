@@ -89,7 +89,7 @@ namespace TP_grupoA_Cine
         public void cargarCredito(int idUsuario, double importe)
         {
             Usuario usuario = devolverObjetoDeLista(idUsuario, "usuario");
-            usuario.Credito = usuario.Credito + importe;
+            usuario.Credito +=  importe;
             Console.WriteLine($"Se CARGARON $ {importe} quedando el CRÉDITO en {usuario.Credito}\nID usuario : {usuario.ID}");
         }
 
@@ -98,15 +98,37 @@ namespace TP_grupoA_Cine
             Usuario usuario = devolverObjetoDeLista(idUsuario, "usuario");
             Usuario funcion = devolverObjetoDeLista(idFuncion, "funcion");
 
-            if (funcion.Costo > usuario.Credito)
+            double importe = funcion.Costo * cantidad;
+            int entradasDispoibles = funcion.MiSala.Capacidad - funcion.CantClientes;
+
+            if (importe > usuario.Credito)
             {
                 Console.WriteLine($">>> CRÉDITO insuficiente para comprar la/s {cantidad} entrada/s");
+            }
+            else if (entradasDispoibles < cantidad)
+            {
+                Console.WriteLine($"No pueden venderse {cantidad} entradas quedan disponibles {entradasDispoibles}");
+            }
+            else
+            {
+                usuario.Credito -= importe;
+                funcion.CantClientes += cantidad;
+                Console.WriteLine($">>> VENTA : \n  Cantidad Entradas: {cantidad}" + 
+                                    $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
             }
         }
 
         public void devolverEntrada(int idUsuario, int cantidad)
-        { 
-        
+        {
+            //la cantidad de entrada que compra el cliente para un funcion no queda
+            //guardada en ningun lugar. Puede comprar 2 y pedir que le devuelvan 4.
+            Usuario usuario = devolverObjetoDeLista(idUsuario, "usuario");
+            Usuario funcion = usuario.MisFunciones[idFuncion]; //en el UML no esta pero el método tendría que tener un ID de Funcion
+
+            usuario.Credito += importe;
+            funcion.CantClientes -= cantidad;
+            Console.WriteLine($">>> VENTA : \n  Cantidad Entradas: {cantidad}" +
+                                $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
         }
 
         public void iniciarSesion(string mail, string password) 
