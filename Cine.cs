@@ -28,7 +28,7 @@ namespace TP_grupoA_Cine
                 return _instancia;
             }
         }
-        
+        // USUARIO --------------------------------------------------------------------------------------------
         public Usuario altaUsuario(int dni, string nombre,
                                     string apellido, string mail, string password, 
                                     DateTime fechaNacimiento, bool esAdmin)
@@ -41,31 +41,26 @@ namespace TP_grupoA_Cine
                                         $" {usuario.Apellido} con ID {usuario.ID}");
             return usuario;
         }
-        
-
         public void bajaUsuario(int idUsuario)
         {
-            Usuario usuario = devolverObjetoDeLista(idUsuario, "usuario");
+            Usuario usuario = obtenerObjetoDeLista(idUsuario, "usuario");
+            usuarios.Remove(usuario);
             usuario.Bloqueado = true;   //no se si se lo bloquea, se lo pasa a null.
                                         //Seguro si se lo saca de la lista
             Console.WriteLine($">>> Se ELIMINÓ el USUARIO {usuario.Nombre}" + 
-                                $" {usuario.Apellido} con ID {usuario.ID}");            
+                                $" {usuario.Apellido} con ID {usuario.ID}");
+            usuario = null;
         }
-
         public void modificacionUsuario(int idUsuario) {
 
             //acá se pueden llamar los datos del usuario en la base de datos y verificar cual es diferente
             //para cambiarlo. Mientras tanto se modifica el objeto.
 
-            Usuario usuario = devolverObjetoDeLista(idUsuario, "usuario");
+            Usuario usuario = obtenerObjetoDeLista(idUsuario, "usuario");
             Console.WriteLine($">>> Se MODIFICÓ el USUARIO {usuario.Nombre}" +
                                 $" {usuario.Apellido} con ID {usuario.ID}");
-            return usuario; ; //devuelvo un objeto, no se si el form puede usar los atributos.
-             
-
         }
-        public 
-
+        // SALA --------------------------------------------------------------------------------------------
         public Sala altaSala(string ubicacion, int capacidad)
         {   
             //tiene que haber un contructor en sala especial para crearla. El ID se puede generar
@@ -79,24 +74,33 @@ namespace TP_grupoA_Cine
 
         public void bajaSala(int idSala)
         {
-            
+            Sala sala = obtenerObjetoDeLista(idSala, "sala");
+            salas.Remove(sala);
+            Console.WriteLine($">>> Se ELIMINÓ la SALA ubicada en {sala.Ubicacion}" +
+                                $" con capacidad para {sala.Capacidad} espectadores");
+            sala = null;
+        }
+        public void modificacionSala(int idSala)
+        {
+            //acá se pueden llamar los datos del usuario en la base de datos y verificar cual es diferente
+            //para cambiarlo. Mientras tanto se modifica el objeto.
 
-            Console.WriteLine($">>> Se ELIMINÓ la SALA ubicada en {salas[i].Ubicacion}" +
-                                $" con capacidad para {salas[i].Capacidad} espectadores");
-                   
+            Sala sala = obtenerObjetoDeLista(idSala, "usuario");
+            //habria que tomar los campos del FORM y aplicarlos al objeto sala
+            Console.WriteLine($">>> Se MODIFICÓ la SALA con ID {sala.ID}");
         }
 
         public void cargarCredito(int idUsuario, double importe)
         {
-            Usuario usuario = devolverObjetoDeLista(idUsuario, "usuario");
+            Usuario usuario = obtenerObjetoDeLista(idUsuario, "usuario");
             usuario.Credito +=  importe;
             Console.WriteLine($"Se CARGARON $ {importe} quedando el CRÉDITO en {usuario.Credito}\nID usuario : {usuario.ID}");
         }
 
         public void comprarEntrada(int idUsuario, int idFuncion, int cantidad)
         {
-            Usuario usuario = devolverObjetoDeLista(idUsuario, "usuario");
-            Usuario funcion = devolverObjetoDeLista(idFuncion, "funcion");
+            Usuario usuario = obtenerObjetoDeLista(idUsuario, "usuario");
+            Usuario funcion = obtenerObjetoDeLista(idFuncion, "funcion");
 
             double importe = funcion.Costo * cantidad;
             int entradasDispoibles = funcion.MiSala.Capacidad - funcion.CantClientes;
@@ -122,23 +126,36 @@ namespace TP_grupoA_Cine
         {
             //la cantidad de entrada que compra el cliente para un funcion no queda
             //guardada en ningun lugar. Puede comprar 2 y pedir que le devuelvan 4.
-            Usuario usuario = devolverObjetoDeLista(idUsuario, "usuario");
-            Usuario funcion = usuario.MisFunciones[idFuncion]; //en el UML no esta pero el método tendría que tener un ID de Funcion
+            Usuario usuario = obtenerObjetoDeLista(idUsuario, "usuario");
+            Usuario funcion = usuario.MisFunciones[idFuncion]; //en el UML no esta pero el método
+                                                               //tendría que tener un ID de Funcion
 
-            usuario.Credito += importe;
-            funcion.CantClientes -= cantidad;
+            double importe = funcion.Costo * cantidad;// el IMPORTE a devolver por las entradas es el
+                                                      // COSTO de la FUNCION por la CANTIDAD de entradas
+            usuario.Credito += importe;         //se reintegra SALDO al CLIENTE
+            funcion.CantClientes -= cantidad;   //se descuentan las ENTRADAS devueltas
+                                                //de la CANTIDAD DE CLIENTE en al FUNCION
             Console.WriteLine($">>> VENTA : \n  Cantidad Entradas: {cantidad}" +
                                 $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
         }
-
+        //se ingresa como ARGUMENTOS mail y password desde FORM
         public void iniciarSesion(string mail, string password) 
         {
-            
+            for (int i = 0; i < this.usuarios.Count(); i++)
+            {   //se comprueba MAIL
+                if (usuarios[i].Mail = mail)
+                {   //se comprueba PASSWORD
+                    if (usuarios[i].Password = password) 
+                    {
+                        this.usuarioActual = usuarios[i];
+                    }                
+                }
+            }
         }
 
         public void cerrarSesion()
-        { 
-        
+        {
+            this.usuarioActual = null;
         }
 
         /*  recordar que las listas se tienen que devolver (return) con el método ToList() para no
@@ -147,16 +164,10 @@ namespace TP_grupoA_Cine
         {
             return funciones.ToList();
         }
-
-        /*  recordar que las listas se tienen que devolver (return) con el método ToList() para no
-            devolver la lista original y que la misma no sea modificada.    */
         public Sala mostrarSalas()
         {
             return salas.ToList();
         }
-
-        /*  recordar que las listas se tienen que devolver (return) con el método ToList() para no
-            devolver la lista original y que la misma no sea modificada.    */
         public Pelicula mostrarPeliculas()
         {
             return peliculas.ToList();
@@ -167,7 +178,28 @@ namespace TP_grupoA_Cine
         
         }
 
-        private object devolverObjetoDeLista(int ID, string tipoObjeto)
+        private object objetoDeLista(int ID, string lista)//metodo para acortar el código al buscar un objeto
+        {
+            object devolverObjeto = new Object();
+            List<List<object>> listas = new List<List<object>>() { this.usuarios.Cast<object>().ToList(), this.salas.Cast<object>().ToList(), 
+                                                                this.funciones.Cast<object>().ToList(), this.peliculas.Cast<object>().ToList() };
+            for (int i = 0; i < listas.Count(); i++)
+            {
+                if (listas[i].GetType().Name == lista)
+                {
+                    for (int k = 0; k < listas[i].Count(); k++)
+                    {
+                        if (listas[i][k].ID == ID) //esto tiene que dar un OBJETO
+                        {
+                            devolverObjeto = listas[i][k];
+                            return devolverObjeto;
+                        }
+                    }
+                }
+            }
+        }
+
+        private object obtenerObjetoDeLista(int ID, string tipoObjeto)
         {
             Object objeto = new Object();
 
