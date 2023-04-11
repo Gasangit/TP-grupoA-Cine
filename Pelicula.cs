@@ -13,7 +13,7 @@ namespace TP_grupoA_Cine
        public string Nombre { set; get; }
        public string Sinopsis { set; get; }
        public string Poster { set; get; }
-       public List<Funcion> MisFunciones { set; get; }
+       public List<Funcion> MisFunciones { set; get; } = new List<Funcion>();
        public int Duracion { set; get; }
        private static int idPelicula { set; get; }
 

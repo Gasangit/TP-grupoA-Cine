@@ -2,6 +2,7 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.Intrinsics.X86;
@@ -13,21 +14,22 @@ namespace TP_grupoA_Cine
     internal class Cine
     {
 
-        public List<Usuario> usuarios { get; set; }
-        public List<Funcion> funciones { get; set; }
-        public List<Sala> salas { get; set; }
-        public List<Pelicula> peliculas { get; set; }
+        public List<Usuario> usuarios { get; set; } = new List<Usuario>();
+        public List<Funcion> funciones { get; set; } = new List<Funcion>();
+        public List<Sala> salas { get; set; } = new List<Sala>();
+        public List<Pelicula> peliculas { get; set; } = new List<Pelicula>();
         public Usuario usuarioActual { get; set; }
 
-        private readonly static Cine _instancia = new Cine(); //patron singleton para que siempre haya un solo objeto Cine
+        // SINGLETON -------------------------------------------------------------------------------------------
+        private readonly static Cine _instancia = new Cine();
 
-        private Cine() {} //patron singleton para que siempre haya un solo objeto Cine
+        private Cine() {}
 
-        public static Cine Instancia  //patron singleton para que siempre haya un solo objeto Cine
+        public static Cine Instancia
         {
             get
             {
-                System.Diagnostics.Debug.WriteLine("Se genera Instancia Cine Singleton");
+                Debug.WriteLine(">>> (Cine - Instancia) Se genera Instancia Cine Singleton");
                 return _instancia;
             }
         }
@@ -39,8 +41,8 @@ namespace TP_grupoA_Cine
             //la clase Usuario tiene que tener un constructor para el ALTA
             Usuario usuario = new Usuario(dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin);
             //el ID se puede generar automaticamente con un atributo estatico en la clase Usuario
-            
-            Console.WriteLine($">>> Se CREÓ el USUARIO {usuario.Nombre}" +
+            usuarios.Add(usuario);
+            Debug.WriteLine($">>> (Cine - altaUsuario()) Se CREÓ el USUARIO {usuario.Nombre}" +
                                         $" {usuario.Apellido} con ID {usuario.ID}");
             return usuario;
         }
@@ -50,7 +52,7 @@ namespace TP_grupoA_Cine
             usuarios.Remove(usuario);
             usuario.Bloqueado = true;   //no se si se lo bloquea, se lo pasa a null.
                                         //Seguro si se lo saca de la lista
-            Console.WriteLine($">>> Se ELIMINÓ el USUARIO {usuario.Nombre}" + 
+            Debug.WriteLine($">>> (Cine - bajaUsuario()) Se ELIMINÓ el USUARIO {usuario.Nombre}" + 
                                 $" {usuario.Apellido} con ID {usuario.ID}");
             usuario = null;
         }
@@ -62,7 +64,7 @@ namespace TP_grupoA_Cine
             Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
                 
 
-            Console.WriteLine($">>> Se MODIFICÓ el USUARIO {usuario.Nombre}" +
+            Debug.WriteLine($">>> Se MODIFICÓ el USUARIO {usuario.Nombre}" +
                                 $" {usuario.Apellido} con ID {usuario.ID}");
         }
         // SALA --------------------------------------------------------------------------------------------
@@ -71,8 +73,9 @@ namespace TP_grupoA_Cine
             //tiene que haber un contructor en sala especial para crearla. El ID se puede generar
             //automaticamente con un atributo estatico en la clase Sala.
             Sala sala = new Sala(ubicacion, capacidad);
+            salas.Add(sala);
 
-            Console.WriteLine($">>> Se CREÓ la SALA ubicada en {sala.Ubicacion}" + 
+            Debug.WriteLine($">>> (Cine - altaSala()) Se CREÓ la SALA ubicada en {sala.Ubicacion}" + 
                                 $" con capacidad para {sala.Capacidad} espectadores");
             return sala;
         }
@@ -81,7 +84,7 @@ namespace TP_grupoA_Cine
         {
             Sala sala = (Sala)obtenerObjetoDeLista(idSala, "sala");
             salas.Remove(sala);
-            Console.WriteLine($">>> Se ELIMINÓ la SALA ubicada en {sala.Ubicacion}" +
+            Debug.WriteLine($">>> Se ELIMINÓ la SALA ubicada en {sala.Ubicacion}" +
                                 $" con capacidad para {sala.Capacidad} espectadores");
             sala = null;
         }
@@ -92,14 +95,52 @@ namespace TP_grupoA_Cine
 
             Sala sala = (Sala)obtenerObjetoDeLista(idSala, "usuario");
             //habria que tomar los campos del FORM y aplicarlos al objeto sala
-            Console.WriteLine($">>> Se MODIFICÓ la SALA con ID {sala.ID}");
+            Debug.WriteLine($">>> Se MODIFICÓ la SALA con ID {sala.ID}");
         }
+
+        // FUNCION --------------------------------------------------------------------------------------------
+        public Funcion altaFuncion(Sala sala, Pelicula pelicula, DateTime fecha, double costo)
+        {
+            
+            Funcion funcion = new Funcion(sala, pelicula, fecha, 0,costo); //se pasa cero pero no habría que ingresar Cantidad de clientes
+            funciones.Add(funcion);
+
+            Debug.WriteLine($">>> (Cine - altaFuncion()) Se CREÓ la FUNCION en la sala {funcion.MiSala}" +
+                                $" para la película {funcion.MiPelicula} en la fecha {funcion.Fecha} con un costo de {funcion.Costo}");
+            return funcion;
+        }
+        public void bajaFuncion(int idFuncion)
+        {
+            Funcion funcion= (Funcion)obtenerObjetoDeLista(idFuncion, "funcion");
+            funciones.Remove(funcion);
+            Debug.WriteLine($">>> (Cine - bajafuncion()) Se dió de baja la FUNCIÓN con ID {funcion.ID}");
+            funcion = null;
+        }
+        // PELICULA -------------------------------------------------------------------------------------------
+        public Pelicula altaPelicula(string nombre, string sinopsis, int duracion)
+        {
+
+            Pelicula pelicula = new Pelicula(nombre, sinopsis, duracion);
+            peliculas.Add(pelicula);
+
+            Debug.WriteLine($">>> (Cine - altaPelicula()) Se creó la PELÍCULA {pelicula.Nombre} con ID {pelicula.ID}");
+            return pelicula;
+        }
+        public void bajaPelicula(int idPelicula)
+        {
+            Pelicula pelicula = (Pelicula)obtenerObjetoDeLista(idPelicula, "pelicula");
+            peliculas.Remove(pelicula);
+            Debug.WriteLine($">>> (Cine - bajaPelicula()) Se dió de baja la PELÍCULA {pelicula.Nombre} con ID {pelicula.ID}");
+            pelicula = null;
+        }
+
+        // TRANSACCIONES --------------------------------------------------------------------------------------
 
         public void cargarCredito(int idUsuario, double importe)
         {
             Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
             usuario.Credito +=  importe;
-            Console.WriteLine($"Se CARGARON $ {importe} quedando el CRÉDITO en {usuario.Credito}\nID usuario : {usuario.ID}");
+            Debug.WriteLine($">>> (Cine - cargarCredito()) Se CARGARON $ {importe} quedando el CRÉDITO en {usuario.Credito} ID usuario : {usuario.ID}");
         }
 
         public void comprarEntrada(int idUsuario, int idFuncion, int cantidad)
@@ -112,17 +153,17 @@ namespace TP_grupoA_Cine
 
             if (importe > usuario.Credito)
             {
-                Console.WriteLine($">>> CRÉDITO insuficiente para comprar la/s {cantidad} entrada/s");
+                Debug.WriteLine($">>> (Cine - comprarEntrada()) CRÉDITO insuficiente para comprar la/s {cantidad} entrada/s");
             }
             else if (entradasDispoibles < cantidad)
             {
-                Console.WriteLine($"No pueden venderse {cantidad} entradas quedan disponibles {entradasDispoibles}");
+                Debug.WriteLine($">>> (Cine - comprarEntrada()) No pueden venderse {cantidad} entradas quedan disponibles {entradasDispoibles}");
             }
             else
             {
                 usuario.Credito -= importe;
                 funcion.CantClientes += cantidad;
-                Console.WriteLine($">>> VENTA : \n  Cantidad Entradas: {cantidad}" + 
+                Debug.WriteLine($">>> >>> (Cine - comprarEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" + 
                                     $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
             }
         }
@@ -140,9 +181,12 @@ namespace TP_grupoA_Cine
             usuario.Credito += importe;         //se reintegra SALDO al CLIENTE
             funcion.CantClientes -= cantidad;   //se descuentan las ENTRADAS devueltas
                                                 //de la CANTIDAD DE CLIENTE en al FUNCION
-            Console.WriteLine($">>> VENTA : \n  Cantidad Entradas: {cantidad}" +
+            Debug.WriteLine($">>> VENTA : \n  Cantidad Entradas: {cantidad}" +
                                 $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
         }
+
+        // SESION --------------------------------------------------------------------------------------------
+
         //se ingresa como ARGUMENTOS mail y password desde FORM
         public void iniciarSesion(string mail, string password) 
         {
@@ -162,6 +206,8 @@ namespace TP_grupoA_Cine
         {
             this.usuarioActual = null;
         }
+
+        // FRONT --------------------------------------------------------------------------------------------
 
         /*  recordar que las listas se tienen que devolver (return) con el método ToList() para no
             devolver la lista original y que la misma no sea modificada.    */
@@ -233,11 +279,11 @@ namespace TP_grupoA_Cine
 
         private object obtenerObjetoDeLista(int ID, string tipoObjeto)
         {
-            object objeto = new object();
+            object objeto = new { ID = "Objeto no encontrado"};
 
             if (tipoObjeto.ToLower() == "usuario")
             {
-                for (int i = 0; i < usuarios.Count(); i++)
+                for (int i = 0; i < usuarios.Count; i++)
                 {
                     if (usuarios[i].ID == ID)
                     {
@@ -247,7 +293,7 @@ namespace TP_grupoA_Cine
             }
             else if (tipoObjeto.ToLower() == "sala")
             {
-                for (int i = 0; i < salas.Count(); i++)
+                for (int i = 0; i < salas.Count; i++)
                 {
                     if (salas[i].ID == ID)
                     {
@@ -257,7 +303,7 @@ namespace TP_grupoA_Cine
             }
             else if (tipoObjeto.ToLower() == "funcion")
             {
-                for (int i = 0; i < funciones.Count(); i++)
+                for (int i = 0; i < funciones.Count; i++)
                 {
                     if (funciones[i].ID == ID)
                     {
@@ -267,7 +313,7 @@ namespace TP_grupoA_Cine
             }
             else if (tipoObjeto.ToLower() == "pelicula")
             {
-                for (int i = 0; i < peliculas.Count(); i++)
+                for (int i = 0; i < peliculas.Count; i++)
                 {
                     if (peliculas[i].ID == ID)
                     {
@@ -279,9 +325,7 @@ namespace TP_grupoA_Cine
             { 
                 Console.WriteLine(">>> Se devuelve un OBJETO GENERICO, no se identificó el objeto que desea generar");
             }
-
             return objeto;
-
         }
 
         private bool darDeBajaObjeto(int ID, string lista)

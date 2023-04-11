@@ -28,7 +28,7 @@ namespace TP_grupoA_Cine
 
         public Usuario (int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento, bool esAdmin)
         {
-            ID = idUsuario++;
+            ID = ++idUsuario;
             DNI = dni;
             Nombre = nombre;
             Apellido = apellido;
