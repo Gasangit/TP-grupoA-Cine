@@ -21,14 +21,13 @@ namespace TP_grupoA_Cine
 
         private readonly static Cine _instancia = new Cine(); //patron singleton para que siempre haya un solo objeto Cine
 
-        public Cine() 
-        { 
-        } //patron singleton para que siempre haya un solo objeto Cine
+        private Cine() {} //patron singleton para que siempre haya un solo objeto Cine
 
         public static Cine Instancia  //patron singleton para que siempre haya un solo objeto Cine
         {
             get
-            { 
+            {
+                System.Diagnostics.Debug.WriteLine("Se genera Instancia Cine Singleton");
                 return _instancia;
             }
         }
@@ -47,7 +46,7 @@ namespace TP_grupoA_Cine
         }
         public void bajaUsuario(int idUsuario)
         {
-            Usuario usuario = obtenerObjetoDeLista(idUsuario, "usuario");
+            Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
             usuarios.Remove(usuario);
             usuario.Bloqueado = true;   //no se si se lo bloquea, se lo pasa a null.
                                         //Seguro si se lo saca de la lista
@@ -60,7 +59,7 @@ namespace TP_grupoA_Cine
             //acá se pueden llamar los datos del usuario en la base de datos y verificar cual es diferente
             //para cambiarlo. Mientras tanto se modifica el objeto.
 
-            Usuario usuario = obtenerObjetoDeLista(idUsuario, "usuario");
+            Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
                 
 
             Console.WriteLine($">>> Se MODIFICÓ el USUARIO {usuario.Nombre}" +
@@ -80,7 +79,7 @@ namespace TP_grupoA_Cine
 
         public void bajaSala(int idSala)
         {
-            Sala sala = obtenerObjetoDeLista(idSala, "sala");
+            Sala sala = (Sala)obtenerObjetoDeLista(idSala, "sala");
             salas.Remove(sala);
             Console.WriteLine($">>> Se ELIMINÓ la SALA ubicada en {sala.Ubicacion}" +
                                 $" con capacidad para {sala.Capacidad} espectadores");
@@ -91,22 +90,22 @@ namespace TP_grupoA_Cine
             //acá se pueden llamar los datos del usuario en la base de datos y verificar cual es diferente
             //para cambiarlo. Mientras tanto se modifica el objeto.
 
-            Sala sala = obtenerObjetoDeLista(idSala, "usuario");
+            Sala sala = (Sala)obtenerObjetoDeLista(idSala, "usuario");
             //habria que tomar los campos del FORM y aplicarlos al objeto sala
             Console.WriteLine($">>> Se MODIFICÓ la SALA con ID {sala.ID}");
         }
 
         public void cargarCredito(int idUsuario, double importe)
         {
-            Usuario usuario = obtenerObjetoDeLista(idUsuario, "usuario");
+            Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
             usuario.Credito +=  importe;
             Console.WriteLine($"Se CARGARON $ {importe} quedando el CRÉDITO en {usuario.Credito}\nID usuario : {usuario.ID}");
         }
 
         public void comprarEntrada(int idUsuario, int idFuncion, int cantidad)
         {
-            Usuario usuario = obtenerObjetoDeLista(idUsuario, "usuario");
-            Usuario funcion = obtenerObjetoDeLista(idFuncion, "funcion");
+            Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
+            Funcion funcion = (Funcion)obtenerObjetoDeLista(idFuncion, "funcion");
 
             double importe = funcion.Costo * cantidad;
             int entradasDispoibles = funcion.MiSala.Capacidad - funcion.CantClientes;
@@ -128,12 +127,12 @@ namespace TP_grupoA_Cine
             }
         }
 
-        public void devolverEntrada(int idUsuario, int cantidad)
+        public void devolverEntrada(int idUsuario,int idFuncion, int cantidad) //se agreaga idFuncion (no esta en UML)
         {
             //la cantidad de entrada que compra el cliente para un funcion no queda
             //guardada en ningun lugar. Puede comprar 2 y pedir que le devuelvan 4.
-            Usuario usuario = obtenerObjetoDeLista(idUsuario, "usuario");
-            Usuario funcion = usuario.MisFunciones[idFuncion]; //en el UML no esta pero el método
+            Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
+            Funcion funcion = usuario.MisFunciones[idFuncion]; //en el UML no esta pero el método
                                                                //tendría que tener un ID de Funcion
 
             double importe = funcion.Costo * cantidad;// el IMPORTE a devolver por las entradas es el
@@ -149,9 +148,9 @@ namespace TP_grupoA_Cine
         {
             for (int i = 0; i < this.usuarios.Count(); i++)
             {   //se comprueba MAIL
-                if (usuarios[i].Mail = mail)
+                if (usuarios[i].Mail == mail)
                 {   //se comprueba PASSWORD
-                    if (usuarios[i].Password = password) 
+                    if (usuarios[i].Password == password) 
                     {
                         this.usuarioActual = usuarios[i];
                     }                
@@ -166,15 +165,15 @@ namespace TP_grupoA_Cine
 
         /*  recordar que las listas se tienen que devolver (return) con el método ToList() para no
             devolver la lista original y que la misma no sea modificada.    */
-        public Funcion mostrarFunciones() 
+        public List<Funcion> mostrarFunciones() 
         {
             return funciones.ToList();
         }
-        public Sala mostrarSalas()
+        public List<Sala> mostrarSalas()
         {
             return salas.ToList();
         }
-        public Pelicula mostrarPeliculas()
+        public List<Pelicula> mostrarPeliculas()
         {
             return peliculas.ToList();
         }
@@ -234,7 +233,7 @@ namespace TP_grupoA_Cine
 
         private object obtenerObjetoDeLista(int ID, string tipoObjeto)
         {
-            Object objeto = new Object();
+            object objeto = new object();
 
             if (tipoObjeto.ToLower() == "usuario")
             {
@@ -276,8 +275,13 @@ namespace TP_grupoA_Cine
                     }
                 }
             }
-            else { Console.WriteLine(">>> Se devuelve un OBJETO GENERICO, no se identificó el objeto que desea generar"); }
+            else 
+            { 
+                Console.WriteLine(">>> Se devuelve un OBJETO GENERICO, no se identificó el objeto que desea generar");
+            }
+
             return objeto;
+
         }
 
         private bool darDeBajaObjeto(int ID, string lista)

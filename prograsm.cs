@@ -13,7 +13,7 @@
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
 
-            Cine miCine = new Cine();
+            Cine miCine = Cine.Instancia;
 
             Usuario usuario1 = miCine.altaUsuario(29476878, "Gaston","Mansilla","gaston@gmail.com","123", new DateTime(1982, 04, 02), true);
 
