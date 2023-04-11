@@ -224,42 +224,44 @@ namespace TP_grupoA_Cine
             return peliculas.ToList();
         }
 
-        /*public Funcion buscarFuncion(DateTime fecha = , string ubicacion, double costo = -3, string pelicula = "no")
-        {
-            bool argUbicacionOK;
-            bool argUbicacion;
-            bool argCosto;
-            bool argPelicula;
+        
+        //public Funcion buscarFuncion(DateTime fecha = new DateTime(), string ubicacion, 
+        //                                    double costo = -3, string pelicula = "no")
+        //{
+        //    bool argfecha;
+        //    bool argUbicacion;
+        //    bool argCosto;
+        //    bool argPelicula;
 
 
-            if (ubicacion != null) { }
+        //    if (ubicacion != null) { }
 
-            foreach (Funcion funcion in funciones) {
+        //    foreach (Funcion funcion in funciones) {
 
-                if (fecha != "no" && funcion.Fecha == fecha)
-                {
-                    bool fechaOk = true;
+        //        if (fecha != "no" && funcion.Fecha == fecha)
+        //        {
+        //            bool fechaOk = true;
 
-                    if (ubicacion != "no" && funcion.Fecha == fecha)
-                    {
-                        bool fechaOk = true;
-                    }
-                    if (fecha != "no" && funcion.Fecha == fecha)
-                    {
-                        bool fechaOk = true;
-                    }
-                    if (fecha != "no" && funcion.Fecha == fecha)
-                    {
-                        bool fechaOk = true;
-                    }
-            }        
+        //            if (ubicacion != "no" && funcion.Fecha == fecha)
+        //            {
+        //                bool fechaOk = true;
+        //            }
+        //            if (fecha != "no" && funcion.Fecha == fecha)
+        //            {
+        //                bool fechaOk = true;
+        //            }
+        //            if (fecha != "no" && funcion.Fecha == fecha)
+        //            {
+        //                bool fechaOk = true;
+        //            }
+        //    }        
 
-        }*/
+        //}
 
         //private object objetodelista(int id, string lista)//metodo para acortar el código al buscar un objeto
         //{
         //    object devolverobjeto = new object();
-        //    list<list<object>> listas = new list<list<object>>() { this.usuarios.cast<object>().tolist(), this.salas.cast<object>().tolist(), 
+        //    list<list<object>> listas = new list<list<object>>() { this.usuarios.cast<object>().tolist(), this.salas.cast<object>().tolist(),
         //                                                        this.funciones.cast<object>().tolist(), this.peliculas.cast<object>().tolist() };
         //    for (int i = 0; i < listas.count(); i++)
         //    {
