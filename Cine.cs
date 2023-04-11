@@ -1,7 +1,9 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +21,9 @@ namespace TP_grupoA_Cine
 
         private readonly static Cine _instancia = new Cine(); //patron singleton para que siempre haya un solo objeto Cine
 
-        private Cine() { }; //patron singleton para que siempre haya un solo objeto Cine
+        public Cine() 
+        { 
+        } //patron singleton para que siempre haya un solo objeto Cine
 
         public static Cine Instancia  //patron singleton para que siempre haya un solo objeto Cine
         {
@@ -57,6 +61,8 @@ namespace TP_grupoA_Cine
             //para cambiarlo. Mientras tanto se modifica el objeto.
 
             Usuario usuario = obtenerObjetoDeLista(idUsuario, "usuario");
+                
+
             Console.WriteLine($">>> Se MODIFICÓ el USUARIO {usuario.Nombre}" +
                                 $" {usuario.Apellido} con ID {usuario.ID}");
         }
@@ -173,31 +179,58 @@ namespace TP_grupoA_Cine
             return peliculas.ToList();
         }
 
-        public Funcion buscarFuncion(DateTime fecha, string ubicacion = "no", double costo = -3, string pelicula = "no")
-        { 
-        
-        }
-
-        private object objetoDeLista(int ID, string lista)//metodo para acortar el código al buscar un objeto
+        /*public Funcion buscarFuncion(DateTime fecha = , string ubicacion, double costo = -3, string pelicula = "no")
         {
-            object devolverObjeto = new Object();
-            List<List<object>> listas = new List<List<object>>() { this.usuarios.Cast<object>().ToList(), this.salas.Cast<object>().ToList(), 
-                                                                this.funciones.Cast<object>().ToList(), this.peliculas.Cast<object>().ToList() };
-            for (int i = 0; i < listas.Count(); i++)
-            {
-                if (listas[i].GetType().Name == lista)
+            bool argUbicacionOK;
+            bool argUbicacion;
+            bool argCosto;
+            bool argPelicula;
+
+
+            if (ubicacion != null) { }
+
+            foreach (Funcion funcion in funciones) {
+
+                if (fecha != "no" && funcion.Fecha == fecha)
                 {
-                    for (int k = 0; k < listas[i].Count(); k++)
+                    bool fechaOk = true;
+
+                    if (ubicacion != "no" && funcion.Fecha == fecha)
                     {
-                        if (listas[i][k].ID == ID) //esto tiene que dar un OBJETO
-                        {
-                            devolverObjeto = listas[i][k];
-                            return devolverObjeto;
-                        }
+                        bool fechaOk = true;
                     }
-                }
-            }
-        }
+                    if (fecha != "no" && funcion.Fecha == fecha)
+                    {
+                        bool fechaOk = true;
+                    }
+                    if (fecha != "no" && funcion.Fecha == fecha)
+                    {
+                        bool fechaOk = true;
+                    }
+            }        
+
+        }*/
+
+        //private object objetodelista(int id, string lista)//metodo para acortar el código al buscar un objeto
+        //{
+        //    object devolverobjeto = new object();
+        //    list<list<object>> listas = new list<list<object>>() { this.usuarios.cast<object>().tolist(), this.salas.cast<object>().tolist(), 
+        //                                                        this.funciones.cast<object>().tolist(), this.peliculas.cast<object>().tolist() };
+        //    for (int i = 0; i < listas.count(); i++)
+        //    {
+        //        if (listas[i].gettype().name == lista)
+        //        {
+        //            for (int k = 0; k < listas[i].count(); k++)
+        //            {
+        //                if (listas[i][k].id == id) //esto tiene que dar un objeto
+        //                {
+        //                    devolverobjeto = listas[i][k];
+        //                    return devolverobjeto;
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
         private object obtenerObjetoDeLista(int ID, string tipoObjeto)
         {
@@ -209,7 +242,7 @@ namespace TP_grupoA_Cine
                 {
                     if (usuarios[i].ID == ID)
                     {
-                        objeto = new Usuario();
+                        objeto = usuarios[i];
                     }
                 }
             }
@@ -219,7 +252,7 @@ namespace TP_grupoA_Cine
                 {
                     if (salas[i].ID == ID)
                     {
-                        objeto = new Sala();
+                        objeto = salas[i];
                     }
                 }
             }
@@ -229,7 +262,7 @@ namespace TP_grupoA_Cine
                 {
                     if (funciones[i].ID == ID)
                     {
-                        objeto = new Funcion();
+                        objeto = funciones[i];
                     }
                 }
             }
@@ -239,7 +272,7 @@ namespace TP_grupoA_Cine
                 {
                     if (peliculas[i].ID == ID)
                     {
-                        objeto = new Pelicula();
+                        objeto = peliculas[i];
                     }
                 }
             }
@@ -296,7 +329,7 @@ namespace TP_grupoA_Cine
                     {
                         mensaje = $" la PELICULA con ID {this.peliculas[i].ID}";
                         resultado = true;
-                        salas.Remove(this.peliculas[i]);
+                        peliculas.Remove(this.peliculas[i]);
                     }
                 }
             }

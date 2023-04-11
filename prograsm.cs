@@ -1,4 +1,4 @@
-namespace TP_grupoA_Cine
+﻿namespace TP_grupoA_Cine
 {
     internal static class Program
     {
@@ -12,6 +12,15 @@ namespace TP_grupoA_Cine
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
+
+            Cine miCine = new Cine();
+
+            Usuario usuario1 = miCine.altaUsuario(29476878, "Gaston","Mansilla","gaston@gmail.com","123", new DateTime(1982, 04, 02), true);
+
+            miCine.cargarCredito(usuario1.ID, 3000);
+
+            Console.WriteLine(usuario1.Credito);
+
         }
     }
 }
