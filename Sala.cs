@@ -20,9 +20,9 @@ namespace TP_grupoA_Cine
 
         public Sala(string Ubicacion, int Capacidad)
         {
-            ID = idSala++;
-            Ubicacion = Ubicacion;
-            Capacidad = Capacidad;            
+            ID = ++idSala;
+            this.Ubicacion = Ubicacion;
+            this.Capacidad = Capacidad;            
         }        
     }    
 }

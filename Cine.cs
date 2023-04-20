@@ -105,8 +105,8 @@ namespace TP_grupoA_Cine
             Funcion funcion = new Funcion(sala, pelicula, fecha, 0,costo); //se pasa cero pero no habría que ingresar Cantidad de clientes
             funciones.Add(funcion);
 
-            Debug.WriteLine($">>> (Cine - altaFuncion()) Se CREÓ la FUNCION en la sala {funcion.MiSala}" +
-                                $" para la película {funcion.MiPelicula} en la fecha {funcion.Fecha} con un costo de {funcion.Costo}");
+            Debug.WriteLine($">>> (Cine - altaFuncion()) Se CREÓ la FUNCION en la sala {funcion.MiSala.ID}" +
+                                $" para la película {funcion.MiPelicula.Nombre} en la fecha {funcion.Fecha} con un costo de {funcion.Costo}");
             return funcion;
         }
         public void bajaFuncion(int idFuncion)
@@ -152,7 +152,7 @@ namespace TP_grupoA_Cine
             int entradasDispoibles = funcion.MiSala.Capacidad - funcion.CantClientes;
 
             if (importe > usuario.Credito)
-            {
+            {                           
                 Debug.WriteLine($">>> (Cine - comprarEntrada()) CRÉDITO insuficiente para comprar la/s {cantidad} entrada/s");
             }
             else if (entradasDispoibles < cantidad)

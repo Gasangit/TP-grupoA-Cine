@@ -20,7 +20,7 @@ namespace TP_grupoA_Cine
 
         public Pelicula(string nombre, string sinopsis, int duracion) 
         {
-            ID = idPelicula++;
+            ID = ++idPelicula;
             Nombre = nombre;
             Sinopsis = sinopsis;
             Duracion = duracion;
@@ -28,7 +28,7 @@ namespace TP_grupoA_Cine
 
         public Pelicula(string nombre, string sinopsis, int duracion, string poster)
         {
-            ID = idPelicula++;
+            this.ID = idPelicula++;
             Nombre = nombre;
             Sinopsis = sinopsis;
             Duracion = duracion;

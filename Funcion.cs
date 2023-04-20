@@ -24,7 +24,7 @@ namespace TP_grupoA_Cine
 
         public Funcion(Sala MiSala, Pelicula MiPelicula, DateTime Fecha, int CantClientes, double Costo) 
         {
-            ID = idFuncion++;
+            ID = ++idFuncion;
             this.MiSala = MiSala;
             this.MiPelicula = MiPelicula;  
             this.Fecha = Fecha;
