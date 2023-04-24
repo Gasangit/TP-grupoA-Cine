@@ -36,6 +36,7 @@ namespace TP_grupoA_Cine
 
             hijoPelicula = new Form3(cine);
             hijoPelicula.MdiParent = this;
+            hijoPelicula.Dock = DockStyle.Fill; //Ajuste el hijo a la ventana del padre
             hijoPelicula.Show();
         }
 
@@ -45,6 +46,7 @@ namespace TP_grupoA_Cine
 
             hijoFuncion = new Form4(cine);
             hijoFuncion.MdiParent = this;
+            hijoFuncion.Dock = DockStyle.Fill;
             hijoFuncion.Show();
         }
 
@@ -54,6 +56,7 @@ namespace TP_grupoA_Cine
 
             //hijoSala = new Form5(cine); FALTA EL CONSTRUCTOR EN EL FORM
             hijoSala.MdiParent = this;
+            hijoSala.Dock = DockStyle.Fill;
             hijoSala.Show();
         }
 
@@ -63,6 +66,7 @@ namespace TP_grupoA_Cine
 
             //hijoUsuario = new Form6(cine); FALTA EL CONSTRUCTOR EN EL FORM
             hijoUsuario.MdiParent = this;
+            hijoUsuario.Dock = DockStyle.Fill;
             hijoUsuario.Show();
         }
 
@@ -72,6 +76,7 @@ namespace TP_grupoA_Cine
 
             hijoRegister = new Form7(cine);
             hijoRegister.MdiParent = this;
+            hijoRegister.Dock = DockStyle.Fill;
             hijoRegister.Show();
         }
 
