@@ -29,7 +29,7 @@ namespace TP_grupoA_Cine
         //////////////////////////////////
         //METODOS PARA TRASPASO DE FORMULARIOS
         //////////////////////////////////
-        
+
         public void TransfDelegado3()
         {
             hijoLogin.Close();

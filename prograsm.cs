@@ -14,7 +14,7 @@
             Application.Run(new Form1());
 
             Cine miCine = Cine.Instancia;
-
+            
             Sala sala1 = miCine.altaSala("Av. La Plata 55 sala A", 150);
             Pelicula pelicula1 = miCine.altaPelicula("El Padrino", "Cosas de la mafia", 175);
             Funcion funcion1 = miCine.altaFuncion(sala1, pelicula1, new DateTime(2023,4,15,21,0,0), 800);

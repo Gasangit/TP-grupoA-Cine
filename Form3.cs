@@ -21,31 +21,31 @@ namespace TP_grupoA_Cine
         {
             pelicula = cine;
             InitializeComponent();
-            
+
         }
 
         public delegate void TransfDelegado();
 
         private void button1_Click(object sender, EventArgs e)
         {
-        //    string nombre = textBox1.Text;
-        //    string sinopsis = textBox2.Text;
-        //    string poster = textBox3.Text;
-        //    int duracion = textBox4.Text;
-        //    bool esAdmin = textBox5.Text;
+            //    string nombre = textBox1.Text;
+            //    string sinopsis = textBox2.Text;
+            //    string poster = textBox3.Text;
+            //    int duracion = textBox4.Text;
+            //    bool esAdmin = textBox5.Text;
 
-        //    if (nombre != null && sinopsis != null && poster != null && duracion != 0)
-        //    {
-        //        if (cine.altaPelicula(nombre, sinopsis, duracion) != null)
-        //            MessageBox.Show("Registrado con éxito");
-        //        else
-        //            MessageBox.Show("Error, pelicula ya registrada");
-        //    }
-        //    else
-        //        MessageBox.Show("Debe ingresar un nombre, sinopsis, poster y duracion!");
-        //}
+            //    if (nombre != null && sinopsis != null && poster != null && duracion != 0)
+            //    {
+            //        if (cine.altaPelicula(nombre, sinopsis, duracion) != null)
+            //            MessageBox.Show("Registrado con éxito");
+            //        else
+            //            MessageBox.Show("Error, pelicula ya registrada");
+            //    }
+            //    else
+            //        MessageBox.Show("Debe ingresar un nombre, sinopsis, poster y duracion!");
+            //}
 
-        
+
 
         }
     }

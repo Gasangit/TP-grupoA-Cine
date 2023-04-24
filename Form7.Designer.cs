@@ -57,6 +57,7 @@
             textBox4 = new TextBox();
             textBox3 = new TextBox();
             textBox2 = new TextBox();
+            panel1 = new Panel();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -141,10 +142,10 @@
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ID, nombre, apellido, dni, mail, password, fechaNacimiento, admin, bloqueado });
-            dataGridView1.Location = new Point(0, 169);
+            dataGridView1.Location = new Point(34, 178);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(788, 192);
+            dataGridView1.Size = new Size(725, 192);
             dataGridView1.TabIndex = 61;
             // 
             // ID
@@ -296,11 +297,20 @@
             textBox2.Size = new Size(100, 23);
             textBox2.TabIndex = 50;
             // 
+            // panel1
+            // 
+            panel1.BackColor = SystemColors.ActiveCaption;
+            panel1.Location = new Point(12, 12);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(776, 426);
+            panel1.TabIndex = 71;
+            // 
             // Form7
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            ControlBox = false;
             Controls.Add(button4);
             Controls.Add(label9);
             Controls.Add(comboBox2);
@@ -321,6 +331,8 @@
             Controls.Add(textBox4);
             Controls.Add(textBox3);
             Controls.Add(textBox2);
+            Controls.Add(panel1);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "Form7";
             Text = "Form7";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
@@ -359,5 +371,6 @@
         private TextBox textBox4;
         private TextBox textBox3;
         private TextBox textBox2;
+        private Panel panel1;
     }
 }
