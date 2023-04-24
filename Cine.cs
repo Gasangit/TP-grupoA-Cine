@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace TP_grupoA_Cine
 {
-    internal class Cine
+    public class Cine
     {
 
         public List<Usuario> usuarios { get; set; } = new List<Usuario>();
@@ -188,18 +188,23 @@ namespace TP_grupoA_Cine
         // SESION --------------------------------------------------------------------------------------------
 
         //se ingresa como ARGUMENTOS mail y password desde FORM
-        public void iniciarSesion(string mail, string password) 
+        public bool iniciarSesion(string mail, string password) 
         {
+            string comprobar = "";
             for (int i = 0; i < this.usuarios.Count(); i++)
             {   //se comprueba MAIL
                 if (usuarios[i].Mail == mail)
                 {   //se comprueba PASSWORD
-                    if (usuarios[i].Password == password) 
+                    if (usuarios[i].Password == password)
                     {
                         this.usuarioActual = usuarios[i];
-                    }                
+                        comprobar = "ok";
+                        
+                    }
                 }
             }
+            if (comprobar == "ok") return true;
+            else return false;
         }
 
         public void cerrarSesion()

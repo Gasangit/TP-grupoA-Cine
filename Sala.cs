@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace TP_grupoA_Cine
 {
-    internal class Sala
+    public class Sala
     {
         public int ID { get; set; }
         public string Ubicacion { get; set; }

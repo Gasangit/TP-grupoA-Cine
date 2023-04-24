@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace TP_grupoA_Cine
 {
-    internal class Funcion
+    public class Funcion
     {
         public int ID { set; get; }
         public Sala MiSala { set; get; }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace TP_grupoA_Cine
 {
-    internal class Usuario
+    public class Usuario
     {
         public int ID { get; set; }
         public int DNI { get; set; }
