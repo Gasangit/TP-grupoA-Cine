@@ -1,6 +1,6 @@
 ﻿namespace TP_grupoA_Cine
 {
-    partial class Form7
+    partial class Form_Cartelera
     {
         /// <summary>
         /// Required designer variable.

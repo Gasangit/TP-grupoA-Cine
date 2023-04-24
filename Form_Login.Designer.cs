@@ -1,6 +1,6 @@
 ﻿namespace TP_grupoA_Cine
 {
-    partial class Form2
+    partial class Form_Login
     {
         /// <summary>
         /// Required designer variable.

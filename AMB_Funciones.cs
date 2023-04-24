@@ -15,7 +15,7 @@ using System.Runtime.Intrinsics.X86;
 
 namespace TP_grupoA_Cine
 {
-    public partial class Form4 : Form //Form de funciones
+    public partial class AMB_Funciones : Form //Form de funciones
     {
 
         private Cine funcion;
@@ -24,7 +24,7 @@ namespace TP_grupoA_Cine
 
         Cine cine = Cine.Instancia;
 
-        public Form4(Cine cine)
+        public AMB_Funciones(Cine cine)
         {
             InitializeComponent();
             funcion = cine;

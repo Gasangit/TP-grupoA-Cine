@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace TP_grupoA_Cine
 {
-    public partial class Form3 : Form    //Form de peliculas
+    public partial class ABM_Pelicula : Form    //Form de peliculas
     {
         private Cine pelicula;
 
         public TransfDelegado TransfEvento;
 
         Cine cine = Cine.Instancia;
-        public Form3(Cine cine)
+        public ABM_Pelicula(Cine cine)
         {
             pelicula = cine;
             InitializeComponent();

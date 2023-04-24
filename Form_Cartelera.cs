@@ -11,14 +11,14 @@ using System.Windows.Forms;
 
 namespace TP_grupoA_Cine
 {
-    public partial class Form7 : Form //Form del Register
+    public partial class Form_Cartelera : Form //Form del Register
     {
         private Cine register;
         public TransfDelegado TransfEvento;
         Cine cine = Cine.Instancia;
         private int selectedUser;
 
-        public Form7(Cine cine)
+        public Form_Cartelera(Cine cine)
         {
             register = cine;
             InitializeComponent();

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace TP_grupoA_Cine
 {
-    public partial class Form5 : Form //Form de Salas
+    public partial class ABM_Salas : Form //Form de Salas
     {
-        public Form5()
+        public ABM_Salas()
         {
             InitializeComponent();
         }

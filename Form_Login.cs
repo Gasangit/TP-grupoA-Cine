@@ -10,13 +10,14 @@ using System.Windows.Forms;
 
 namespace TP_grupoA_Cine
 {
-    public partial class Form2 : Form //Form del Login
+    public partial class Form_Login : Form //Form del Login
     {
         private Cine login;
-        public TransfDelegado TransfEvento;
+        public DelegadoLogin TransfEvento_LoginCartelera;
+        public DelegadoLogin TransfEvento_LoginRegistro;
 
         Cine cine = Cine.Instancia;
-        public Form2(Cine cine)
+        public Form_Login(Cine cine)
         {
             login = cine;
             InitializeComponent();
@@ -25,7 +26,7 @@ namespace TP_grupoA_Cine
 
         private void button1_Click(object sender, EventArgs e) //Registrarse
         {
-
+            this.TransfEvento_LoginRegistro();
         }
 
         private void button2_Click(object sender, EventArgs e) //Login
@@ -35,13 +36,14 @@ namespace TP_grupoA_Cine
             if (mail != null && mail != "" && password != null && password != "")
             {
                 if (cine.iniciarSesion(mail, password))
-                    this.TransfEvento();
+                    this.TransfEvento_LoginCartelera();
                 else
                     MessageBox.Show("Error, mail o contraseña incorrectos");
             }
             else
                 MessageBox.Show("Debe ingresar un mail y contraseña!");
         }
-        public delegate void TransfDelegado();
+        
+        public delegate void DelegadoLogin();
     }
 }

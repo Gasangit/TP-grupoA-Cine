@@ -1,6 +1,6 @@
 ﻿namespace TP_grupoA_Cine
 {
-    partial class Form6
+    partial class ABM_Usuarios
     {
         /// <summary>
         /// Required designer variable.
