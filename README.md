@@ -1,4 +1,4 @@
-### Proyecto Sistema de cines "Cines FLAGG"
+ï»¿### Proyecto Sistema de cines "Cines FLAGG"
 Creadores:
 F- Franco Ouro
 L- Lucas Marenco
@@ -9,8 +9,8 @@ G- German Pardo
 Proyecto:
 Generamos un proyecto de un sistema de cines. Nuestro cine se maneja por motivos de seguridad y exclusividad en base solamente a clientes que se registran.
 Dentro del sistema el usuario podra regitrarse o loguearse a nuestro sistema, para poder hacer consultas de las funciones que se proyectan en las distintas salas.
-En nuestro cine, el usuario deberá cargar credito en el sistema para comprar entradas, las cuales podrá comprar para él y otros invitados a su nombre.
-Asi mismo los administradores del sistema podrán manejar el ABM de los Usuarios, Peliculas, Salas y Funciones, que se visualizan al cliente.
+En nuestro cine, el usuario deberï¿½ cargar credito en el sistema para comprar entradas, las cuales podrï¿½ comprar para ï¿½l y otros invitados a su nombre.
+Asi mismo los administradores del sistema podrï¿½n manejar el ABM de los Usuarios, Peliculas, Salas y Funciones, que se visualizan al cliente.
 
 Formularios:
 * Login (inicio)
@@ -19,3 +19,7 @@ Formularios:
 * ABM de Peliculas
 * ABM de Salas
 * ABM de Funciones
+
+Tipos de Usuarios:
+* Administrador: Al loguearse podra ingresar y maipular al ABM de Usuarios, Peliculas, Salas y Funciones. Ademas podrÃ¡ ver la cartelera.
+* Cliente: Podra ver cartelera, cargar crÃ©dito y comprar tickets para funciones habilitadas.

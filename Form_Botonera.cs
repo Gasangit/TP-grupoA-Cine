@@ -12,57 +12,43 @@ namespace TP_grupoA_Cine
 {
     public partial class Form_Botonera : Form
     {
-        
-        private ABM_Pelicula hijoPelicula; //ABM peliculas
-        private AMB_Funciones hijoFuncion;  //ABM funciones
-        private ABM_Salas hijoSala; //ABM de Salas
-        private ABM_Usuarios hijoUsuario; //ABM de usuarios
+        public DelegadoBotonera TransfEvento_BotoneraCartelera; //evento de botonera a cartelera
+        public DelegadoBotonera TransfEvento_BotoneraPelicula; //evento de botonera a pelicula
+        public DelegadoBotonera TransfEvento_BotoneraSala; //evento de botonera a sala
+        public DelegadoBotonera TransfEvento_BotoneraFuncion; //evento de botonera a funcion
+        public DelegadoBotonera TransfEvento_BotoneraUsuario; //evento de botonera a usuario
 
-        Cine cine = Cine.Instancia;
-        public Form_Botonera(Cine cine)        
+        Cine cine = Cine.Instancia; // Traer el cine
+        public Form_Botonera()
         {
-            
             InitializeComponent();
         }
 
-        public void TransfDelegado3()
-        {
-            hijoPelicula.Close(); //TENEMOS QUE PONER CUAL FORM SE CIERRA
-
-            hijoPelicula = new ABM_Pelicula(cine);
-            hijoPelicula.MdiParent = this;
-            hijoPelicula.Dock = DockStyle.Fill;
-            hijoPelicula.Show();
+        private void btnCartelera_Click(object sender, EventArgs e)
+        {   
+            this.TransfEvento_BotoneraCartelera(); //evento de botonera a cartelera
         }
 
-        public void TransfDelegado4()
+        private void btnPeliculas_Click(object sender, EventArgs e)
         {
-            hijoFuncion.Close(); //TENEMOS QUE PONER CUAL FORM SE CIERRA
-
-            hijoFuncion = new AMB_Funciones(cine);
-            hijoFuncion.MdiParent = this;
-            hijoFuncion.Dock = DockStyle.Fill;
-            hijoFuncion.Show();
+            this.TransfEvento_BotoneraPelicula(); //evento de botonera a pelicula
         }
 
-        public void TransfDelegado5()
+        private void btnSalas_Click(object sender, EventArgs e)
         {
-            hijoSala.Close(); //TENEMOS QUE PONER CUAL FORM SE CIERRA
-
-            //hijoSala = new Form5(cine); FALTA EL CONSTRUCTOR EN EL FORM
-            hijoSala.MdiParent = this;
-            hijoSala.Dock = DockStyle.Fill;
-            hijoSala.Show();
+            this.TransfEvento_BotoneraSala(); //evento de botonera a sala
         }
 
-        public void TransfDelegado6()
+        private void btnFunciones_Click(object sender, EventArgs e)
         {
-            hijoUsuario.Close(); //TENEMOS QUE PONER CUAL FORM SE CIERRA
+            this.TransfEvento_BotoneraFuncion(); //evento de botonera a funcion
+        }
 
-            //hijoUsuario = new Form6(cine); FALTA EL CONSTRUCTOR EN EL FORM
-            hijoUsuario.MdiParent = this;
-            hijoUsuario.Dock = DockStyle.Fill;
-            hijoUsuario.Show();
-        }        
+        private void btnUsuarios_Click(object sender, EventArgs e)
+        {
+            this.TransfEvento_BotoneraUsuario(); //evento de botonera a usuario
+        }
+
+        public delegate void DelegadoBotonera();
     }
 }

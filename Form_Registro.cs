@@ -10,17 +10,12 @@ using System.Windows.Forms;
 
 namespace TP_grupoA_Cine
 {
-    public partial class ABM_Salas : Form //Form de Salas
+    public partial class Form_Registro : Form       
     {
         Cine cine = Cine.Instancia; // Traer el cine
-        public ABM_Salas()
+        public Form_Registro()
         {
             InitializeComponent();
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

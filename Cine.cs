@@ -20,6 +20,11 @@ namespace TP_grupoA_Cine
         public List<Pelicula> peliculas { get; set; } = new List<Pelicula>();
         public Usuario usuarioActual { get; set; }
 
+
+        public string nombreUsuario() {
+
+            return usuarioActual.Nombre;
+        }
         // SINGLETON -------------------------------------------------------------------------------------------
         private readonly static Cine _instancia = new Cine();
 
@@ -109,6 +114,20 @@ namespace TP_grupoA_Cine
                                 $" para la película {funcion.MiPelicula.Nombre} en la fecha {funcion.Fecha} con un costo de {funcion.Costo}");
             return funcion;
         }
+
+        public void modificarFuncion(int idFuncion, Pelicula pelicula, DateTime fecha, double costo)
+        {
+            foreach (Funcion funcion in funciones)
+            {
+             //   if (funcion.ID == ID)
+               // { 
+                 //   funcion.MiPelicula = pelicula;
+                   // funcion.Fecha = fecha;
+                    //funcion.Costo = costo;
+               // }
+            }
+        }
+
         public void bajaFuncion(int idFuncion)
         {
             Funcion funcion= (Funcion)obtenerObjetoDeLista(idFuncion, "funcion");
@@ -126,6 +145,22 @@ namespace TP_grupoA_Cine
             Debug.WriteLine($">>> (Cine - altaPelicula()) Se creó la PELÍCULA {pelicula.Nombre} con ID {pelicula.ID}");
             return pelicula;
         }
+
+        public void modificarPelicula(int ID, string nombre, string sinopsis, int duracion)
+        {
+            foreach (Pelicula pelicula in peliculas)
+            {
+                if (pelicula.ID == ID)
+                { 
+                    pelicula.Nombre = nombre;
+                    pelicula.Sinopsis = sinopsis;
+                    pelicula.Duracion = duracion;
+                }
+            }
+        }
+
+
+
         public void bajaPelicula(int idPelicula)
         {
             Pelicula pelicula = (Pelicula)obtenerObjetoDeLista(idPelicula, "pelicula");
@@ -229,62 +264,58 @@ namespace TP_grupoA_Cine
             return peliculas.ToList();
         }
 
-        
-        //public Funcion buscarFuncion(DateTime fecha = new DateTime(), string ubicacion, 
-        //                                    double costo = -3, string pelicula = "no")
-        //{
-        //    bool argfecha;
-        //    bool argUbicacion;
-        //    bool argCosto;
-        //    bool argPelicula;
 
+        public List<Funcion> buscarFuncion(DateTime fecha = new DateTime(), string ubicacion = "",
+                                            double costo = -1, string pelicula = "")
+        {
 
-        //    if (ubicacion != null) { }
+            List<Funcion> listaDeFunciones = new List<Funcion>();
 
-        //    foreach (Funcion funcion in funciones) {
+            for (int i = 0; i < this.funciones.Count; i++) {
+                //si la fecha ingresada es igual a al fecha de una funcion y el resto de datos no se ingresó, guarda la Funcion en la lista
+                if (this.funciones[i].Fecha == fecha && ubicacion == "" && costo == -1 && pelicula == "")
+                { 
+                    listaDeFunciones.Add(this.funciones[i]); 
+                }
+                //si la ubicación ingresada es igual a la ubicación de la sala de la funcion y el resto de datos no se ingresó, guarda la Función en la lista
+                else if (fecha.Year == 0 && (ubicacion != "" && funciones[i].MiSala.Ubicacion == ubicacion) && costo == -1 && pelicula == ""){ 
+                    listaDeFunciones.Add(funciones[i]); 
+                }
+                //si el costo ingresado es igual (podria ser <=) al costo de la Funcion y el resto de datos no se ingresó, guarda la Función en la lista
+                else if (fecha.Year == 0 && ubicacion == "" && (costo > -1 && this.funciones[i].Costo == costo) && pelicula == ""){ 
+                    listaDeFunciones.Add(funciones[i]); 
+                }
+                else if (fecha.Year == 0 && ubicacion == "" && costo == -1 && (pelicula != "" && funciones[i].MiPelicula.Nombre == pelicula)){ 
+                    listaDeFunciones.Add(funciones[i]); 
+                }
+                else if ((fecha.Year != 0 && funciones[i].Fecha == fecha)&& (ubicacion != "" && funciones[i].MiSala.Ubicacion == ubicacion) && (costo > -1 && funciones[i].Costo == costo) && (pelicula != "" && funciones[i].MiPelicula.Nombre == pelicula)) {
+                    listaDeFunciones.Add(funciones[i]);
+                }
+            }            
+            return listaDeFunciones.ToList();
+        }
+            //private object objetodelista(int id, string lista)//metodo para acortar el código al buscar un objeto
+            //{
+            //    object devolverobjeto = new object();
+            //    list<list<object>> listas = new list<list<object>>() { this.usuarios.cast<object>().tolist(), this.salas.cast<object>().tolist(),
+            //                                                        this.funciones.cast<object>().tolist(), this.peliculas.cast<object>().tolist() };
+            //    for (int i = 0; i < listas.count(); i++)
+            //    {
+            //        if (listas[i].gettype().name == lista)
+            //        {
+            //            for (int k = 0; k < listas[i].count(); k++)
+            //            {
+            //                if (listas[i][k].id == id) //esto tiene que dar un objeto
+            //                {
+            //                    devolverobjeto = listas[i][k];
+            //                    return devolverobjeto;
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
 
-        //        if (fecha != "no" && funcion.Fecha == fecha)
-        //        {
-        //            bool fechaOk = true;
-
-        //            if (ubicacion != "no" && funcion.Fecha == fecha)
-        //            {
-        //                bool fechaOk = true;
-        //            }
-        //            if (fecha != "no" && funcion.Fecha == fecha)
-        //            {
-        //                bool fechaOk = true;
-        //            }
-        //            if (fecha != "no" && funcion.Fecha == fecha)
-        //            {
-        //                bool fechaOk = true;
-        //            }
-        //    }        
-
-        //}
-
-        //private object objetodelista(int id, string lista)//metodo para acortar el código al buscar un objeto
-        //{
-        //    object devolverobjeto = new object();
-        //    list<list<object>> listas = new list<list<object>>() { this.usuarios.cast<object>().tolist(), this.salas.cast<object>().tolist(),
-        //                                                        this.funciones.cast<object>().tolist(), this.peliculas.cast<object>().tolist() };
-        //    for (int i = 0; i < listas.count(); i++)
-        //    {
-        //        if (listas[i].gettype().name == lista)
-        //        {
-        //            for (int k = 0; k < listas[i].count(); k++)
-        //            {
-        //                if (listas[i][k].id == id) //esto tiene que dar un objeto
-        //                {
-        //                    devolverobjeto = listas[i][k];
-        //                    return devolverobjeto;
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
-        private object obtenerObjetoDeLista(int ID, string tipoObjeto)
+            private object obtenerObjetoDeLista(int ID, string tipoObjeto)
         {
             object objeto = new { ID = "Objeto no encontrado"};
 

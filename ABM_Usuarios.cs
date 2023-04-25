@@ -14,8 +14,11 @@ namespace TP_grupoA_Cine
     {
         public ABM_Usuarios()
         {
+            Cine cine = Cine.Instancia; // Traer el cine
             InitializeComponent();
         }
+
+
 
         private void label7_Click(object sender, EventArgs e)
         {

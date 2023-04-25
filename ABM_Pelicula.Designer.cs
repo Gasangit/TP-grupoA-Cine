@@ -136,7 +136,7 @@
             // button1
             // 
             button1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            button1.Location = new Point(201, 115);
+            button1.Location = new Point(193, 154);
             button1.Name = "button1";
             button1.Size = new Size(86, 31);
             button1.TabIndex = 9;
@@ -167,11 +167,10 @@
             // 
             dataGridView1.BackgroundColor = SystemColors.InactiveCaption;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ID, nombre, sinopsis, poster, duracion });
-            dataGridView1.Location = new Point(64, 167);
+            dataGridView1.Location = new Point(65, 222);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(645, 232);
+            dataGridView1.Size = new Size(645, 187);
             dataGridView1.TabIndex = 12;
             // 
             // ID
@@ -184,10 +183,7 @@
             // 
             // nombre
             // 
-            nombre.Frozen = true;
-            nombre.HeaderText = "Nombre";
             nombre.Name = "nombre";
-            nombre.ReadOnly = true;
             // 
             // sinopsis
             // 
@@ -231,7 +227,7 @@
             panel1.Size = new Size(776, 426);
             panel1.TabIndex = 13;
             // 
-            // Form3
+            // ABM_Pelicula
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -241,7 +237,7 @@
             FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "Form3";
+            Name = "ABM_Pelicula";
             Text = "Form3";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panel1.ResumeLayout(false);

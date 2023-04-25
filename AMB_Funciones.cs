@@ -18,39 +18,18 @@ namespace TP_grupoA_Cine
     public partial class AMB_Funciones : Form //Form de funciones
     {
 
-        private Cine funcion;
-
         public TransfDelegado TransfEvento;
 
-        Cine cine = Cine.Instancia;
+        Cine cine = Cine.Instancia; // Traer el cine
 
-        public AMB_Funciones(Cine cine)
+        public AMB_Funciones()
         {
             InitializeComponent();
-            funcion = cine;
         }
 
         public delegate void TransfDelegado();
 
-        /*  private void button1_Click(object sender, EventArgs e)
-          {
-              Sala MiSala = textBox1.Text;
-              Pelicula MiPelicula = textBox2.Text;
-              Datetime Fecha = textBox3.Text;
-              double costo = textBox4.Text;
-
-
-              if (nombre != null && sinopsis != null && poster != null && duracion != 0)
-              {
-                  if (cine.altaPelicula(nombre, sinopsis, duracion) != null)
-                      MessageBox.Show("Registrado con éxito");
-                  else
-                      MessageBox.Show("Error, pelicula ya registrada");
-              }
-              else
-                  MessageBox.Show("Debe ingresar un nombre, sinopsis, poster y duracion!");
-          }
-        */
+        
         private void label1_Click(object sender, EventArgs e)
         {
 
