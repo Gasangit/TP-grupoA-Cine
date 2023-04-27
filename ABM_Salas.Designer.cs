@@ -51,7 +51,7 @@
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ID, ubicacion, capacidad });
-            dataGridView1.Location = new Point(182, 163);
+            dataGridView1.Location = new Point(355, 262);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(394, 235);
@@ -82,7 +82,7 @@
             // button3
             // 
             button3.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            button3.Location = new Point(324, 105);
+            button3.Location = new Point(497, 204);
             button3.Name = "button3";
             button3.Size = new Size(84, 27);
             button3.TabIndex = 37;
@@ -92,7 +92,7 @@
             // button2
             // 
             button2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            button2.Location = new Point(414, 105);
+            button2.Location = new Point(587, 204);
             button2.Name = "button2";
             button2.Size = new Size(113, 27);
             button2.TabIndex = 36;
@@ -102,7 +102,7 @@
             // button1
             // 
             button1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            button1.Location = new Point(224, 105);
+            button1.Location = new Point(397, 204);
             button1.Name = "button1";
             button1.Size = new Size(86, 27);
             button1.TabIndex = 35;
@@ -115,7 +115,7 @@
             label5.AutoSize = true;
             label5.BackColor = SystemColors.ActiveCaption;
             label5.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.Location = new Point(329, 9);
+            label5.Location = new Point(502, 108);
             label5.Name = "label5";
             label5.Size = new Size(84, 26);
             label5.TabIndex = 34;
@@ -126,7 +126,7 @@
             label4.AutoSize = true;
             label4.BackColor = SystemColors.ActiveCaption;
             label4.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(457, 64);
+            label4.Location = new Point(630, 163);
             label4.Name = "label4";
             label4.Size = new Size(85, 20);
             label4.TabIndex = 33;
@@ -138,7 +138,7 @@
             label1.AutoSize = true;
             label1.BackColor = SystemColors.ActiveCaption;
             label1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(329, 64);
+            label1.Location = new Point(502, 163);
             label1.Name = "label1";
             label1.Size = new Size(79, 20);
             label1.TabIndex = 30;
@@ -146,14 +146,14 @@
             // 
             // textBox4
             // 
-            textBox4.Location = new Point(442, 38);
+            textBox4.Location = new Point(615, 137);
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(100, 23);
             textBox4.TabIndex = 29;
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(324, 38);
+            textBox1.Location = new Point(497, 137);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(100, 23);
             textBox1.TabIndex = 26;
@@ -163,7 +163,7 @@
             label2.AutoSize = true;
             label2.BackColor = SystemColors.ActiveCaption;
             label2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(224, 64);
+            label2.Location = new Point(397, 163);
             label2.Name = "label2";
             label2.Size = new Size(23, 20);
             label2.TabIndex = 40;
@@ -171,7 +171,7 @@
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(182, 38);
+            textBox2.Location = new Point(355, 137);
             textBox2.Name = "textBox2";
             textBox2.ReadOnly = true;
             textBox2.Size = new Size(100, 23);
@@ -191,16 +191,16 @@
             panel1.Controls.Add(label1);
             panel1.Controls.Add(button2);
             panel1.Controls.Add(button3);
-            panel1.Location = new Point(12, 12);
+            panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(776, 426);
+            panel1.Size = new Size(952, 534);
             panel1.TabIndex = 41;
             // 
             // ABM_Salas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(952, 534);
             ControlBox = false;
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;

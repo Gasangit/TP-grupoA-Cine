@@ -11,7 +11,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace TP_grupoA_Cine
 {
-      
+
     public partial class ABM_Pelicula : Form    //Form de peliculas
     {
         public TransfDelegado TransfEvento;
@@ -22,7 +22,7 @@ namespace TP_grupoA_Cine
         {
 
             InitializeComponent();
-             selectedPelicula = -1;
+            selectedPelicula = -1;
 
         }
 
@@ -77,20 +77,20 @@ namespace TP_grupoA_Cine
         }
 
         //Modifcar Pelicula
-          private void button2_Click(object sender, EventArgs e)
-         {
-           if (selectedPelicula != 1)
-         { 
-           if(cine.modificarPelicula(selectedPelicula, textBox2.Text, textBox3.Text, textBox4.Text, textBox5.Text))
-                MessageBox.Show("Pelicula Modificada con éxito");
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (selectedPelicula != 1)
+            {
+                if (cine.modificarPelicula(selectedPelicula, textBox2.Text, textBox3.Text, int.Parse(textBox5.Text)))
+                    MessageBox.Show("Pelicula Modificada con éxito");
 
+                else
+                    MessageBox.Show("Error al modificar");
+            }
             else
-                MessageBox.Show("Error al modificar");
-        }
-        else
-               MessageBox.Show("Debe seleccionar una pelicula");
+                MessageBox.Show("Debe seleccionar una pelicula");
 
-          }
+        }
 
         //Eliminar Pelicula
         public void button3_Click(object name, EventArgs e)
@@ -98,7 +98,7 @@ namespace TP_grupoA_Cine
             if (selectedPelicula != -1)
             {
                 cine.bajaPelicula(selectedPelicula);
-                    MessageBox.Show("Eliminado con éxito");
+                MessageBox.Show("Eliminado con éxito");
 
             }
             else
@@ -112,15 +112,15 @@ namespace TP_grupoA_Cine
             if (textBox2.Text == "" || textBox3.Text == "" || textBox4.Text == "" || textBox5.Text == "" || textBox2.Text == null || textBox3.Text == null || textBox4.Text == null || textBox5.Text == null)
                 MessageBox.Show("Se deben completar los campos");
             else
-                if (cine.altaPelicula(textBox2.Text, textBox3.Text, textBox4.Text, textBox5.Text))
+                if (cine.altaPelicula(textBox1.Text, textBox4.Text, int.Parse(textBox2.Text)))
                 MessageBox.Show("La pelicula se agrego con éxito");
             else
                 MessageBox.Show("Error al agregar la pelicula");
 
         }
 
-        
 
-        
+
+
     }
 }

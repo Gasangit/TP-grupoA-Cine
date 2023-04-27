@@ -11,7 +11,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace TP_grupoA_Cine
 {
-    
+
     public partial class ABM_Salas : Form //Form de Salas
     {
         private int selectedSala;
@@ -33,7 +33,7 @@ namespace TP_grupoA_Cine
             selectedSala = -1;
         }
 
-        public void refreshData() 
+        public void refreshData()
         {
             dataGridView1.Rows.Clear();
             foreach (Sala s in cine.mostrarSalas())
@@ -47,7 +47,7 @@ namespace TP_grupoA_Cine
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        { 
+        {
             string ID = dataGridView1[0, e.RowIndex].Value.ToString();
             string ubicacion = dataGridView1[0, e.RowIndex].Value.ToString();
             string capacidad = dataGridView1[0, e.RowIndex].Value.ToString();
@@ -61,7 +61,7 @@ namespace TP_grupoA_Cine
         {
             if (selectedSala != -1)
             {
-                if(cine.modificacionSala(selectedSala, textBox2.Text, textBox4.Text))
+                if (cine.modificacionSala(selectedSala, textBox2.Text, int.Parse(textBox4.Text)))
                     MessageBox.Show("Modificado con éxito");
                 else
                     MessageBox.Show("Error al modificar la sala");
@@ -76,7 +76,7 @@ namespace TP_grupoA_Cine
             if (selectedSala != -1)
             {
                 cine.bajaSala(selectedSala);
-                    MessageBox.Show("Eliminado con éxito");
+                MessageBox.Show("Eliminado con éxito");
 
             }
             else
@@ -85,16 +85,16 @@ namespace TP_grupoA_Cine
         }
 
         private void button4_Click(object sender, EventArgs e)
-        { 
-            if(textBox2.Text == "" || textBox4.Text == "" || textBox2.Text == null || textBox4.Text == null)
+        {
+            if (textBox2.Text == "" || textBox4.Text == "" || textBox2.Text == null || textBox4.Text == null)
                 MessageBox.Show("Debe completar los datos para agregar");
             else
-                if(cine.altaSala(textBox2.Text, textBox4.Text))
+                if (cine.altaSala(textBox2.Text, int.Parse(textBox4.Text)))
                 MessageBox.Show("Agregado con éxito");
             else
                 MessageBox.Show("Error al agregar una sala");
         }
 
-       
+
     }
 }

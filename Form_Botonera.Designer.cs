@@ -51,17 +51,18 @@
             panel1.Controls.Add(btnFunciones);
             panel1.Controls.Add(btnSalas);
             panel1.Controls.Add(panel2);
-            panel1.Location = new Point(12, 12);
+            panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(776, 426);
+            panel1.Size = new Size(954, 534);
             panel1.TabIndex = 0;
+            panel1.Paint += panel1_Paint;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.BackColor = SystemColors.ActiveCaption;
             label3.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Bold, GraphicsUnit.Point);
-            label3.Location = new Point(321, 19);
+            label3.Location = new Point(428, 97);
             label3.Name = "label3";
             label3.Size = new Size(159, 26);
             label3.TabIndex = 4;
@@ -72,7 +73,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Bold, GraphicsUnit.Point);
-            label2.Location = new Point(295, 60);
+            label2.Location = new Point(402, 138);
             label2.Name = "label2";
             label2.Size = new Size(228, 26);
             label2.TabIndex = 3;
@@ -83,7 +84,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(151, 92);
+            label1.Location = new Point(258, 170);
             label1.Name = "label1";
             label1.Size = new Size(504, 26);
             label1.TabIndex = 1;
@@ -93,7 +94,7 @@
             // 
             btnFunciones.BackColor = SystemColors.Info;
             btnFunciones.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            btnFunciones.Location = new Point(305, 250);
+            btnFunciones.Location = new Point(412, 328);
             btnFunciones.Name = "btnFunciones";
             btnFunciones.Size = new Size(187, 33);
             btnFunciones.TabIndex = 0;
@@ -105,7 +106,7 @@
             // 
             btnSalas.BackColor = SystemColors.Info;
             btnSalas.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            btnSalas.Location = new Point(305, 200);
+            btnSalas.Location = new Point(412, 278);
             btnSalas.Name = "btnSalas";
             btnSalas.Size = new Size(187, 33);
             btnSalas.TabIndex = 0;
@@ -119,7 +120,7 @@
             panel2.Controls.Add(btnPeliculas);
             panel2.Controls.Add(btnUsuarios);
             panel2.Controls.Add(btnCartelera);
-            panel2.Location = new Point(66, 130);
+            panel2.Location = new Point(173, 208);
             panel2.Name = "panel2";
             panel2.Size = new Size(641, 263);
             panel2.TabIndex = 2;
@@ -165,7 +166,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImageLayout = ImageLayout.Center;
-            ClientSize = new Size(801, 451);
+            ClientSize = new Size(954, 532);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Form_Botonera";

@@ -12,15 +12,16 @@ namespace TP_grupoA_Cine
 {
     public partial class Form_Login : Form //Form del Login
     {
-        
+
         public DelegadoLogin TransfEvento_LoginCarteleraBotonera; //evento de login a cartelera o botonera
         public DelegadoLogin TransfEvento_LoginRegistro;       //evento de login a registro
 
         Cine cine = Cine.Instancia;
-        public Form_Login()        
+        public Form_Login()
         {
-            
+
             InitializeComponent();
+
         }
 
 
@@ -35,7 +36,7 @@ namespace TP_grupoA_Cine
             string password = textBox2.Text;
             if (mail != null && mail != "" && password != null && password != "")
             {
-                if (cine.iniciarSesion(mail, password))                    
+                if (cine.iniciarSesion(mail, password))
                     this.TransfEvento_LoginCarteleraBotonera(); //evento de login a cartelera o botonera                                  
                 else
                     MessageBox.Show("Error, mail o contraseña incorrectos");
@@ -43,7 +44,17 @@ namespace TP_grupoA_Cine
             else
                 MessageBox.Show("Debe ingresar un mail y contraseña!");
         }
-        
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
         public delegate void DelegadoLogin();
     }
 }

@@ -25,7 +25,7 @@ namespace TP_grupoA_Cine
         }
 
         private void btnCartelera_Click(object sender, EventArgs e)
-        {   
+        {
             this.TransfEvento_BotoneraCartelera(); //evento de botonera a cartelera
         }
 
@@ -47,6 +47,11 @@ namespace TP_grupoA_Cine
         private void btnUsuarios_Click(object sender, EventArgs e)
         {
             this.TransfEvento_BotoneraUsuario(); //evento de botonera a usuario
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
         public delegate void DelegadoBotonera();

@@ -39,6 +39,19 @@ namespace TP_grupoA_Cine
             }
         }
         // USUARIO --------------------------------------------------------------------------------------------
+        public bool altaUsuario(int dni, string nombre,
+                                   string apellido, string mail, string password,
+                                   DateTime fechaNacimiento, bool esAdmin)
+        {
+            //la clase Usuario tiene que tener un constructor para el ALTA
+            Usuario usuario = new Usuario(dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin);
+            //el ID se puede generar automaticamente con un atributo estatico en la clase Usuario
+            usuarios.Add(usuario);
+            Debug.WriteLine($">>> (Cine - altaUsuario()) Se CREÓ el USUARIO {usuario.Nombre}" +
+                                        $" {usuario.Apellido} con ID {usuario.ID}");
+            return true;
+        }
+        /*
         public Usuario altaUsuario(int dni, string nombre,
                                     string apellido, string mail, string password, 
                                     DateTime fechaNacimiento, bool esAdmin)
@@ -51,6 +64,8 @@ namespace TP_grupoA_Cine
                                         $" {usuario.Apellido} con ID {usuario.ID}");
             return usuario;
         }
+        */
+
         public void bajaUsuario(int idUsuario)
         {
             Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
@@ -73,6 +88,18 @@ namespace TP_grupoA_Cine
                                 $" {usuario.Apellido} con ID {usuario.ID}");
         }
         // SALA --------------------------------------------------------------------------------------------
+        public bool altaSala(string ubicacion, int capacidad)
+        {
+            //tiene que haber un contructor en sala especial para crearla. El ID se puede generar
+            //automaticamente con un atributo estatico en la clase Sala.
+            Sala sala = new Sala(ubicacion, capacidad);
+            salas.Add(sala);
+
+            Debug.WriteLine($">>> (Cine - altaSala()) Se CREÓ la SALA ubicada en {sala.Ubicacion}" +
+                                $" con capacidad para {sala.Capacidad} espectadores");
+            return true;
+        }
+        /*
         public Sala altaSala(string ubicacion, int capacidad)
         {   
             //tiene que haber un contructor en sala especial para crearla. El ID se puede generar
@@ -84,7 +111,7 @@ namespace TP_grupoA_Cine
                                 $" con capacidad para {sala.Capacidad} espectadores");
             return sala;
         }
-
+        */
         public void bajaSala(int idSala)
         {
             Sala sala = (Sala)obtenerObjetoDeLista(idSala, "sala");
@@ -103,17 +130,13 @@ namespace TP_grupoA_Cine
         // Debug.WriteLine($">>> Se MODIFICÓ la SALA con ID {sala.ID}");
         //}
 
-        public void modificacionSala(int ID, string ubicacion, int capacidad)
+        public bool modificacionSala(int ID, string ubicacion, int capacidad)
         {
-            foreach (Sala sala in salas)
-            {
-                if (sala.ID == ID)
-                {
-                    sala.Ubicacion = ubicacion;
-                    sala.Capacidad = capacidad;
-                }
-            }
+            Sala sala = (Sala)obtenerObjetoDeLista(ID, "sala");
 
+            sala.Ubicacion = ubicacion;
+            sala.Capacidad = capacidad;
+            return true;
         }
 
 
@@ -153,6 +176,17 @@ namespace TP_grupoA_Cine
             funcion = null;
         }
         // PELICULA -------------------------------------------------------------------------------------------
+        public bool altaPelicula(string nombre, string sinopsis, int duracion)
+        {
+
+            Pelicula pelicula = new Pelicula(nombre, sinopsis, duracion);
+            peliculas.Add(pelicula);
+
+            Debug.WriteLine($">>> (Cine - altaPelicula()) Se creó la PELÍCULA {pelicula.Nombre} con ID {pelicula.ID}");
+            return true;
+        }
+
+        /*
         public Pelicula altaPelicula(string nombre, string sinopsis, int duracion)
         {
 
@@ -162,18 +196,17 @@ namespace TP_grupoA_Cine
             Debug.WriteLine($">>> (Cine - altaPelicula()) Se creó la PELÍCULA {pelicula.Nombre} con ID {pelicula.ID}");
             return pelicula;
         }
-
-        public void modificarPelicula(int ID, string nombre, string sinopsis, int duracion)
+        */
+        public bool modificarPelicula(int ID, string nombre, string sinopsis, int duracion)
         {
-            foreach (Pelicula pelicula in peliculas)
-            {
-                if (pelicula.ID == ID)
-                { 
-                    pelicula.Nombre = nombre;
-                    pelicula.Sinopsis = sinopsis;
-                    pelicula.Duracion = duracion;
-                }
-            }
+
+            Pelicula pelicula = (Pelicula)obtenerObjetoDeLista(ID, "pelicula");
+
+            pelicula.Nombre = nombre;
+            pelicula.Sinopsis = sinopsis;
+            pelicula.Duracion = duracion;
+            return true;
+
         }
 
 
@@ -281,8 +314,13 @@ namespace TP_grupoA_Cine
             return peliculas.ToList();
         }
 
+        public List<Usuario> mostrarUsuarios()
+        {
+            return usuarios.ToList();
+        }
 
-        public List<Funcion> buscarFuncion(DateTime fecha = new DateTime(), string ubicacion = "",
+
+            public List<Funcion> buscarFuncion(DateTime fecha = new DateTime(), string ubicacion = "",
                                             double costo = -1, string pelicula = "")
         {
 

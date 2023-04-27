@@ -31,15 +31,18 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Padre));
             SuspendLayout();
             // 
-            // Form1
+            // Padre
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(810, 462);
+            ClientSize = new Size(936, 495);
+            Cursor = Cursors.IBeam;
             Icon = (Icon)resources.GetObject("$this.Icon");
             IsMdiContainer = true;
-            Name = "Form1";
+            Name = "Padre";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Cines FLAGG";
+            Load += Padre_Load;
             ResumeLayout(false);
         }
 

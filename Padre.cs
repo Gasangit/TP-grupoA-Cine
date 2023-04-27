@@ -23,20 +23,21 @@ namespace TP_grupoA_Cine
         public Padre() //Form principal transparente
         {
             InitializeComponent();
-            
+
             //Dejamos ya registrado 1 objeto de cada tipo/clase
-            Usuario usuario1 = cine.altaUsuario(28976543, "Gaston", "Mansilla", "gaston@gmail.com", "123", new DateTime(1982, 04, 02), false); // usuario comun 
-            Usuario usuario2 = cine.altaUsuario(39186055, "Luke", "Skywalker", "luke@gmail.com", "456", new DateTime(1970, 05, 25), true); // usuario admin
-            Sala sala1 = cine.altaSala("Flores", 70);
-            Pelicula antman = cine.altaPelicula("Ant-Man 3", "El doctor Hank Pym anuncia que abandona S.H.I.E.L.D. tras descubrir que han tratado de apropiarse de la tecnología de su Ant-Man, que Pym considera altamente peligrosa. Varios años después, Scott Lang sale de prisión tras cumplir tres años de condena por robo.", 135);
-            Funcion antmanf1 = cine.altaFuncion(sala1, antman, new DateTime(2023, 04, 28), 1500);
+            cine.altaUsuario(28976543, "Gaston", "Mansilla", "gaston@gmail.com", "123", new DateTime(1982, 04, 02), false); // usuario comun 
+            cine.altaUsuario(39186055, "Luke", "Skywalker", "luke@gmail.com", "456", new DateTime(1970, 05, 25), true); // usuario admin
+            cine.altaSala("Flores", 70);
+            cine.altaPelicula("Ant-Man 3", "El doctor Hank Pym anuncia que abandona S.H.I.E.L.D. tras descubrir que han tratado de apropiarse de la tecnología de su Ant-Man, que Pym considera altamente peligrosa. Varios años después, Scott Lang sale de prisión tras cumplir tres años de condena por robo.", 135);
+            //cine.altaFuncion(sala1, antman, new DateTime(2023, 04, 28), 1500);
 
             //Pantalla pirincipal Form2 Login
             hijoLogin = new Form_Login();
             hijoLogin.MdiParent = this;
+            hijoLogin.Dock = DockStyle.Fill;
             hijoLogin.TransfEvento_LoginCarteleraBotonera += TransfDelegado_FormCarteleraBotonera; //evento de login a cartelera, si es usuario comun, o botonera, si es usuario admin
             hijoLogin.TransfEvento_LoginRegistro += TransfDelegado_FormRegistro; // evento de login a registro
-                                                                                 
+
             hijoLogin.Show();
 
         }
@@ -45,10 +46,10 @@ namespace TP_grupoA_Cine
         //METODOS PARA TRASPASO DE FORMULARIOS//
         ////////////////////////////////////////
 
-        
+
         public void TransfDelegado_FormCarteleraBotonera() //Cierra el login y abre Form Cartelera, si es usuario comun, o botonera, si es usuario admin
-        {              
-                   hijoLogin.Close(); //cierra login
+        {
+            hijoLogin.Close(); //cierra login
 
             if (cine.usuarioActual.EsAdmin)
             {
@@ -57,17 +58,20 @@ namespace TP_grupoA_Cine
                 hijoBotonera.Dock = DockStyle.Fill;
                 hijoBotonera.TransfEvento_BotoneraCartelera += TransfDelegado_BotoneraCartelera;
                 hijoBotonera.TransfEvento_BotoneraFuncion += TransfDelegado_BotoneraFuncion;
+                hijoBotonera.TransfEvento_BotoneraUsuario += TransfDelegado_BotoneraUsuario;
+                hijoBotonera.TransfEvento_BotoneraPelicula += TransfDelegado_BotoneraPelicula;
                 hijoBotonera.Show();
-            } else
+            }
+            else
             {
                 hijoCartelera = new Form_Cartelera(); //abre Form_Cartelera
                 hijoCartelera.MdiParent = this;
                 hijoCartelera.Dock = DockStyle.Fill;
                 hijoCartelera.Show();
             }
-                   
+
         }
-        
+
         public void TransfDelegado_FormRegistro() // Cierra Form Login y abre Form Registro
         {
             hijoLogin.Close(); //cierra login
@@ -77,17 +81,17 @@ namespace TP_grupoA_Cine
             hijoRegistro.Dock = DockStyle.Fill;
             hijoRegistro.Show();
 
-        }        
+        }
 
         public void TransfDelegado_BotoneraCartelera() //Cierra Form Botonera y abre Form Cartelera
         {
-           
+
             hijoBotonera.Close(); //cierra botonera
 
             hijoCartelera = new Form_Cartelera();
             hijoCartelera.MdiParent = this;
             hijoCartelera.Dock = DockStyle.Fill;
-            hijoCartelera.Show(); 
+            hijoCartelera.Show();
         }
 
         public void TransfDelegado_BotoneraFuncion() //Cierra From Botonera y abre Form Funcion
@@ -97,8 +101,32 @@ namespace TP_grupoA_Cine
             hijoFuncion = new AMB_Funciones();
             hijoFuncion.MdiParent = this;
             hijoFuncion.Dock = DockStyle.Fill;
-            hijoFuncion.Show();        
+            hijoFuncion.Show();
         }
 
+        public void TransfDelegado_BotoneraUsuario() //Cierra From Botonera y abre Form Usuarios
+        {
+            hijoBotonera.Close();
+
+            hijoUsuario = new ABM_Usuarios();
+            hijoUsuario.MdiParent = this;
+            hijoUsuario.Dock = DockStyle.Fill;
+            hijoUsuario.Show();
+        }
+
+        public void TransfDelegado_BotoneraPelicula() //Cierra From Botonera y abre Form Usuarios
+        {
+            hijoBotonera.Close();
+
+            hijoPelicula = new ABM_Pelicula();
+            hijoPelicula.MdiParent = this;
+            hijoPelicula.Dock = DockStyle.Fill;
+            hijoPelicula.Show();
+        }
+
+        private void Padre_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

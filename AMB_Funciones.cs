@@ -31,7 +31,7 @@ namespace TP_grupoA_Cine
 
         public delegate void TransfDelegado();
 
-        
+
         private void label1_Click(object sender, EventArgs e)
         {
 
@@ -53,7 +53,7 @@ namespace TP_grupoA_Cine
         {
             dataGridView1.Rows.Clear();
 
-            foreach(Funcion f in cine.mostrarFunciones())
+            foreach (Funcion f in cine.mostrarFunciones())
                 dataGridView1.Rows.Add(false.ToString());
 
 
@@ -66,10 +66,10 @@ namespace TP_grupoA_Cine
 
         }
 
-     
-        
+
+
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        { 
+        {
             string ID = dataGridView1[0, e.RowIndex].Value.ToString();
             string MiPelicula = dataGridView1[0, e.RowIndex].Value.ToString();
             string Misala = dataGridView1[0, e.RowIndex].Value.ToString();
@@ -84,11 +84,12 @@ namespace TP_grupoA_Cine
 
         }
         //Modifica la funcion
+        /*
         private void button2_Click(object sender, EventArgs e)
         {
-            if (selectedFuncion != -1) 
+            if (selectedFuncion != -1)
             {
-                if(cine.modificarFuncion(selectedFuncion, textBox2.Text, textBox3.Text, textBox4.Text, textBox5.Text))
+                if (cine.modificarFuncion(selectedFuncion, textBox2.Text, textBox3.Text, textBox4.Text, textBox5.Text))
                     MessageBox.Show("Modificado con éxito");
                 else
                     MessageBox.Show("Error al modificar");
@@ -98,15 +99,15 @@ namespace TP_grupoA_Cine
                 MessageBox.Show("Debe seleccionar una funcion");
 
         }
-
+        */
         //Elimina la funcion
         private void button3_Click(object sender, EventArgs e)
         {
             if (selectedFuncion != -1)
             {
                 cine.bajaFuncion(selectedFuncion);
-                    MessageBox.Show("Eliminado con éxito");
-                
+                MessageBox.Show("Eliminado con éxito");
+
             }
             else
                 MessageBox.Show("Debe seleccionar una funcion");
@@ -114,16 +115,21 @@ namespace TP_grupoA_Cine
         }
 
         //Agrega una Funcion
+        /*
         private void button4_Click(object sender, EventArgs e)
         {
-            if(textBox2.Text == "" || textBox3.Text == "" || textBox4.Text == "" || textBox5.Text == "" || textBox2.Text == null || textBox3.Text == null || textBox4.Text == null || textBox5.Text == null)
+            if (textBox2.Text == "" || textBox3.Text == "" || textBox4.Text == "" || textBox5.Text == "" || textBox2.Text == null || textBox3.Text == null || textBox4.Text == null || textBox5.Text == null)
                 MessageBox.Show("Debe completar los datos para agregar");
-            else 
-                if(cine.altaFuncion(textBox2.Text, textBox3.Text, textBox4.Text, textBox5.Text))
-                    MessageBox.Show("Agregado con éxito");
-                else
-                    MessageBox.Show("Error al agregar la funcion");
+            else
+                if (cine.altaFuncion(textBox2.Text, textBox3.Text, textBox4.Text, textBox5.Text))
+                MessageBox.Show("Agregado con éxito");
+            else
+                MessageBox.Show("Error al agregar la funcion");
         }
+        */
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
 
+        }
     }
 }

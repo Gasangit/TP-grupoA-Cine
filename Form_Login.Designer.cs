@@ -41,14 +41,15 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(308, 165);
+            textBox1.Location = new Point(402, 166);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(233, 23);
             textBox1.TabIndex = 0;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(308, 234);
+            textBox2.Location = new Point(402, 232);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(233, 23);
             textBox2.TabIndex = 1;
@@ -56,7 +57,7 @@
             // button1
             // 
             button1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            button1.Location = new Point(339, 344);
+            button1.Location = new Point(502, 304);
             button1.Name = "button1";
             button1.Size = new Size(133, 29);
             button1.TabIndex = 2;
@@ -67,7 +68,7 @@
             // button2
             // 
             button2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            button2.Location = new Point(339, 287);
+            button2.Location = new Point(286, 304);
             button2.Name = "button2";
             button2.Size = new Size(133, 29);
             button2.TabIndex = 3;
@@ -80,7 +81,7 @@
             label1.AutoSize = true;
             label1.BackColor = SystemColors.ActiveCaption;
             label1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(229, 156);
+            label1.Location = new Point(341, 169);
             label1.Name = "label1";
             label1.Size = new Size(41, 20);
             label1.TabIndex = 4;
@@ -90,7 +91,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(174, 222);
+            label2.Location = new Point(286, 232);
             label2.Name = "label2";
             label2.Size = new Size(96, 20);
             label2.TabIndex = 5;
@@ -99,41 +100,42 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.ActiveCaption;
+            panel1.Controls.Add(textBox1);
+            panel1.Controls.Add(textBox2);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(button2);
             panel1.Controls.Add(button1);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(label2);
-            panel1.Location = new Point(12, 12);
+            panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(776, 426);
+            panel1.Size = new Size(952, 500);
             panel1.TabIndex = 6;
+            panel1.Paint += panel1_Paint;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(54, 64);
+            label3.Location = new Point(136, 58);
             label3.Name = "label3";
             label3.Size = new Size(675, 26);
             label3.TabIndex = 6;
             label3.Text = "Bienvenido/a a cines FLAGG. Por favor, para comenzar Inicie Sesón";
             // 
-            // Form2
+            // Form_Login
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
+            ClientSize = new Size(952, 500);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "Form2";
+            Name = "Form_Login";
             Text = "Inicio de Sesión";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
