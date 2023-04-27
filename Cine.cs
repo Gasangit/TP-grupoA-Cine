@@ -93,15 +93,31 @@ namespace TP_grupoA_Cine
                                 $" con capacidad para {sala.Capacidad} espectadores");
             sala = null;
         }
-        public void modificacionSala(int idSala)
-        {
-            //acá se pueden llamar los datos del usuario en la base de datos y verificar cual es diferente
-            //para cambiarlo. Mientras tanto se modifica el objeto.
+        //  public void modificacionSala(int idSala)
+        // {
+        //acá se pueden llamar los datos del usuario en la base de datos y verificar cual es diferente
+        //para cambiarlo. Mientras tanto se modifica el objeto.
 
-            Sala sala = (Sala)obtenerObjetoDeLista(idSala, "usuario");
-            //habria que tomar los campos del FORM y aplicarlos al objeto sala
-            Debug.WriteLine($">>> Se MODIFICÓ la SALA con ID {sala.ID}");
+        //   Sala sala = (Sala)obtenerObjetoDeLista(idSala, "usuario");
+        //habria que tomar los campos del FORM y aplicarlos al objeto sala
+        // Debug.WriteLine($">>> Se MODIFICÓ la SALA con ID {sala.ID}");
+        //}
+
+        public void modificacionSala(int ID, string ubicacion, int capacidad)
+        {
+            foreach (Sala sala in salas)
+            {
+                if (sala.ID == ID)
+                {
+                    sala.Ubicacion = ubicacion;
+                    sala.Capacidad = capacidad;
+                }
+            }
+
         }
+
+
+
 
         // FUNCION --------------------------------------------------------------------------------------------
         public Funcion altaFuncion(Sala sala, Pelicula pelicula, DateTime fecha, double costo)
@@ -115,16 +131,17 @@ namespace TP_grupoA_Cine
             return funcion;
         }
 
-        public void modificarFuncion(int idFuncion, Pelicula pelicula, DateTime fecha, double costo)
+        public void modificarFuncion(int ID, Sala sala, Pelicula pelicula, DateTime fecha, double costo)
         {
             foreach (Funcion funcion in funciones)
             {
-             //   if (funcion.ID == ID)
-               // { 
-                 //   funcion.MiPelicula = pelicula;
-                   // funcion.Fecha = fecha;
-                    //funcion.Costo = costo;
-               // }
+                if (funcion.ID == ID)
+                {
+                    funcion.MiSala = sala;
+                    funcion.MiPelicula = pelicula;
+                    funcion.Fecha = fecha;
+                    funcion.Costo = costo;
+                }
             }
         }
 

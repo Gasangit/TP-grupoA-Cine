@@ -108,6 +108,7 @@
             button1.TabIndex = 35;
             button1.Text = "ALTA";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // label5
             // 
@@ -195,7 +196,7 @@
             panel1.Size = new Size(776, 426);
             panel1.TabIndex = 41;
             // 
-            // Form5
+            // ABM_Salas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -203,7 +204,7 @@
             ControlBox = false;
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "Form5";
+            Name = "ABM_Salas";
             Text = "Form5";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panel1.ResumeLayout(false);
