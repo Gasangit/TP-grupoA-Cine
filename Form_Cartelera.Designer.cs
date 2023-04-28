@@ -37,6 +37,7 @@
             costo = new DataGridViewTextBoxColumn();
             label5 = new Label();
             panel1 = new Panel();
+            btncerrar = new Button();
             label7 = new Label();
             cbCosto = new ComboBox();
             label6 = new Label();
@@ -121,6 +122,7 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.ActiveCaption;
+            panel1.Controls.Add(btncerrar);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(cbCosto);
             panel1.Controls.Add(label6);
@@ -140,6 +142,17 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(964, 525);
             panel1.TabIndex = 71;
+            // 
+            // btncerrar
+            // 
+            btncerrar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btncerrar.Location = new Point(788, 385);
+            btncerrar.Name = "btncerrar";
+            btncerrar.Size = new Size(141, 34);
+            btncerrar.TabIndex = 82;
+            btncerrar.Text = "CERRAR SESION";
+            btncerrar.UseVisualStyleBackColor = true;
+            btncerrar.Click += btncerrar_Click;
             // 
             // label7
             // 
@@ -224,6 +237,7 @@
             btncomprar.TabIndex = 73;
             btncomprar.Text = "COMPRAR";
             btncomprar.UseVisualStyleBackColor = true;
+            btncomprar.Click += btncomprar_Click;
             // 
             // btnvolver_cartelera
             // 
@@ -295,5 +309,6 @@
         private DataGridViewTextBoxColumn sala;
         private DataGridViewTextBoxColumn fecha;
         private DataGridViewTextBoxColumn costo;
+        private Button btncerrar;
     }
 }

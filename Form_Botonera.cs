@@ -17,6 +17,7 @@ namespace TP_grupoA_Cine
         public DelegadoBotonera TransfEvento_BotoneraSala; //evento de botonera a sala
         public DelegadoBotonera TransfEvento_BotoneraFuncion; //evento de botonera a funcion
         public DelegadoBotonera TransfEvento_BotoneraUsuario; //evento de botonera a usuario
+        public DelegadoBotonera TransfEvento_BotoneraLogin; //Evento de botonera a login
 
         public DelegadoBotonera TransEventoUnicoBotonera;
 
@@ -55,7 +56,12 @@ namespace TP_grupoA_Cine
         private void btnUsuarios_Click(object sender, EventArgs e)
         {
             this.TransfEvento_BotoneraUsuario(); //evento de botonera a usuario
-           //this.TransEventoUnicoBotonera();
+                                                 //this.TransEventoUnicoBotonera();
+        }
+
+        private void btncerrar_Click(object sender, EventArgs e)
+        {
+            this.TransfEvento_BotoneraLogin();
         }
 
         public delegate void DelegadoBotonera();

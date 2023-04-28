@@ -22,7 +22,14 @@ namespace TP_grupoA_Cine
         public double Costo { set; get; }
         private static int idFuncion { set; get; }
 
-        public Funcion(Sala MiSala, Pelicula MiPelicula, DateTime Fecha, int CantClientes, double Costo) 
+        public Funcion(DateTime Fecha, double Costo)
+        {
+            this.ID = ++idFuncion;
+            this.Fecha = Fecha;
+
+        }
+
+       public Funcion(Sala MiSala, Pelicula MiPelicula, DateTime Fecha, int CantClientes, double Costo) 
         {
             ID = ++idFuncion;
             this.MiSala = MiSala;

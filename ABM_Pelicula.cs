@@ -39,10 +39,19 @@ namespace TP_grupoA_Cine
         {
             dataGridView1.Rows.Clear();
 
+
             foreach (Pelicula p in cine.mostrarPeliculas())
-                dataGridView1.Rows.Add(p.ToString());
+            {
 
-
+                if (p.Poster != "")
+                {
+                    dataGridView1.Rows.Add(Image.FromFile(p.Poster));
+                }
+                else
+                {
+                    dataGridView1.Rows.Add(p.ToString());
+                }
+            }
 
             nombre_pelicula.Text = "";
             duracion_pelicula.Text = "";
@@ -76,16 +85,17 @@ namespace TP_grupoA_Cine
         {
             if (selectedPelicula != 1)
             {
-                if (cine.modificarPelicula(selectedPelicula, nombre_pelicula.Text, sinopsis_pelicula.Text, int.Parse(duracion_pelicula.Text), poster_pelicula.Text))
+                if (cine.modificarPelicula(selectedPelicula, nombre_pelicula.Text, sinopsis_pelicula.Text, int.Parse(duracion_pelicula.Text), poster_pelicula.Text)) { 
                     MessageBox.Show("Pelicula Modificada con éxito");
 
 
-                else
-                    MessageBox.Show("Error al modificar");
+            } else {
+                MessageBox.Show("Error al modificar");
             }
-            else
+        }
+            else {
                 MessageBox.Show("Debe seleccionar una pelicula");
-
+            }
         }
 
         //Eliminar Pelicula

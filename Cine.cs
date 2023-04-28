@@ -18,7 +18,7 @@ namespace TP_grupoA_Cine
         public List<Funcion> funciones { get; set; } = new List<Funcion>();
         public List<Sala> salas { get; set; } = new List<Sala>();
         public List<Pelicula> peliculas { get; set; } = new List<Pelicula>();
-        public Usuario usuarioActual { get; set; }
+        public Usuario usuarioActual { get; set; } 
 
 
         public string nombreUsuario() {
@@ -154,18 +154,30 @@ namespace TP_grupoA_Cine
 
 
         // FUNCION --------------------------------------------------------------------------------------------
-        public Funcion altaFuncion(Sala sala, Pelicula pelicula, DateTime fecha, double costo)
+        /* public Funcion altaFuncion(Sala sala, Pelicula pelicula, DateTime fecha, double costo)
+         {
+
+             Funcion funcion = new Funcion(sala, pelicula, fecha, 0,costo); //se pasa cero pero no habría que ingresar Cantidad de clientes
+             funciones.Add(funcion);
+
+             Debug.WriteLine($">>> (Cine - altaFuncion()) Se CREÓ la FUNCION en la sala {funcion.MiSala.ID}" +
+                                 $" para la película {funcion.MiPelicula.Nombre} en la fecha {funcion.Fecha} con un costo de {funcion.Costo}");
+             return funcion;
+         }*/
+
+        public bool altaFuncion(DateTime fecha, double costo)
         {
-            
-            Funcion funcion = new Funcion(sala, pelicula, fecha, 0,costo); //se pasa cero pero no habría que ingresar Cantidad de clientes
+
+            Funcion funcion = new Funcion(fecha, costo); //se pasa cero pero no habría que ingresar Cantidad de clientes
             funciones.Add(funcion);
 
-            Debug.WriteLine($">>> (Cine - altaFuncion()) Se CREÓ la FUNCION en la sala {funcion.MiSala.ID}" +
-                                $" para la película {funcion.MiPelicula.Nombre} en la fecha {funcion.Fecha} con un costo de {funcion.Costo}");
-            return funcion;
+            Debug.WriteLine($">>> (Cine - altaFuncion()) Se CREÓ la FUNCION en la sala en la fecha {funcion.Fecha} con un costo de {funcion.Costo}");
+            return true;
         }
 
-         public void modificarFuncion(int ID, Sala sala, Pelicula pelicula, DateTime fecha, double costo)
+
+
+        /* public void modificarFuncion(int ID, Sala sala, Pelicula pelicula, DateTime fecha, double costo)
           {
               foreach (Funcion funcion in funciones)
               {
@@ -178,9 +190,25 @@ namespace TP_grupoA_Cine
 
                   }
               }
-          }
+          }*/
 
-        
+
+        public bool modificarFuncion(int ID,DateTime fecha, int costo)
+        {
+            foreach (Funcion funcion in funciones)
+            {
+                if (funcion.ID == ID)
+                {
+                    funcion.Fecha = fecha;
+                    funcion.Costo = costo;
+
+                    return true;
+                }
+                else { return false; }
+            }
+            return false;
+        }
+
 
 
         public void bajaFuncion(int idFuncion)
@@ -338,6 +366,7 @@ namespace TP_grupoA_Cine
             devolver la lista original y que la misma no sea modificada.    */
         public List<Funcion> mostrarFunciones() 
         {
+            
             return funciones.ToList();
         }
         public List<Sala> mostrarSalas()

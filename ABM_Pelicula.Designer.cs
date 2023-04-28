@@ -58,28 +58,28 @@
             // 
             // nombre_pelicula
             // 
-            nombre_pelicula.Location = new Point(206, 57);
+            nombre_pelicula.Location = new Point(263, 57);
             nombre_pelicula.Name = "nombre_pelicula";
             nombre_pelicula.Size = new Size(100, 23);
             nombre_pelicula.TabIndex = 0;
             // 
             // duracion_pelicula
             // 
-            duracion_pelicula.Location = new Point(616, 57);
+            duracion_pelicula.Location = new Point(673, 57);
             duracion_pelicula.Name = "duracion_pelicula";
             duracion_pelicula.Size = new Size(100, 23);
             duracion_pelicula.TabIndex = 1;
             // 
             // poster_pelicula
             // 
-            poster_pelicula.Location = new Point(474, 57);
+            poster_pelicula.Location = new Point(531, 57);
             poster_pelicula.Name = "poster_pelicula";
             poster_pelicula.Size = new Size(100, 23);
             poster_pelicula.TabIndex = 2;
             // 
             // sinopsis_pelicula
             // 
-            sinopsis_pelicula.Location = new Point(335, 57);
+            sinopsis_pelicula.Location = new Point(392, 57);
             sinopsis_pelicula.Name = "sinopsis_pelicula";
             sinopsis_pelicula.Size = new Size(100, 23);
             sinopsis_pelicula.TabIndex = 3;
@@ -89,7 +89,7 @@
             label1.AutoSize = true;
             label1.BackColor = SystemColors.ActiveCaption;
             label1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(218, 83);
+            label1.Location = new Point(275, 83);
             label1.Name = "label1";
             label1.Size = new Size(65, 20);
             label1.TabIndex = 4;
@@ -100,7 +100,7 @@
             label2.AutoSize = true;
             label2.BackColor = SystemColors.ActiveCaption;
             label2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(625, 83);
+            label2.Location = new Point(682, 83);
             label2.Name = "label2";
             label2.Size = new Size(73, 20);
             label2.TabIndex = 5;
@@ -111,7 +111,7 @@
             label3.AutoSize = true;
             label3.BackColor = SystemColors.ActiveCaption;
             label3.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(488, 83);
+            label3.Location = new Point(545, 83);
             label3.Name = "label3";
             label3.Size = new Size(55, 20);
             label3.TabIndex = 6;
@@ -122,7 +122,7 @@
             label4.AutoSize = true;
             label4.BackColor = SystemColors.ActiveCaption;
             label4.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(352, 83);
+            label4.Location = new Point(409, 83);
             label4.Name = "label4";
             label4.Size = new Size(69, 20);
             label4.TabIndex = 7;
@@ -222,7 +222,6 @@
             // 
             // poster
             // 
-            poster.HeaderText = "Poster";
             poster.Name = "poster";
             // 
             // panel1
@@ -266,9 +265,9 @@
             btnmostrarpelicula.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
             btnmostrarpelicula.Location = new Point(361, 187);
             btnmostrarpelicula.Name = "btnmostrarpelicula";
-            btnmostrarpelicula.Size = new Size(164, 31);
+            btnmostrarpelicula.Size = new Size(191, 31);
             btnmostrarpelicula.TabIndex = 16;
-            btnmostrarpelicula.Text = "MOSTRAR SALAS";
+            btnmostrarpelicula.Text = "MOSTRAR PELICULAS";
             btnmostrarpelicula.UseVisualStyleBackColor = true;
             btnmostrarpelicula.Click += btnmostrarpelicula_Click;
             // 
@@ -277,7 +276,7 @@
             label6.AutoSize = true;
             label6.BackColor = SystemColors.ActiveCaption;
             label6.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label6.Location = new Point(92, 83);
+            label6.Location = new Point(149, 83);
             label6.Name = "label6";
             label6.Size = new Size(84, 20);
             label6.TabIndex = 15;
@@ -285,7 +284,7 @@
             // 
             // id_pelicula
             // 
-            id_pelicula.Location = new Point(76, 57);
+            id_pelicula.Location = new Point(133, 57);
             id_pelicula.Name = "id_pelicula";
             id_pelicula.ReadOnly = true;
             id_pelicula.Size = new Size(100, 23);

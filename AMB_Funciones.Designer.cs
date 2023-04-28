@@ -52,6 +52,11 @@
             fecha = new DataGridViewTextBoxColumn();
             costo = new DataGridViewTextBoxColumn();
             cantidadEspectadores = new DataGridViewTextBoxColumn();
+            idfuncion = new DataGridViewTextBoxColumn();
+            salafuncion = new DataGridViewTextBoxColumn();
+            peliculafuncion = new DataGridViewTextBoxColumn();
+            fechafuncion = new DataGridViewTextBoxColumn();
+            costofuncion = new DataGridViewTextBoxColumn();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -145,10 +150,10 @@
             // 
             // peliculafuncion_text
             // 
-            peliculafuncion_text.Location = new Point(385, 66);
+            peliculafuncion_text.Location = new Point(390, 66);
             peliculafuncion_text.Name = "peliculafuncion_text";
             peliculafuncion_text.Size = new Size(100, 23);
-            peliculafuncion_text.TabIndex = 16;
+            peliculafuncion_text.TabIndex = 32;
             // 
             // fechafuncion_text
             // 
@@ -166,10 +171,10 @@
             // 
             // salafuncion_text
             // 
-            salafuncion_text.Location = new Point(249, 66);
+            salafuncion_text.Location = new Point(241, 66);
             salafuncion_text.Name = "salafuncion_text";
             salafuncion_text.Size = new Size(100, 23);
-            salafuncion_text.TabIndex = 13;
+            salafuncion_text.TabIndex = 33;
             // 
             // panel1
             // 
@@ -241,7 +246,7 @@
             // 
             dataGridView1.BackgroundColor = SystemColors.InactiveCaption;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ID, sala, pelicula, fecha, costo, cantidadEspectadores });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idfuncion, salafuncion, peliculafuncion, fechafuncion, costofuncion });
             dataGridView1.Location = new Point(77, 189);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
@@ -259,17 +264,11 @@
             // 
             // sala
             // 
-            sala.Frozen = true;
-            sala.HeaderText = "Sala";
             sala.Name = "sala";
-            sala.ReadOnly = true;
             // 
             // pelicula
             // 
-            pelicula.Frozen = true;
-            pelicula.HeaderText = "Película";
             pelicula.Name = "pelicula";
-            pelicula.ReadOnly = true;
             // 
             // fecha
             // 
@@ -291,6 +290,42 @@
             cantidadEspectadores.HeaderText = "Cantidad Espectadores";
             cantidadEspectadores.Name = "cantidadEspectadores";
             cantidadEspectadores.ReadOnly = true;
+            // 
+            // idfuncion
+            // 
+            idfuncion.Frozen = true;
+            idfuncion.HeaderText = "ID";
+            idfuncion.Name = "idfuncion";
+            idfuncion.ReadOnly = true;
+            idfuncion.Visible = false;
+            // 
+            // salafuncion
+            // 
+            salafuncion.Frozen = true;
+            salafuncion.HeaderText = "Sala";
+            salafuncion.Name = "salafuncion";
+            salafuncion.ReadOnly = true;
+            // 
+            // peliculafuncion
+            // 
+            peliculafuncion.Frozen = true;
+            peliculafuncion.HeaderText = "Pelicula";
+            peliculafuncion.Name = "peliculafuncion";
+            peliculafuncion.ReadOnly = true;
+            // 
+            // fechafuncion
+            // 
+            fechafuncion.Frozen = true;
+            fechafuncion.HeaderText = "Fecha";
+            fechafuncion.Name = "fechafuncion";
+            fechafuncion.ReadOnly = true;
+            // 
+            // costofuncion
+            // 
+            costofuncion.Frozen = true;
+            costofuncion.HeaderText = "Costo";
+            costofuncion.Name = "costofuncion";
+            costofuncion.ReadOnly = true;
             // 
             // AMB_Funciones
             // 
@@ -332,5 +367,10 @@
         private TextBox idfuncion_text;
         private Button btnmostrar_funcion;
         private Button btnvolver_funcion;
+        private DataGridViewTextBoxColumn idfuncion;
+        private DataGridViewTextBoxColumn salafuncion;
+        private DataGridViewTextBoxColumn peliculafuncion;
+        private DataGridViewTextBoxColumn fechafuncion;
+        private DataGridViewTextBoxColumn costofuncion;
     }
 }

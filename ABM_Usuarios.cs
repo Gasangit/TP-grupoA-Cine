@@ -45,7 +45,7 @@ namespace TP_grupoA_Cine
             passwordusuario.Text = "";
             nacimientousuario.Text = "";
             esadmin.Text = "";
-            usuariobloqueado.Text = "";
+         //   usuariobloqueado.Text = "";
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -58,7 +58,7 @@ namespace TP_grupoA_Cine
             string passUser = dataGridView1[5, e.RowIndex].Value.ToString();
             string fecNacUser = dataGridView1[6, e.RowIndex].Value.ToString();
             string adminUser = dataGridView1[7, e.RowIndex].Value.ToString();
-            string bloqUser = dataGridView1[8, e.RowIndex].Value.ToString();
+           // string bloqUser = dataGridView1[8, e.RowIndex].Value.ToString();
             
             selectedUser = int.Parse(ID);
             nombreusuario.Text = nombreUser;
@@ -68,7 +68,7 @@ namespace TP_grupoA_Cine
             passwordusuario.Text = passUser;
             nacimientousuario.Text = fecNacUser;
             esadmin.Text = adminUser;
-            usuariobloqueado.Text = bloqUser;            
+           // usuariobloqueado.Text = bloqUser;            
         }
 
 

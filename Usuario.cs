@@ -23,7 +23,7 @@ namespace TP_grupoA_Cine
         public List<Funcion> MisFunciones { get; set; }
         public double Credito { get; set; }
         public DateTime FechaNacimiento { get; set; }
-        public bool EsAdmin { get; set; }
+        public bool EsAdmin { get; set; } = false;
         private static int idUsuario { set; get; }
 
         public Usuario (int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento, bool esAdmin)

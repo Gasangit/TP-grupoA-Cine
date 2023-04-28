@@ -28,8 +28,8 @@ namespace TP_grupoA_Cine
             cine.altaUsuario(28976543, "Gaston", "Mansilla", "gaston@gmail.com", "123", new DateTime(1982, 04, 02), false); // usuario comun 
             cine.altaUsuario(39186055, "Luke", "Skywalker", "luke@gmail.com", "456", new DateTime(1970, 05, 25), true); // usuario admin
             cine.altaSala("Flores", 70);
-            cine.altaPelicula("Ant-Man 3", "El doctor Hank Pym anuncia que abandona S.H.I.E.L.D. tras descubrir que han tratado de apropiarse de la tecnologia de su Ant-Man, que Pym considera altamente peligrosa. Varios anios despues, Scott Lang sale de prision tras cumplir tres anios de condena por robo", 135,"A");
-            cine.altaFuncion(cine.mostrarSalas()[0], cine.mostrarPeliculas()[0], new DateTime(2023, 04, 28), 1500);
+            cine.altaPelicula("Ant-Man 3", "El doctor Hank Pym anuncia que abandona S.H.I.E.L.D. tras descubrir que han tratado de apropiarse de la tecnologia de su Ant-Man, que Pym considera altamente peligrosa. Varios anios despues, Scott Lang sale de prision tras cumplir tres anios de condena por robo", 135, "C:\\Users\\asolo\\source\\repos\\Gasangit\\TP-grupoA-Cine\\img\\antman.jpg");
+            cine.altaFuncion(new DateTime(2023, 04, 28), 1500);
 
            
 
@@ -67,6 +67,7 @@ namespace TP_grupoA_Cine
                 hijoCartelera.MdiParent = this;
                 hijoCartelera.Dock = DockStyle.Fill;
                 hijoCartelera.TransfEvento_CarteleraBotonera += TransfDelegado_CarteleraBotonera;
+                hijoCartelera.TransfEvento_CarteleraLogin += TransfDelegado_CarteleraLogin;
                 hijoCartelera.Show();
             }
 
@@ -92,7 +93,7 @@ namespace TP_grupoA_Cine
             hijoBotonera.TransfEvento_BotoneraUsuario += TransfDelegado_BotoneraUsuario;
             hijoBotonera.TransfEvento_BotoneraPelicula += TransfDelegado_BotoneraPelicula;
             hijoBotonera.TransfEvento_BotoneraSala += TransfDelegado_BotoneraSala;
-            
+            hijoBotonera.TransfEvento_BotoneraLogin += TransfDelegado_BotoneraLogin;
         }        
 
         public void establecerBotonesLogin()
@@ -110,6 +111,7 @@ namespace TP_grupoA_Cine
             hijoCartelera.MdiParent = this;
             hijoCartelera.Dock = DockStyle.Fill;
             hijoCartelera.TransfEvento_CarteleraBotonera += TransfDelegado_CarteleraBotonera;
+            hijoCartelera.TransfEvento_CarteleraLogin += TransfDelegado_CarteleraLogin;
             hijoCartelera.Show();
         }
 
@@ -155,8 +157,19 @@ namespace TP_grupoA_Cine
             hijoPelicula.Dock = DockStyle.Fill;
             hijoPelicula.TransfEvento_PeliculaBotonera += TransfDelegado_PeliculaBotonera;
             hijoPelicula.Show();
-        }        
-        
+        }
+
+        public void TransfDelegado_BotoneraLogin() //Cierra botonera y abre el login
+        {
+            hijoBotonera.Close();
+
+            hijoLogin = new Form_Login();
+            hijoLogin.MdiParent = this;
+            hijoLogin.Dock = DockStyle.Fill;
+            establecerBotonesLogin();
+            hijoLogin.Show();
+        }
+
         public void TransfDelegado_RegistrarseVolverLogin() //Cierra el registro y abre el Login
         {
             hijoRegistro.Close();
@@ -224,6 +237,17 @@ namespace TP_grupoA_Cine
             hijoBotonera.Dock = DockStyle.Fill;
             establecerBotonesBotoneraAdmin();
             hijoBotonera.Show();
+        }
+
+        public void TransfDelegado_CarteleraLogin() 
+        {
+            hijoCartelera.Close();
+
+            hijoLogin = new Form_Login();
+            hijoLogin.MdiParent = this;
+            hijoLogin.Dock = DockStyle.Fill;
+            establecerBotonesLogin();
+            hijoLogin.Show();
         }
     }
 }

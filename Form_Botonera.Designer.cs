@@ -38,6 +38,7 @@
             btnPeliculas = new Button();
             btnUsuarios = new Button();
             btnCartelera = new Button();
+            btncerrar = new Button();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -45,6 +46,7 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.ActiveCaption;
+            panel1.Controls.Add(btncerrar);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
@@ -61,7 +63,7 @@
             label3.AutoSize = true;
             label3.BackColor = SystemColors.ActiveCaption;
             label3.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Bold, GraphicsUnit.Point);
-            label3.Location = new Point(411, 75);
+            label3.Location = new Point(412, 50);
             label3.Name = "label3";
             label3.Size = new Size(159, 26);
             label3.TabIndex = 4;
@@ -72,7 +74,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Bold, GraphicsUnit.Point);
-            label2.Location = new Point(385, 116);
+            label2.Location = new Point(386, 91);
             label2.Name = "label2";
             label2.Size = new Size(228, 26);
             label2.TabIndex = 3;
@@ -83,7 +85,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(241, 148);
+            label1.Location = new Point(242, 123);
             label1.Name = "label1";
             label1.Size = new Size(504, 26);
             label1.TabIndex = 1;
@@ -93,7 +95,7 @@
             // 
             btnFunciones.BackColor = SystemColors.Info;
             btnFunciones.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            btnFunciones.Location = new Point(395, 306);
+            btnFunciones.Location = new Point(396, 281);
             btnFunciones.Name = "btnFunciones";
             btnFunciones.Size = new Size(187, 33);
             btnFunciones.TabIndex = 0;
@@ -105,7 +107,7 @@
             // 
             btnSalas.BackColor = SystemColors.Info;
             btnSalas.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            btnSalas.Location = new Point(395, 256);
+            btnSalas.Location = new Point(396, 231);
             btnSalas.Name = "btnSalas";
             btnSalas.Size = new Size(187, 33);
             btnSalas.TabIndex = 0;
@@ -119,7 +121,7 @@
             panel2.Controls.Add(btnPeliculas);
             panel2.Controls.Add(btnUsuarios);
             panel2.Controls.Add(btnCartelera);
-            panel2.Location = new Point(156, 186);
+            panel2.Location = new Point(157, 161);
             panel2.Name = "panel2";
             panel2.Size = new Size(641, 263);
             panel2.TabIndex = 2;
@@ -160,6 +162,17 @@
             btnCartelera.UseVisualStyleBackColor = false;
             btnCartelera.Click += btnCartelera_Click;
             // 
+            // btncerrar
+            // 
+            btncerrar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btncerrar.Location = new Point(412, 446);
+            btncerrar.Name = "btncerrar";
+            btncerrar.Size = new Size(141, 34);
+            btncerrar.TabIndex = 5;
+            btncerrar.Text = "CERRAR SESION";
+            btncerrar.UseVisualStyleBackColor = true;
+            btncerrar.Click += btncerrar_Click;
+            // 
             // Form_Botonera
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -188,5 +201,6 @@
         private Button btnSalas;
         private Button btnPeliculas;
         private Panel panel2;
+        private Button btncerrar;
     }
 }
