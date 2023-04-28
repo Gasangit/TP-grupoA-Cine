@@ -15,6 +15,8 @@ namespace TP_grupoA_Cine
     public partial class ABM_Salas : Form //Form de Salas
     {
         private int selectedSala;
+        public DelegadoSalas TransfEvento_SalaBotonera;
+
         Cine cine = Cine.Instancia; // Traer el cine
         public ABM_Salas()
         {
@@ -27,41 +29,42 @@ namespace TP_grupoA_Cine
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnmostrar_sala_Click(object sender, EventArgs e) // muentra los datos
         {
             refreshData();
             selectedSala = -1;
         }
 
-        public void refreshData()
+        public void refreshData() // recargar los datos en la vista
         {
             dataGridView1.Rows.Clear();
+
             foreach (Sala s in cine.mostrarSalas())
                 dataGridView1.Rows.Add(s.ToString());
 
 
-            textBox1.Text = "";
-            textBox2.Text = "";
-            textBox4.Text = "";
+            ubicacionsala_text.Text = "";
+            idsala_text.Text = "";
+            capacidadsala_text.Text = "";
 
         }
 
-        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e) //tabla con la informacion
         {
             string ID = dataGridView1[0, e.RowIndex].Value.ToString();
-            string ubicacion = dataGridView1[0, e.RowIndex].Value.ToString();
-            string capacidad = dataGridView1[0, e.RowIndex].Value.ToString();
-            textBox1.Text = ID;
-            textBox2.Text = ubicacion;
-            textBox4.Text = capacidad;
+            string ubicacion = dataGridView1[1, e.RowIndex].Value.ToString();
+            string capacidad = dataGridView1[2, e.RowIndex].Value.ToString();
+            idsala_text.Text = ID;
+            ubicacionsala_text.Text = ubicacion;
+            capacidadsala_text.Text = capacidad;
             selectedSala = int.Parse(ID);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnmodificar_sala_Click(object sender, EventArgs e) //modificar la sala
         {
             if (selectedSala != -1)
             {
-                if (cine.modificacionSala(selectedSala, textBox2.Text, int.Parse(textBox4.Text)))
+                if (cine.modificacionSala(selectedSala, ubicacionsala_text.Text, int.Parse(capacidadsala_text.Text)))
                     MessageBox.Show("Modificado con éxito");
                 else
                     MessageBox.Show("Error al modificar la sala");
@@ -71,7 +74,7 @@ namespace TP_grupoA_Cine
 
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void btnbaja_sala_Click(object sender, EventArgs e) //dar de baja la sala
         {
             if (selectedSala != -1)
             {
@@ -84,17 +87,22 @@ namespace TP_grupoA_Cine
 
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void btnalta_sala_Click(object sender, EventArgs e) //dar de alta una sala
         {
-            if (textBox2.Text == "" || textBox4.Text == "" || textBox2.Text == null || textBox4.Text == null)
+            if (capacidadsala_text.Text == "" || ubicacionsala_text.Text == "" || capacidadsala_text.Text == null || ubicacionsala_text.Text == null)
                 MessageBox.Show("Debe completar los datos para agregar");
             else
-                if (cine.altaSala(textBox2.Text, int.Parse(textBox4.Text)))
+                if (cine.altaSala(ubicacionsala_text.Text, int.Parse(capacidadsala_text.Text)))
                 MessageBox.Show("Agregado con éxito");
             else
                 MessageBox.Show("Error al agregar una sala");
         }
 
+        private void btnvolver_salas_Click(object sender, EventArgs e)
+        {
+            this.TransfEvento_SalaBotonera();
+        }
 
+        public delegate void DelegadoSalas();
     }
 }

@@ -42,7 +42,6 @@
             Name = "Padre";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Cines FLAGG";
-            Load += Padre_Load;
             ResumeLayout(false);
         }
 

@@ -14,8 +14,9 @@ namespace TP_grupoA_Cine
 
     public partial class ABM_Pelicula : Form    //Form de peliculas
     {
-        public TransfDelegado TransfEvento;
+        public DelegadoPelicula TransfEvento_PeliculaBotonera;
         private int selectedPelicula;
+
 
         Cine cine = Cine.Instancia;
         public ABM_Pelicula()
@@ -26,14 +27,11 @@ namespace TP_grupoA_Cine
 
         }
 
-        public delegate void TransfDelegado();
-
-        private void button4_Click(object sender, EventArgs e) // Agregar Boton 4 en el DESIGNER (Mostrar datos)
+        private void btnmostrarpelicula_Click(object sender, EventArgs e)
         {
             refreshData();
 
             selectedPelicula = -1;
-
 
         }
 
@@ -46,43 +44,41 @@ namespace TP_grupoA_Cine
 
 
 
-            textBox1.Text = "";
-            textBox2.Text = "";
-            textBox3.Text = "";
-            textBox4.Text = "";
-            textBox5.Text = "";//Tira error porque faltan texts
+            nombre_pelicula.Text = "";
+            duracion_pelicula.Text = "";
+            poster_pelicula.Text = "";
+            sinopsis_pelicula.Text = "";
+            id_pelicula.Text = "";
 
 
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellCancelEventArgs e)
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             string ID = dataGridView1[0, e.RowIndex].Value.ToString();
             string nombre = dataGridView1[1, e.RowIndex].Value.ToString();
             string sinopsis = dataGridView1[2, e.RowIndex].Value.ToString();
             string poster = dataGridView1[3, e.RowIndex].Value.ToString();
-            string duracion = dataGridView1[5, e.RowIndex].Value.ToString();
+            //Image poster = (Image)dataGridView1[3, e.RowIndex].Value;
+            string duracion = dataGridView1[4, e.RowIndex].Value.ToString();
             selectedPelicula = int.Parse(ID);
-            textBox1.Text = ID;
-            textBox2.Text = nombre;
-            textBox3.Text = sinopsis;
-            textBox4.Text = poster;
-            textBox5.Text = duracion;
+            id_pelicula.Text = ID;
+            nombre_pelicula.Text = nombre;
+            sinopsis_pelicula.Text = sinopsis;
+            poster_pelicula.Text = poster;
+            duracion_pelicula.Text = duracion;
 
+            //posterpelicula.Image = poster;
         }
 
-        //Modifcar Pelicula
-        private void button2_Click(object sender, EventArgs e)
+        //Modificar Pelicula
+        private void btnmodificarpelicula_Click(object sender, EventArgs e)
         {
             if (selectedPelicula != 1)
             {
-                if (cine.modificarPelicula(selectedPelicula, textBox2.Text, textBox3.Text, int.Parse(textBox5.Text)))
+                if (cine.modificarPelicula(selectedPelicula, nombre_pelicula.Text, sinopsis_pelicula.Text, int.Parse(duracion_pelicula.Text), poster_pelicula.Text))
                     MessageBox.Show("Pelicula Modificada con éxito");
+
 
                 else
                     MessageBox.Show("Error al modificar");
@@ -93,7 +89,7 @@ namespace TP_grupoA_Cine
         }
 
         //Eliminar Pelicula
-        public void button3_Click(object name, EventArgs e)
+        public void btnbajapelicula_Click(object name, EventArgs e)
         {
             if (selectedPelicula != -1)
             {
@@ -107,20 +103,24 @@ namespace TP_grupoA_Cine
         }
 
         //Alta de pelicula
-        private void button1_Click(object sender, EventArgs e)
+        private void btnaltapelicula_Click(object sender, EventArgs e)
         {
-            if (textBox2.Text == "" || textBox3.Text == "" || textBox4.Text == "" || textBox5.Text == "" || textBox2.Text == null || textBox3.Text == null || textBox4.Text == null || textBox5.Text == null)
+            if (duracion_pelicula.Text == "" || poster_pelicula.Text == "" || sinopsis_pelicula.Text == "" || duracion_pelicula.Text == null || poster_pelicula.Text == null || sinopsis_pelicula.Text == null)
                 MessageBox.Show("Se deben completar los campos");
             else
-                if (cine.altaPelicula(textBox1.Text, textBox4.Text, int.Parse(textBox2.Text)))
+                if (cine.altaPelicula(nombre_pelicula.Text, sinopsis_pelicula.Text, Convert.ToInt32(duracion_pelicula.Text), poster_pelicula.Text))
                 MessageBox.Show("La pelicula se agrego con éxito");
             else
                 MessageBox.Show("Error al agregar la pelicula");
 
         }
 
+        private void btnvolver_peliculas_Click(object sender, EventArgs e)
+        {
+            this.TransfEvento_PeliculaBotonera();
+        }
 
 
-
+        public delegate void DelegadoPelicula();
     }
 }

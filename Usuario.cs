@@ -12,10 +12,10 @@ namespace TP_grupoA_Cine
 {
     public class Usuario
     {
-        public int ID { get; set; }
-        public int DNI { get; set; }
+        public int ID { get; set; }        
         public string Nombre { get; set; }
         public string Apellido { get; set; }
+        public int DNI { get; set; }
         public string Mail { get; set; }
         public string Password { get; set; }
         public int IntentosFallidos { get; set; }
@@ -29,9 +29,9 @@ namespace TP_grupoA_Cine
         public Usuario (int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento, bool esAdmin)
         {
             ID = ++idUsuario;
-            DNI = dni;
             Nombre = nombre;
             Apellido = apellido;
+            DNI = dni;
             Mail = mail;
             Password = password;
             IntentosFallidos = 0;
@@ -39,6 +39,15 @@ namespace TP_grupoA_Cine
             Credito = 0;
             EsAdmin = esAdmin;
             FechaNacimiento = fechaNacimiento;
+        }
+
+        public string[] ToString()
+        {
+            return new string[]
+            {
+                ID.ToString(), Nombre, Apellido, DNI.ToString(), Mail, Password, FechaNacimiento.ToString(), EsAdmin.ToString() };
+
+
         }
 
     }

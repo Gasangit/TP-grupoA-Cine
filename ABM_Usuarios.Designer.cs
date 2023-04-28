@@ -29,30 +29,6 @@
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
-            button3 = new Button();
-            button2 = new Button();
-            button1 = new Button();
-            label5 = new Label();
-            label4 = new Label();
-            label3 = new Label();
-            label2 = new Label();
-            label1 = new Label();
-            textBox4 = new TextBox();
-            textBox3 = new TextBox();
-            textBox2 = new TextBox();
-            textBox1 = new TextBox();
-            label6 = new Label();
-            textBox5 = new TextBox();
-            textBox7 = new TextBox();
-            comboBox1 = new ComboBox();
-            label7 = new Label();
-            label8 = new Label();
-            label9 = new Label();
-            comboBox2 = new ComboBox();
-            button4 = new Button();
-            panel1 = new Panel();
-            checkBox1 = new CheckBox();
-            checkBox2 = new CheckBox();
             ID = new DataGridViewTextBoxColumn();
             nombre = new DataGridViewTextBoxColumn();
             apellido = new DataGridViewTextBoxColumn();
@@ -62,7 +38,29 @@
             fechaNacimiento = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn1 = new DataGridViewCheckBoxColumn();
             bloqueado = new DataGridViewCheckBoxColumn();
-            button5 = new Button();
+            btnbaja_usuario = new Button();
+            btnmodificar_usuario = new Button();
+            btnalta_usuario = new Button();
+            label5 = new Label();
+            label4 = new Label();
+            label3 = new Label();
+            label2 = new Label();
+            label1 = new Label();
+            apellidousuario = new TextBox();
+            dniusuario = new TextBox();
+            mailusuario = new TextBox();
+            nombreusuario = new TextBox();
+            label6 = new Label();
+            passwordusuario = new TextBox();
+            nacimientousuario = new TextBox();
+            esadmin = new ComboBox();
+            label7 = new Label();
+            label8 = new Label();
+            label9 = new Label();
+            usuariobloqueado = new ComboBox();
+            btnmostrar_usuarios = new Button();
+            panel1 = new Panel();
+            btnvolver_usuarios = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -72,266 +70,12 @@
             dataGridView1.BackgroundColor = SystemColors.InactiveCaption;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ID, nombre, apellido, dni, mail, password, fechaNacimiento, dataGridViewTextBoxColumn1, bloqueado });
-            dataGridView1.Location = new Point(12, 82);
+            dataGridView1.Location = new Point(12, 66);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(928, 225);
             dataGridView1.TabIndex = 38;
-            // 
-            // button3
-            // 
-            button3.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            button3.Location = new Point(428, 484);
-            button3.Name = "button3";
-            button3.Size = new Size(132, 36);
-            button3.TabIndex = 37;
-            button3.Text = "BAJA";
-            button3.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            button2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            button2.Location = new Point(293, 484);
-            button2.Name = "button2";
-            button2.Size = new Size(112, 36);
-            button2.TabIndex = 36;
-            button2.Text = "MODIFICAR";
-            button2.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            button1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            button1.Location = new Point(135, 484);
-            button1.Name = "button1";
-            button1.Size = new Size(137, 36);
-            button1.TabIndex = 35;
-            button1.Text = "ALTA";
-            button1.UseVisualStyleBackColor = true;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.BackColor = SystemColors.ActiveCaption;
-            label5.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.Location = new Point(404, 9);
-            label5.Name = "label5";
-            label5.Size = new Size(128, 26);
-            label5.TabIndex = 34;
-            label5.Text = "USUARIOS";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.BackColor = SystemColors.ActiveCaption;
-            label4.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(135, 317);
-            label4.Name = "label4";
-            label4.Size = new Size(65, 20);
-            label4.TabIndex = 33;
-            label4.Text = "Apellido";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.BackColor = SystemColors.ActiveCaption;
-            label3.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(383, 371);
-            label3.Name = "label3";
-            label3.Size = new Size(37, 20);
-            label3.TabIndex = 32;
-            label3.Text = "DNI";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.BackColor = SystemColors.ActiveCaption;
-            label2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(383, 317);
-            label2.Name = "label2";
-            label2.Size = new Size(37, 20);
-            label2.TabIndex = 31;
-            label2.Text = "Mail";
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.BackColor = SystemColors.ActiveCaption;
-            label1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(135, 371);
-            label1.Name = "label1";
-            label1.Size = new Size(65, 20);
-            label1.TabIndex = 30;
-            label1.Text = "Nombre";
-            // 
-            // textBox4
-            // 
-            textBox4.Location = new Point(135, 340);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(216, 23);
-            textBox4.TabIndex = 29;
-            // 
-            // textBox3
-            // 
-            textBox3.Location = new Point(375, 394);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(149, 23);
-            textBox3.TabIndex = 28;
-            // 
-            // textBox2
-            // 
-            textBox2.Location = new Point(375, 340);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(401, 23);
-            textBox2.TabIndex = 27;
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(135, 394);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(216, 23);
-            textBox1.TabIndex = 26;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.BackColor = SystemColors.ActiveCaption;
-            label6.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label6.Location = new Point(135, 426);
-            label6.Name = "label6";
-            label6.Size = new Size(78, 20);
-            label6.TabIndex = 40;
-            label6.Text = "Password";
-            // 
-            // textBox5
-            // 
-            textBox5.Location = new Point(135, 447);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(137, 23);
-            textBox5.TabIndex = 39;
-            // 
-            // textBox7
-            // 
-            textBox7.Location = new Point(553, 394);
-            textBox7.Name = "textBox7";
-            textBox7.Size = new Size(223, 23);
-            textBox7.TabIndex = 43;
-            // 
-            // comboBox1
-            // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "SI", "NO" });
-            comboBox1.Location = new Point(819, 350);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(121, 23);
-            comboBox1.TabIndex = 44;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.BackColor = SystemColors.ActiveCaption;
-            label7.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label7.Location = new Point(553, 371);
-            label7.Name = "label7";
-            label7.Size = new Size(137, 20);
-            label7.TabIndex = 45;
-            label7.Text = "Fecha Nacimiento";
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.BackColor = SystemColors.ActiveCaption;
-            label8.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label8.Location = new Point(818, 331);
-            label8.Name = "label8";
-            label8.Size = new Size(63, 20);
-            label8.TabIndex = 46;
-            label8.Text = "Admin?";
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.BackColor = SystemColors.ActiveCaption;
-            label9.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label9.Location = new Point(818, 379);
-            label9.Name = "label9";
-            label9.Size = new Size(95, 20);
-            label9.TabIndex = 48;
-            label9.Text = "Bloqueado?";
-            // 
-            // comboBox2
-            // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "SI", "NO" });
-            comboBox2.Location = new Point(819, 402);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(121, 23);
-            comboBox2.TabIndex = 47;
-            // 
-            // button4
-            // 
-            button4.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            button4.Location = new Point(12, 40);
-            button4.Name = "button4";
-            button4.Size = new Size(168, 36);
-            button4.TabIndex = 49;
-            button4.Text = "MOSTRAR DATOS";
-            button4.UseVisualStyleBackColor = true;
-            // 
-            // panel1
-            // 
-            panel1.BackColor = SystemColors.ActiveCaption;
-            panel1.Controls.Add(button5);
-            panel1.Controls.Add(label5);
-            panel1.Controls.Add(button2);
-            panel1.Controls.Add(button3);
-            panel1.Controls.Add(label9);
-            panel1.Controls.Add(checkBox2);
-            panel1.Controls.Add(button1);
-            panel1.Controls.Add(comboBox2);
-            panel1.Controls.Add(checkBox1);
-            panel1.Controls.Add(label8);
-            panel1.Controls.Add(button4);
-            panel1.Controls.Add(comboBox1);
-            panel1.Controls.Add(label6);
-            panel1.Controls.Add(textBox7);
-            panel1.Controls.Add(dataGridView1);
-            panel1.Controls.Add(label7);
-            panel1.Controls.Add(textBox1);
-            panel1.Controls.Add(textBox4);
-            panel1.Controls.Add(textBox3);
-            panel1.Controls.Add(textBox5);
-            panel1.Controls.Add(textBox2);
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(label4);
-            panel1.Controls.Add(label2);
-            panel1.Controls.Add(label3);
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(954, 534);
-            panel1.TabIndex = 50;
-            panel1.Paint += panel1_Paint;
-            // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            checkBox1.Location = new Point(293, 449);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(129, 25);
-            checkBox1.TabIndex = 50;
-            checkBox1.Text = "Administrador";
-            checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // checkBox2
-            // 
-            checkBox2.AutoSize = true;
-            checkBox2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            checkBox2.Location = new Point(441, 449);
-            checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(83, 19);
-            checkBox2.TabIndex = 51;
-            checkBox2.Text = "Bloqueado";
-            checkBox2.UseVisualStyleBackColor = true;
+            dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
             // 
             // ID
             // 
@@ -401,16 +145,250 @@
             bloqueado.Resizable = DataGridViewTriState.True;
             bloqueado.SortMode = DataGridViewColumnSortMode.Automatic;
             // 
-            // button5
+            // btnbaja_usuario
             // 
-            button5.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            button5.Location = new Point(818, 484);
-            button5.Name = "button5";
-            button5.Size = new Size(122, 38);
-            button5.TabIndex = 52;
-            button5.Text = "Volver";
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
+            btnbaja_usuario.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnbaja_usuario.Location = new Point(529, 413);
+            btnbaja_usuario.Name = "btnbaja_usuario";
+            btnbaja_usuario.Size = new Size(132, 36);
+            btnbaja_usuario.TabIndex = 37;
+            btnbaja_usuario.Text = "BAJA";
+            btnbaja_usuario.UseVisualStyleBackColor = true;
+            btnbaja_usuario.Click += btnbaja_usuario_Click;
+            // 
+            // btnmodificar_usuario
+            // 
+            btnmodificar_usuario.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnmodificar_usuario.Location = new Point(391, 413);
+            btnmodificar_usuario.Name = "btnmodificar_usuario";
+            btnmodificar_usuario.Size = new Size(112, 36);
+            btnmodificar_usuario.TabIndex = 36;
+            btnmodificar_usuario.Text = "MODIFICAR";
+            btnmodificar_usuario.UseVisualStyleBackColor = true;
+            btnmodificar_usuario.Click += btnmodificar_usuario_Click;
+            // 
+            // btnalta_usuario
+            // 
+            btnalta_usuario.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnalta_usuario.Location = new Point(228, 413);
+            btnalta_usuario.Name = "btnalta_usuario";
+            btnalta_usuario.Size = new Size(137, 36);
+            btnalta_usuario.TabIndex = 35;
+            btnalta_usuario.Text = "ALTA";
+            btnalta_usuario.UseVisualStyleBackColor = true;
+            btnalta_usuario.Click += btnalta_usuario_Click;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.BackColor = SystemColors.ActiveCaption;
+            label5.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Point);
+            label5.Location = new Point(404, 9);
+            label5.Name = "label5";
+            label5.Size = new Size(128, 26);
+            label5.TabIndex = 34;
+            label5.Text = "USUARIOS";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.BackColor = SystemColors.ActiveCaption;
+            label4.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label4.Location = new Point(53, 292);
+            label4.Name = "label4";
+            label4.Size = new Size(65, 20);
+            label4.TabIndex = 33;
+            label4.Text = "Apellido";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = SystemColors.ActiveCaption;
+            label3.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label3.Location = new Point(301, 346);
+            label3.Name = "label3";
+            label3.Size = new Size(37, 20);
+            label3.TabIndex = 32;
+            label3.Text = "DNI";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = SystemColors.ActiveCaption;
+            label2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.Location = new Point(301, 292);
+            label2.Name = "label2";
+            label2.Size = new Size(37, 20);
+            label2.TabIndex = 31;
+            label2.Text = "Mail";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = SystemColors.ActiveCaption;
+            label1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.Location = new Point(53, 346);
+            label1.Name = "label1";
+            label1.Size = new Size(65, 20);
+            label1.TabIndex = 30;
+            label1.Text = "Nombre";
+            // 
+            // apellidousuario
+            // 
+            apellidousuario.Location = new Point(53, 315);
+            apellidousuario.Name = "apellidousuario";
+            apellidousuario.Size = new Size(216, 23);
+            apellidousuario.TabIndex = 29;
+            // 
+            // dniusuario
+            // 
+            dniusuario.Location = new Point(293, 369);
+            dniusuario.Name = "dniusuario";
+            dniusuario.Size = new Size(149, 23);
+            dniusuario.TabIndex = 28;
+            // 
+            // mailusuario
+            // 
+            mailusuario.Location = new Point(293, 315);
+            mailusuario.Name = "mailusuario";
+            mailusuario.Size = new Size(401, 23);
+            mailusuario.TabIndex = 27;
+            // 
+            // nombreusuario
+            // 
+            nombreusuario.Location = new Point(53, 369);
+            nombreusuario.Name = "nombreusuario";
+            nombreusuario.Size = new Size(216, 23);
+            nombreusuario.TabIndex = 26;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.BackColor = SystemColors.ActiveCaption;
+            label6.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label6.Location = new Point(53, 401);
+            label6.Name = "label6";
+            label6.Size = new Size(78, 20);
+            label6.TabIndex = 40;
+            label6.Text = "Password";
+            // 
+            // passwordusuario
+            // 
+            passwordusuario.Location = new Point(53, 422);
+            passwordusuario.Name = "passwordusuario";
+            passwordusuario.Size = new Size(137, 23);
+            passwordusuario.TabIndex = 39;
+            // 
+            // nacimientousuario
+            // 
+            nacimientousuario.Location = new Point(471, 369);
+            nacimientousuario.Name = "nacimientousuario";
+            nacimientousuario.Size = new Size(223, 23);
+            nacimientousuario.TabIndex = 43;
+            // 
+            // esadmin
+            // 
+            esadmin.FormattingEnabled = true;
+            esadmin.Items.AddRange(new object[] { "SI", "NO" });
+            esadmin.Location = new Point(737, 325);
+            esadmin.Name = "esadmin";
+            esadmin.Size = new Size(121, 23);
+            esadmin.TabIndex = 44;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.BackColor = SystemColors.ActiveCaption;
+            label7.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label7.Location = new Point(471, 346);
+            label7.Name = "label7";
+            label7.Size = new Size(137, 20);
+            label7.TabIndex = 45;
+            label7.Text = "Fecha Nacimiento";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.BackColor = SystemColors.ActiveCaption;
+            label8.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label8.Location = new Point(736, 303);
+            label8.Name = "label8";
+            label8.Size = new Size(63, 20);
+            label8.TabIndex = 46;
+            label8.Text = "Admin?";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.BackColor = SystemColors.ActiveCaption;
+            label9.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label9.Location = new Point(736, 354);
+            label9.Name = "label9";
+            label9.Size = new Size(95, 20);
+            label9.TabIndex = 48;
+            label9.Text = "Bloqueado?";
+            // 
+            // usuariobloqueado
+            // 
+            usuariobloqueado.FormattingEnabled = true;
+            usuariobloqueado.Items.AddRange(new object[] { "SI", "NO" });
+            usuariobloqueado.Location = new Point(737, 377);
+            usuariobloqueado.Name = "usuariobloqueado";
+            usuariobloqueado.Size = new Size(121, 23);
+            usuariobloqueado.TabIndex = 47;
+            // 
+            // btnmostrar_usuarios
+            // 
+            btnmostrar_usuarios.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnmostrar_usuarios.Location = new Point(12, 26);
+            btnmostrar_usuarios.Name = "btnmostrar_usuarios";
+            btnmostrar_usuarios.Size = new Size(168, 36);
+            btnmostrar_usuarios.TabIndex = 49;
+            btnmostrar_usuarios.Text = "MOSTRAR DATOS";
+            btnmostrar_usuarios.UseVisualStyleBackColor = true;
+            btnmostrar_usuarios.Click += button4_Click;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = SystemColors.ActiveCaption;
+            panel1.Controls.Add(btnvolver_usuarios);
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(btnmodificar_usuario);
+            panel1.Controls.Add(btnbaja_usuario);
+            panel1.Controls.Add(label9);
+            panel1.Controls.Add(btnalta_usuario);
+            panel1.Controls.Add(usuariobloqueado);
+            panel1.Controls.Add(label8);
+            panel1.Controls.Add(btnmostrar_usuarios);
+            panel1.Controls.Add(esadmin);
+            panel1.Controls.Add(label6);
+            panel1.Controls.Add(nacimientousuario);
+            panel1.Controls.Add(dataGridView1);
+            panel1.Controls.Add(label7);
+            panel1.Controls.Add(nombreusuario);
+            panel1.Controls.Add(apellidousuario);
+            panel1.Controls.Add(dniusuario);
+            panel1.Controls.Add(passwordusuario);
+            panel1.Controls.Add(mailusuario);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(label3);
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(954, 534);
+            panel1.TabIndex = 50;
+            // 
+            // btnvolver_usuarios
+            // 
+            btnvolver_usuarios.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnvolver_usuarios.Location = new Point(678, 411);
+            btnvolver_usuarios.Name = "btnvolver_usuarios";
+            btnvolver_usuarios.Size = new Size(180, 38);
+            btnvolver_usuarios.TabIndex = 52;
+            btnvolver_usuarios.Text = "VOLVER A BOTONERA";
+            btnvolver_usuarios.UseVisualStyleBackColor = true;
+            btnvolver_usuarios.Click += btnvolver_usuario_Click;
             // 
             // ABM_Usuarios
             // 
@@ -430,27 +408,27 @@
         #endregion
 
         private DataGridView dataGridView1;
-        private Button button3;
-        private Button button2;
-        private Button button1;
+        private Button btnbaja_usuario;
+        private Button btnmodificar_usuario;
+        private Button btnalta_usuario;
         private Label label5;
         private Label label4;
         private Label label3;
         private Label label2;
         private Label label1;
-        private TextBox textBox4;
-        private TextBox textBox3;
-        private TextBox textBox2;
-        private TextBox textBox1;
+        private TextBox apellidousuario;
+        private TextBox dniusuario;
+        private TextBox mailusuario;
+        private TextBox nombreusuario;
         private Label label6;
-        private TextBox textBox5;
-        private TextBox textBox7;
-        private ComboBox comboBox1;
+        private TextBox passwordusuario;
+        private TextBox nacimientousuario;
+        private ComboBox esadmin;
         private Label label7;
         private Label label8;
         private Label label9;
-        private ComboBox comboBox2;
-        private Button button4;
+        private ComboBox usuariobloqueado;
+        private Button btnmostrar_usuarios;
         private Panel panel1;
         private DataGridViewTextBoxColumn ID;
         private DataGridViewTextBoxColumn nombre;
@@ -461,8 +439,6 @@
         private DataGridViewTextBoxColumn fechaNacimiento;
         private DataGridViewCheckBoxColumn dataGridViewTextBoxColumn1;
         private DataGridViewCheckBoxColumn bloqueado;
-        private CheckBox checkBox2;
-        private CheckBox checkBox1;
-        private Button button5;
+        private Button btnvolver_usuarios;
     }
 }

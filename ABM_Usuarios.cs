@@ -7,11 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static TP_grupoA_Cine.AMB_Funciones;
 
 namespace TP_grupoA_Cine
 {
     public partial class ABM_Usuarios : Form //Form de Usuarios
     {
+        public DelegadoUsuario TransfEvento_UsuarioBotonera;
         private Cine cine;
         private int selectedUser;
         public ABM_Usuarios()
@@ -36,17 +38,18 @@ namespace TP_grupoA_Cine
                 dataGridView1.Rows.Add(u.ToString());
 
             //borro los datos en los text box
-            textBox1.Text = "";
-            textBox2.Text = "";
-            textBox3.Text = "";
-            textBox4.Text = "";
-            textBox5.Text = "";
-            textBox7.Text = "";
+            nombreusuario.Text ="";
+            apellidousuario.Text = "";
+            dniusuario.Text = "";
+            mailusuario.Text = "";
+            passwordusuario.Text = "";
+            nacimientousuario.Text = "";
+            esadmin.Text = "";
+            usuariobloqueado.Text = "";
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-
             string ID = dataGridView1[0, e.RowIndex].Value.ToString();
             string nombreUser = dataGridView1[1, e.RowIndex].Value.ToString();
             string apellidoUser = dataGridView1[2, e.RowIndex].Value.ToString();
@@ -56,51 +59,87 @@ namespace TP_grupoA_Cine
             string fecNacUser = dataGridView1[6, e.RowIndex].Value.ToString();
             string adminUser = dataGridView1[7, e.RowIndex].Value.ToString();
             string bloqUser = dataGridView1[8, e.RowIndex].Value.ToString();
-
-            textBox1.Text = nombreUser;
-            textBox2.Text = mailUser;
-            textBox3.Text = dniUser;
-            textBox4.Text = apellidoUser;
-            textBox5.Text = passUser;
-            textBox7.Text = fecNacUser;
-            comboBox1.Text = adminUser;
-            comboBox2.Text = bloqUser;
+            
             selectedUser = int.Parse(ID);
+            nombreusuario.Text = nombreUser;
+            apellidousuario.Text = apellidoUser;
+            dniusuario.Text = dniUser;
+            mailusuario.Text = mailUser;
+            passwordusuario.Text = passUser;
+            nacimientousuario.Text = fecNacUser;
+            esadmin.Text = adminUser;
+            usuariobloqueado.Text = bloqUser;            
         }
 
-        private bool button1_Click(object sender, EventArgs e)
+
+        private void btnvolver_usuario_Click(object sender, EventArgs e)
         {
-            if (textBox2.Text == "" || textBox3.Text == "" || textBox2.Text == null || textBox3.Text == null ||
-                textBox1.Text == "" || textBox4.Text == "" || textBox1.Text == null || textBox4.Text == null ||
-                textBox5.Text == "" || textBox7.Text == "" || textBox5.Text == null || textBox7.Text == null)
+            this.TransfEvento_UsuarioBotonera();
+        }
+
+        private void btnalta_usuario_Click(object sender, EventArgs e)
+        {
+            bool esAdmin = false; 
+            if (esadmin.Text.ToLower() == "si") esAdmin = true;
+
+            if (mailusuario.Text == "" || dniusuario.Text == "" || mailusuario.Text == null || dniusuario.Text == null ||
+                nombreusuario.Text == "" || apellidousuario.Text == "" || nombreusuario.Text == null || apellidousuario.Text == null ||
+                passwordusuario.Text == "" || nacimientousuario.Text == "" || passwordusuario.Text == null || nacimientousuario.Text == null)
             {
                 MessageBox.Show("Debe completar los datos para agregar");
-                return false;
+
             }
 
             else
             {
-                if (cine.altaUsuario(int.Parse(textBox3.Text), textBox1.Text, textBox4.Text, textBox2.Text, textBox5.Text, DateTime.Parse(textBox7.Text), true))
+                if (cine.altaUsuario(int.Parse(dniusuario.Text), nombreusuario.Text, apellidousuario.Text, mailusuario.Text, passwordusuario.Text, DateTime.Parse(nacimientousuario.Text), esAdmin))
                 {
                     MessageBox.Show("Agregado con éxito");
-                    return true;
+
                 }
                 else
                 {
                     MessageBox.Show("Problemas al agregar");
-                    return false;
+
                 }
             }
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
+        private void btnmodificar_usuario_Click(object sender, EventArgs e)
         {
-
+            bool esAdmin = false, bloqueado = false;
+            if (esadmin.Text.ToLower() == "si") esAdmin = true;
+            if (usuariobloqueado.Text.ToLower() == "si") bloqueado = true;
+           
+            if (selectedUser != -1)
+            {
+                if (cine.modificacionUsuario(selectedUser, int.Parse(dniusuario.Text), nombreusuario.Text, apellidousuario.Text, mailusuario.Text, passwordusuario.Text, DateTime.Parse(nacimientousuario.Text), esAdmin, bloqueado))
+                    MessageBox.Show("usuario modificado con éxito");
+                else
+                    MessageBox.Show("error al modificar");
+            }
+            else
+            {
+                MessageBox.Show("debe seleccionar un usuario");
+            }
+                
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void btnbaja_usuario_Click(object sender, EventArgs e)
         {
-
+            if (selectedUser != -1)
+            {
+                cine.bajaUsuario(selectedUser);
+                MessageBox.Show("Usuario Eliminado con éxito");
+            }
+            else
+            {
+                MessageBox.Show("Debe seleccionar un usuario");
+            }
         }
+
+        public delegate void DelegadoUsuario();
+
+
     }
 }

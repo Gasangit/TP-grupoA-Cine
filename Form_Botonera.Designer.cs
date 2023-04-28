@@ -55,14 +55,13 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(954, 534);
             panel1.TabIndex = 0;
-            panel1.Paint += panel1_Paint;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.BackColor = SystemColors.ActiveCaption;
             label3.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Bold, GraphicsUnit.Point);
-            label3.Location = new Point(428, 97);
+            label3.Location = new Point(411, 75);
             label3.Name = "label3";
             label3.Size = new Size(159, 26);
             label3.TabIndex = 4;
@@ -73,7 +72,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Bold, GraphicsUnit.Point);
-            label2.Location = new Point(402, 138);
+            label2.Location = new Point(385, 116);
             label2.Name = "label2";
             label2.Size = new Size(228, 26);
             label2.TabIndex = 3;
@@ -84,7 +83,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(258, 170);
+            label1.Location = new Point(241, 148);
             label1.Name = "label1";
             label1.Size = new Size(504, 26);
             label1.TabIndex = 1;
@@ -94,7 +93,7 @@
             // 
             btnFunciones.BackColor = SystemColors.Info;
             btnFunciones.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            btnFunciones.Location = new Point(412, 328);
+            btnFunciones.Location = new Point(395, 306);
             btnFunciones.Name = "btnFunciones";
             btnFunciones.Size = new Size(187, 33);
             btnFunciones.TabIndex = 0;
@@ -106,7 +105,7 @@
             // 
             btnSalas.BackColor = SystemColors.Info;
             btnSalas.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            btnSalas.Location = new Point(412, 278);
+            btnSalas.Location = new Point(395, 256);
             btnSalas.Name = "btnSalas";
             btnSalas.Size = new Size(187, 33);
             btnSalas.TabIndex = 0;
@@ -120,7 +119,7 @@
             panel2.Controls.Add(btnPeliculas);
             panel2.Controls.Add(btnUsuarios);
             panel2.Controls.Add(btnCartelera);
-            panel2.Location = new Point(173, 208);
+            panel2.Location = new Point(156, 186);
             panel2.Name = "panel2";
             panel2.Size = new Size(641, 263);
             panel2.TabIndex = 2;

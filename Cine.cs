@@ -76,16 +76,27 @@ namespace TP_grupoA_Cine
                                 $" {usuario.Apellido} con ID {usuario.ID}");
             usuario = null;
         }
-        public void modificacionUsuario(int idUsuario) {
+        public bool modificacionUsuario(int idUsuario, int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento, bool esAdmin, bool bloqueado) {
 
             //acá se pueden llamar los datos del usuario en la base de datos y verificar cual es diferente
             //para cambiarlo. Mientras tanto se modifica el objeto.
 
             Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
-                
+
+            usuario.ID = idUsuario;
+            usuario.DNI = dni;
+            usuario.Nombre = nombre;
+            usuario.Apellido = apellido;
+            usuario.Mail = mail;    
+            usuario.Password = password;    
+            usuario.FechaNacimiento = fechaNacimiento;
+            usuario.EsAdmin = esAdmin;
+            usuario.Bloqueado = bloqueado;
+
 
             Debug.WriteLine($">>> Se MODIFICÓ el USUARIO {usuario.Nombre}" +
                                 $" {usuario.Apellido} con ID {usuario.ID}");
+            return true;
         }
         // SALA --------------------------------------------------------------------------------------------
         public bool altaSala(string ubicacion, int capacidad)
@@ -154,19 +165,23 @@ namespace TP_grupoA_Cine
             return funcion;
         }
 
-        public void modificarFuncion(int ID, Sala sala, Pelicula pelicula, DateTime fecha, double costo)
-        {
-            foreach (Funcion funcion in funciones)
-            {
-                if (funcion.ID == ID)
-                {
-                    funcion.MiSala = sala;
-                    funcion.MiPelicula = pelicula;
-                    funcion.Fecha = fecha;
-                    funcion.Costo = costo;
-                }
-            }
-        }
+         public void modificarFuncion(int ID, Sala sala, Pelicula pelicula, DateTime fecha, double costo)
+          {
+              foreach (Funcion funcion in funciones)
+              {
+                  if (funcion.ID == ID)
+                  {
+                      funcion.MiSala = sala;
+                      funcion.MiPelicula = pelicula;
+                      funcion.Fecha = fecha;
+                      funcion.Costo = costo;
+
+                  }
+              }
+          }
+
+        
+
 
         public void bajaFuncion(int idFuncion)
         {
@@ -176,28 +191,18 @@ namespace TP_grupoA_Cine
             funcion = null;
         }
         // PELICULA -------------------------------------------------------------------------------------------
-        public bool altaPelicula(string nombre, string sinopsis, int duracion)
+        public bool altaPelicula(string nombre, string sinopsis, int duracion, string poster)
         {
 
-            Pelicula pelicula = new Pelicula(nombre, sinopsis, duracion);
+            Pelicula pelicula = new Pelicula(nombre, sinopsis, duracion,poster);
             peliculas.Add(pelicula);
 
             Debug.WriteLine($">>> (Cine - altaPelicula()) Se creó la PELÍCULA {pelicula.Nombre} con ID {pelicula.ID}");
             return true;
         }
 
-        /*
-        public Pelicula altaPelicula(string nombre, string sinopsis, int duracion)
-        {
-
-            Pelicula pelicula = new Pelicula(nombre, sinopsis, duracion);
-            peliculas.Add(pelicula);
-
-            Debug.WriteLine($">>> (Cine - altaPelicula()) Se creó la PELÍCULA {pelicula.Nombre} con ID {pelicula.ID}");
-            return pelicula;
-        }
-        */
-        public bool modificarPelicula(int ID, string nombre, string sinopsis, int duracion)
+        
+        public bool modificarPelicula(int ID, string nombre, string sinopsis, int duracion, string poster)
         {
 
             Pelicula pelicula = (Pelicula)obtenerObjetoDeLista(ID, "pelicula");
@@ -205,11 +210,10 @@ namespace TP_grupoA_Cine
             pelicula.Nombre = nombre;
             pelicula.Sinopsis = sinopsis;
             pelicula.Duracion = duracion;
+            pelicula.Poster = poster;
             return true;
 
         }
-
-
 
         public void bajaPelicula(int idPelicula)
         {
@@ -273,23 +277,54 @@ namespace TP_grupoA_Cine
         // SESION --------------------------------------------------------------------------------------------
 
         //se ingresa como ARGUMENTOS mail y password desde FORM
-        public bool iniciarSesion(string mail, string password) 
+        public bool iniciarSesion(string mail, string password)
         {
             string comprobar = "";
             for (int i = 0; i < this.usuarios.Count(); i++)
-            {   //se comprueba MAIL
+            {
+
+                //se comprueba MAIL
                 if (usuarios[i].Mail == mail)
                 {   //se comprueba PASSWORD
                     if (usuarios[i].Password == password)
                     {
-                        this.usuarioActual = usuarios[i];
-                        comprobar = "ok";
-                        
+                        if (usuarios[i].Bloqueado != true)
+                        {
+                            this.usuarioActual = usuarios[i];
+                            comprobar = "ok";
+                            usuarios[i].IntentosFallidos = 0;
+                        }
+                    }
+                    else
+                    {
+                        usuarios[i].IntentosFallidos++;
+                        if (usuarios[i].IntentosFallidos == 4)
+                            usuarios[i].Bloqueado = true;
                     }
                 }
             }
             if (comprobar == "ok") return true;
             else return false;
+        }
+
+        public int intentos(string mail)
+        {
+            int a = 0;
+            for (int i = 0; i < this.usuarios.Count(); i++)
+            {
+                if (usuarios[i].Mail == mail)
+                {
+                    if (usuarios[i].Bloqueado == true)
+                    {
+                        a = 4;
+                    }
+                    else
+                    {
+                        a = usuarios[i].IntentosFallidos;
+                    }
+                }
+            }
+            return a;
         }
 
         public void cerrarSesion()
@@ -319,8 +354,8 @@ namespace TP_grupoA_Cine
             return usuarios.ToList();
         }
 
-
-            public List<Funcion> buscarFuncion(DateTime fecha = new DateTime(), string ubicacion = "",
+        
+        public List<Funcion> buscarFuncion(DateTime fecha = new DateTime(), string ubicacion = "",
                                             double costo = -1, string pelicula = "")
         {
 

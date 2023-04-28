@@ -23,6 +23,16 @@ namespace TP_grupoA_Cine
             ID = ++idSala;
             this.Ubicacion = Ubicacion;
             this.Capacidad = Capacidad;            
-        }        
+        }       
+        
+
+        public string[] ToString()
+        {
+
+            return new string[]
+            {
+                ID.ToString(),Ubicacion.ToString(),Capacidad.ToString()
+            };
+        }
     }    
 }

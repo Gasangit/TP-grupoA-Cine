@@ -39,7 +39,22 @@ namespace TP_grupoA_Cine
                 if (cine.iniciarSesion(mail, password))
                     this.TransfEvento_LoginCarteleraBotonera(); //evento de login a cartelera o botonera                                  
                 else
-                    MessageBox.Show("Error, mail o contraseña incorrectos");
+                    switch (cine.intentos(mail))
+                    {
+                        case 1:
+                            MessageBox.Show("1er intento, contraseña incorrecta");
+                            break;
+                        case 2:
+                            MessageBox.Show("2do intento, contraseña incorrecta");
+                            break;
+                        case 3:
+                            MessageBox.Show("3er intento, contraseña incorrecta");
+                            break;
+                        default:
+                            MessageBox.Show("Usted a sido bloqueado, debera contactar al administrador");
+                            break;
+                    }
+
             }
             else
                 MessageBox.Show("Debe ingresar un mail y contraseña!");
