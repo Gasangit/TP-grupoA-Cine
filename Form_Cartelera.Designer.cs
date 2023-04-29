@@ -331,7 +331,7 @@
             btnmodificarusuario.TabIndex = 73;
             btnmodificarusuario.Text = "MODIFICAR USUARIO";
             btnmodificarusuario.UseVisualStyleBackColor = true;
-            btnmodificarusuario.Click += btncomprar_Click;
+            btnmodificarusuario.Click += btnmodificarusuario_Click;
             // 
             // btnvolver_cartelera
             // 

@@ -234,7 +234,6 @@ namespace TP_grupoA_Cine
 
         }
 
-        
         public void TransfDelegado_PeliculaBotonera()  //Cierra Form Peliculas y vuelve a la botonera
         {
             hijoPelicula.Close();
@@ -270,13 +269,12 @@ namespace TP_grupoA_Cine
 
         public void TransfDelegado_CarteleraUsuarioActivo()
         {
-
             hijoCartelera.Close();
 
             hijoUsuarioActivo = new Form_Usuario_Activo();
             hijoUsuarioActivo.MdiParent = this;
             hijoUsuarioActivo.Dock = DockStyle.Fill;
-            //hijoUsuarioActivo.TransfEvento_UsuarioActivoCartelera +=
+            hijoUsuarioActivo.TransfEvento_UsuarioActivoCartelera += TransfDelegado_UsuarioActivoCartelera;
             hijoUsuarioActivo.Show();
         
         }

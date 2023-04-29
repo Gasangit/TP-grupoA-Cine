@@ -359,7 +359,6 @@ namespace TP_grupoA_Cine
             devolver la lista original y que la misma no sea modificada.    */
         public List<Funcion> mostrarFunciones() 
         {
-            
             return funciones.ToList();
         }
         public List<Sala> mostrarSalas()
@@ -370,7 +369,6 @@ namespace TP_grupoA_Cine
         {
             return peliculas.ToList();
         }
-
         public List<Usuario> mostrarUsuarios()
         {
             return usuarios.ToList();
@@ -407,7 +405,7 @@ namespace TP_grupoA_Cine
             return listaDeFunciones.ToList();
         }
 
-            private object obtenerObjetoDeLista(int ID, string tipoObjeto)
+        private object obtenerObjetoDeLista(int ID, string tipoObjeto)
         {
             object objeto = new { ID = "Objeto no encontrado"};
 

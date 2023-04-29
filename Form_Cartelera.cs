@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Xml.Linq;
 
 
 namespace TP_grupoA_Cine
@@ -17,6 +18,7 @@ namespace TP_grupoA_Cine
         public TransfDelegado TransfEvento_CarteleraBotonera;
         public TransfDelegado TransfEvento_CarteleraLogin;
         public TransfDelegado TransfEvento_CarteleraUsuarioActivo;
+        
         private int selectedFuncionBuscada;
 
         Cine cine = Cine.Instancia; // Traer el cine
@@ -86,8 +88,11 @@ namespace TP_grupoA_Cine
                 mensaje = cine.comprarEntrada(cine.usuarioActual.ID, Convert.ToInt32(funcion_seleccionada.Text), Convert.ToInt32(cantidadentradas.Value));
                 MessageBox.Show(mensaje);
             }
-            
-            
+        }
+
+        public void btnmodificarusuario_Click(object sender, EventArgs e)
+        {
+            this.TransfEvento_CarteleraUsuarioActivo();
         }
 
         private void button1_Click(object sender, EventArgs e)
