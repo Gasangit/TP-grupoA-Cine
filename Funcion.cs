@@ -13,19 +13,23 @@ namespace TP_grupoA_Cine
 {
     public class Funcion
     {
-        public int ID { set; get; }
-        public Sala MiSala { set; get; }
-        public Pelicula MiPelicula  { set; get; }
-        public List<Usuario> Clientes { set; get; }
-        public DateTime Fecha { set; get; }
+        public int ID { set; get; } = 0;
+        public Sala MiSala { set; get; } = new Sala();
+        public Pelicula MiPelicula { set; get; } = new Pelicula();
+        public List<Usuario> Clientes { set; get; } = new List<Usuario>();
+        public DateTime Fecha { set; get; } = new DateTime();
         public int CantClientes { set; get; } = 0;
-        public double Costo { set; get; }
+        public double Costo { set; get; } = 0.0;
         private static int idFuncion { set; get; }
+
+        public Funcion() { }
+
 
         public Funcion(DateTime Fecha, double Costo)
         {
             this.ID = ++idFuncion;
             this.Fecha = Fecha;
+            this.Costo = Costo;
 
         }
 
@@ -46,11 +50,10 @@ namespace TP_grupoA_Cine
 
             return new string[]
             {
-                ID.ToString(), MiSala.ID.ToString(), MiPelicula.ID.ToString(),Fecha.ToString(), Costo.ToString(),CantClientes.ToString()
+                ID.ToString(),MiPelicula.Nombre.ToString(),MiSala.Ubicacion.ToString(), Fecha.ToString(), Costo.ToString() //CantClientes.ToString() // Muestra cantidad de clientes que ya compraron la funcion
             };
         }
-
-
+      
     }
 
 }

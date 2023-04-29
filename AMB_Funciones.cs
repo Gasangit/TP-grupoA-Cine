@@ -12,7 +12,7 @@ using System.ComponentModel.Design;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.Intrinsics.X86;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-
+using System.Diagnostics;
 
 namespace TP_grupoA_Cine
 {
@@ -20,6 +20,9 @@ namespace TP_grupoA_Cine
     {
         private int selectedFuncion;
         public DelegadoFuncion TransfEvento_FuncionBotonera;
+        private string idSala;
+        private string idPelicula;
+        
 
         Cine cine = Cine.Instancia; // Traer el cine
 
@@ -47,23 +50,25 @@ namespace TP_grupoA_Cine
                 dataGridView1.Rows.Add(funcion.ToString());
 
             idfuncion_text.Text = "";
-            // salafuncion_text.Text = "";
+            salafuncion_text.Text = "";
             costofuncion_text.Text = "";
             fechafuncion_text.Text = "";
-            // peliculafuncion_text.Text = "";
+            peliculafuncion_text.Text = "";
 
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            string ID = dataGridView1[0, e.RowIndex].Value.ToString();
-            //  string Misala = dataGridView1[1, e.RowIndex].Value.ToString();
-            // string MiPelicula = dataGridView1[2, e.RowIndex].Value.ToString();
-            string Fecha = dataGridView1[1, e.RowIndex].Value.ToString();
-            string Costo = dataGridView1[2, e.RowIndex].Value.ToString();
+            string ID = dataGridView1[0, e.RowIndex].Value.ToString();            
+            string idSala = dataGridView1[1, e.RowIndex].Value.ToString(); 
+            string idPelicula = dataGridView1[2, e.RowIndex].Value.ToString();
+            string Fecha = dataGridView1[3, e.RowIndex].Value.ToString();
+            string Costo = dataGridView1[4, e.RowIndex].Value.ToString();
             idfuncion_text.Text = ID;
-            // salafuncion_text.Text = Misala;
-            //peliculafuncion_text.Text = MiPelicula;
+            salafuncion_text.Text = idSala;
+            Debug.WriteLine(">>> numero sala : " + idSala);
+            peliculafuncion_text.Text = idPelicula;
+            Debug.WriteLine(">>> numero pelicula : " + idPelicula);
             fechafuncion_text.Text = Fecha;
             costofuncion_text.Text = Costo;
             selectedFuncion = int.Parse(ID);
@@ -74,9 +79,9 @@ namespace TP_grupoA_Cine
         private void btnmodificar_funcion_Click(object sender, EventArgs e)
         {
             if (selectedFuncion != -1)
-            {
+            {             
 
-                if (cine.modificarFuncion(selectedFuncion, DateTime.Parse(fechafuncion_text.Text), int.Parse(costofuncion_text.Text)))
+                if (cine.modificarFuncion(selectedFuncion, Convert.ToInt32(salafuncion_text.Text), Convert.ToInt32(peliculafuncion_text.Text), DateTime.Parse(fechafuncion_text.Text), double.Parse(costofuncion_text.Text)))
                     MessageBox.Show("Modificado con éxito");
                 else
                     MessageBox.Show("Error al modificar");
@@ -102,13 +107,20 @@ namespace TP_grupoA_Cine
         //Agrega una Funcion
 
         private void btnalta_funcion_Click(object sender, EventArgs e)
-        {
+        {          
+
             if (costofuncion_text.Text == "" || fechafuncion_text.Text == "" || costofuncion_text.Text == null || fechafuncion_text.Text == null)
                 MessageBox.Show("Debe completar los datos para agregar");
-            else if (cine.altaFuncion(DateTime.Parse(fechafuncion_text.Text), (int.Parse(costofuncion_text.Text))))
+            else if (cine.altaFuncion(Convert.ToInt32(salafuncion_text.Text), Convert.ToInt32(peliculafuncion_text.Text), DateTime.Parse(fechafuncion_text.Text), int.Parse(costofuncion_text.Text)))
                 MessageBox.Show("Agregado con éxito");
             else
                 MessageBox.Show("Error al agregar la funcion");
+        }
+
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
 
         private void btnvolver_funcion_Click(object sender, EventArgs e)

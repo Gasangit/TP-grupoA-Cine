@@ -30,56 +30,45 @@
         {
             nombre_pelicula = new TextBox();
             duracion_pelicula = new TextBox();
-            poster_pelicula = new TextBox();
             sinopsis_pelicula = new TextBox();
             label1 = new Label();
             label2 = new Label();
-            label3 = new Label();
             label4 = new Label();
             label5 = new Label();
             btnaltapelicula = new Button();
             btnmodificarpelicula = new Button();
             btnbajapelicula = new Button();
             dataGridView1 = new DataGridView();
-            idpelicula = new DataGridViewTextBoxColumn();
-            nombrepelicula = new DataGridViewTextBoxColumn();
-            sinopsispelicula = new DataGridViewTextBoxColumn();
-            posterpelicula = new DataGridViewImageColumn();
-            duracionpelicula = new DataGridViewTextBoxColumn();
-            poster = new DataGridViewImageColumn();
             panel1 = new Panel();
             btnvolver_peliculas = new Button();
             btnmostrarpelicula = new Button();
             label6 = new Label();
             id_pelicula = new TextBox();
+            idpelicula = new DataGridViewTextBoxColumn();
+            nombrepelicula = new DataGridViewTextBoxColumn();
+            sinopsispelicula = new DataGridViewTextBoxColumn();
+            duracionpelicula = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
             // nombre_pelicula
             // 
-            nombre_pelicula.Location = new Point(263, 57);
+            nombre_pelicula.Location = new Point(336, 56);
             nombre_pelicula.Name = "nombre_pelicula";
             nombre_pelicula.Size = new Size(100, 23);
             nombre_pelicula.TabIndex = 0;
             // 
             // duracion_pelicula
             // 
-            duracion_pelicula.Location = new Point(673, 57);
+            duracion_pelicula.Location = new Point(587, 56);
             duracion_pelicula.Name = "duracion_pelicula";
             duracion_pelicula.Size = new Size(100, 23);
             duracion_pelicula.TabIndex = 1;
             // 
-            // poster_pelicula
-            // 
-            poster_pelicula.Location = new Point(531, 57);
-            poster_pelicula.Name = "poster_pelicula";
-            poster_pelicula.Size = new Size(100, 23);
-            poster_pelicula.TabIndex = 2;
-            // 
             // sinopsis_pelicula
             // 
-            sinopsis_pelicula.Location = new Point(392, 57);
+            sinopsis_pelicula.Location = new Point(465, 56);
             sinopsis_pelicula.Name = "sinopsis_pelicula";
             sinopsis_pelicula.Size = new Size(100, 23);
             sinopsis_pelicula.TabIndex = 3;
@@ -89,7 +78,7 @@
             label1.AutoSize = true;
             label1.BackColor = SystemColors.ActiveCaption;
             label1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(275, 83);
+            label1.Location = new Point(348, 82);
             label1.Name = "label1";
             label1.Size = new Size(65, 20);
             label1.TabIndex = 4;
@@ -100,29 +89,18 @@
             label2.AutoSize = true;
             label2.BackColor = SystemColors.ActiveCaption;
             label2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(682, 83);
+            label2.Location = new Point(608, 82);
             label2.Name = "label2";
             label2.Size = new Size(73, 20);
             label2.TabIndex = 5;
             label2.Text = "Duración";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.BackColor = SystemColors.ActiveCaption;
-            label3.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(545, 83);
-            label3.Name = "label3";
-            label3.Size = new Size(55, 20);
-            label3.TabIndex = 6;
-            label3.Text = "Poster";
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.BackColor = SystemColors.ActiveCaption;
             label4.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(409, 83);
+            label4.Location = new Point(482, 82);
             label4.Name = "label4";
             label4.Size = new Size(69, 20);
             label4.TabIndex = 7;
@@ -174,55 +152,13 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idpelicula, nombrepelicula, sinopsispelicula, posterpelicula, duracionpelicula, poster });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idpelicula, nombrepelicula, sinopsispelicula, duracionpelicula });
             dataGridView1.Location = new Point(144, 242);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(645, 187);
             dataGridView1.TabIndex = 12;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
-            // 
-            // idpelicula
-            // 
-            idpelicula.Frozen = true;
-            idpelicula.HeaderText = "id";
-            idpelicula.Name = "idpelicula";
-            idpelicula.ReadOnly = true;
-            idpelicula.Visible = false;
-            // 
-            // nombrepelicula
-            // 
-            nombrepelicula.Frozen = true;
-            nombrepelicula.HeaderText = "Nombre";
-            nombrepelicula.Name = "nombrepelicula";
-            nombrepelicula.ReadOnly = true;
-            // 
-            // sinopsispelicula
-            // 
-            sinopsispelicula.Frozen = true;
-            sinopsispelicula.HeaderText = "Sinopsis";
-            sinopsispelicula.Name = "sinopsispelicula";
-            sinopsispelicula.ReadOnly = true;
-            // 
-            // posterpelicula
-            // 
-            posterpelicula.Frozen = true;
-            posterpelicula.HeaderText = "Poster";
-            posterpelicula.Name = "posterpelicula";
-            posterpelicula.ReadOnly = true;
-            posterpelicula.Resizable = DataGridViewTriState.True;
-            posterpelicula.SortMode = DataGridViewColumnSortMode.Automatic;
-            // 
-            // duracionpelicula
-            // 
-            duracionpelicula.Frozen = true;
-            duracionpelicula.HeaderText = "Duración";
-            duracionpelicula.Name = "duracionpelicula";
-            duracionpelicula.ReadOnly = true;
-            // 
-            // poster
-            // 
-            poster.Name = "poster";
             // 
             // panel1
             // 
@@ -234,7 +170,6 @@
             panel1.Controls.Add(nombre_pelicula);
             panel1.Controls.Add(sinopsis_pelicula);
             panel1.Controls.Add(btnmodificarpelicula);
-            panel1.Controls.Add(poster_pelicula);
             panel1.Controls.Add(btnbajapelicula);
             panel1.Controls.Add(duracion_pelicula);
             panel1.Controls.Add(dataGridView1);
@@ -242,7 +177,6 @@
             panel1.Controls.Add(btnaltapelicula);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(label2);
-            panel1.Controls.Add(label3);
             panel1.Controls.Add(label4);
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
@@ -276,7 +210,7 @@
             label6.AutoSize = true;
             label6.BackColor = SystemColors.ActiveCaption;
             label6.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label6.Location = new Point(149, 83);
+            label6.Location = new Point(222, 82);
             label6.Name = "label6";
             label6.Size = new Size(84, 20);
             label6.TabIndex = 15;
@@ -284,11 +218,40 @@
             // 
             // id_pelicula
             // 
-            id_pelicula.Location = new Point(133, 57);
+            id_pelicula.Location = new Point(206, 56);
             id_pelicula.Name = "id_pelicula";
             id_pelicula.ReadOnly = true;
             id_pelicula.Size = new Size(100, 23);
             id_pelicula.TabIndex = 14;
+            // 
+            // idpelicula
+            // 
+            idpelicula.Frozen = true;
+            idpelicula.HeaderText = "id";
+            idpelicula.Name = "idpelicula";
+            idpelicula.ReadOnly = true;
+            idpelicula.Visible = false;
+            // 
+            // nombrepelicula
+            // 
+            nombrepelicula.Frozen = true;
+            nombrepelicula.HeaderText = "Nombre";
+            nombrepelicula.Name = "nombrepelicula";
+            nombrepelicula.ReadOnly = true;
+            // 
+            // sinopsispelicula
+            // 
+            sinopsispelicula.Frozen = true;
+            sinopsispelicula.HeaderText = "Sinopsis";
+            sinopsispelicula.Name = "sinopsispelicula";
+            sinopsispelicula.ReadOnly = true;
+            // 
+            // duracionpelicula
+            // 
+            duracionpelicula.Frozen = true;
+            duracionpelicula.HeaderText = "Duración";
+            duracionpelicula.Name = "duracionpelicula";
+            duracionpelicula.ReadOnly = true;
             // 
             // ABM_Pelicula
             // 
@@ -312,11 +275,9 @@
 
         private TextBox nombre_pelicula;
         private TextBox duracion_pelicula;
-        private TextBox poster_pelicula;
         private TextBox sinopsis_pelicula;
         private Label label1;
         private Label label2;
-        private Label label3;
         private Label label4;
         private Label label5;
         private Button btnaltapelicula;
@@ -336,8 +297,6 @@
         private DataGridViewTextBoxColumn idpelicula;
         private DataGridViewTextBoxColumn nombrepelicula;
         private DataGridViewTextBoxColumn sinopsispelicula;
-        private DataGridViewImageColumn posterpelicula;
         private DataGridViewTextBoxColumn duracionpelicula;
-        private DataGridViewImageColumn poster;
     }
 }

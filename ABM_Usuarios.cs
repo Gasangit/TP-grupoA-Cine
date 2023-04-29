@@ -38,14 +38,14 @@ namespace TP_grupoA_Cine
                 dataGridView1.Rows.Add(u.ToString());
 
             //borro los datos en los text box
-            nombreusuario.Text ="";
+            nombreusuario.Text = "";
             apellidousuario.Text = "";
             dniusuario.Text = "";
             mailusuario.Text = "";
             passwordusuario.Text = "";
             nacimientousuario.Text = "";
             esadmin.Text = "";
-         //   usuariobloqueado.Text = "";
+            //   usuariobloqueado.Text = "";
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -58,8 +58,8 @@ namespace TP_grupoA_Cine
             string passUser = dataGridView1[5, e.RowIndex].Value.ToString();
             string fecNacUser = dataGridView1[6, e.RowIndex].Value.ToString();
             string adminUser = dataGridView1[7, e.RowIndex].Value.ToString();
-           // string bloqUser = dataGridView1[8, e.RowIndex].Value.ToString();
-            
+            // string bloqUser = dataGridView1[8, e.RowIndex].Value.ToString();
+
             selectedUser = int.Parse(ID);
             nombreusuario.Text = nombreUser;
             apellidousuario.Text = apellidoUser;
@@ -68,7 +68,7 @@ namespace TP_grupoA_Cine
             passwordusuario.Text = passUser;
             nacimientousuario.Text = fecNacUser;
             esadmin.Text = adminUser;
-           // usuariobloqueado.Text = bloqUser;            
+            // usuariobloqueado.Text = bloqUser;            
         }
 
 
@@ -79,7 +79,7 @@ namespace TP_grupoA_Cine
 
         private void btnalta_usuario_Click(object sender, EventArgs e)
         {
-            bool esAdmin = false; 
+            bool esAdmin = false;
             if (esadmin.Text.ToLower() == "si") esAdmin = true;
 
             if (mailusuario.Text == "" || dniusuario.Text == "" || mailusuario.Text == null || dniusuario.Text == null ||
@@ -110,7 +110,7 @@ namespace TP_grupoA_Cine
             bool esAdmin = false, bloqueado = false;
             if (esadmin.Text.ToLower() == "si") esAdmin = true;
             if (usuariobloqueado.Text.ToLower() == "si") bloqueado = true;
-           
+
             if (selectedUser != -1)
             {
                 if (cine.modificacionUsuario(selectedUser, int.Parse(dniusuario.Text), nombreusuario.Text, apellidousuario.Text, mailusuario.Text, passwordusuario.Text, DateTime.Parse(nacimientousuario.Text), esAdmin, bloqueado))
@@ -122,7 +122,7 @@ namespace TP_grupoA_Cine
             {
                 MessageBox.Show("debe seleccionar un usuario");
             }
-                
+
         }
 
         private void btnbaja_usuario_Click(object sender, EventArgs e)
@@ -136,6 +136,11 @@ namespace TP_grupoA_Cine
             {
                 MessageBox.Show("Debe seleccionar un usuario");
             }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
         public delegate void DelegadoUsuario();

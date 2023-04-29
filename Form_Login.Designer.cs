@@ -36,6 +36,7 @@
             label2 = new Label();
             panel1 = new Panel();
             label3 = new Label();
+            panel2 = new Panel();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -79,7 +80,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.BackColor = SystemColors.ActiveCaption;
+            label1.BackColor = Color.FromArgb(192, 192, 255);
             label1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
             label1.Location = new Point(341, 169);
             label1.Name = "label1";
@@ -90,6 +91,7 @@
             // label2
             // 
             label2.AutoSize = true;
+            label2.BackColor = Color.FromArgb(192, 192, 255);
             label2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
             label2.Location = new Point(286, 232);
             label2.Name = "label2";
@@ -107,6 +109,7 @@
             panel1.Controls.Add(button1);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(label2);
+            panel1.Controls.Add(panel2);
             panel1.Location = new Point(0, 0);
             panel1.Margin = new Padding(0);
             panel1.Name = "panel1";
@@ -117,12 +120,21 @@
             // label3
             // 
             label3.AutoSize = true;
+            label3.BackColor = Color.FromArgb(192, 192, 255);
             label3.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Point);
             label3.Location = new Point(136, 58);
             label3.Name = "label3";
             label3.Size = new Size(675, 26);
             label3.TabIndex = 6;
             label3.Text = "Bienvenido/a a cines FLAGG. Por favor, para comenzar Inicie Sesón";
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.FromArgb(192, 192, 255);
+            panel2.Location = new Point(24, 31);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(895, 438);
+            panel2.TabIndex = 7;
             // 
             // Form_Login
             // 
@@ -148,5 +160,6 @@
         private Label label2;
         private Panel panel1;
         private Label label3;
+        private Panel panel2;
     }
 }

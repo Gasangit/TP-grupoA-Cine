@@ -64,6 +64,11 @@ namespace TP_grupoA_Cine
             this.TransfEvento_BotoneraLogin();
         }
 
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
         public delegate void DelegadoBotonera();
     }
 }

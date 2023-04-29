@@ -12,17 +12,20 @@ namespace TP_grupoA_Cine
 {
     public class Sala
     {
-        public int ID { get; set; }
-        public string Ubicacion { get; set; }
-        public int Capacidad { get; set; }
-        public List<Funcion> MisFunciones { get; set; }
+        public int ID { get; set; } = 0;
+        public string Ubicacion { get; set; } = "";
+        public int Capacidad { get; set; } = 0;
+        public List<Funcion> MisFunciones { get; set; } = new List<Funcion>();
         private static int idSala { get; set; }
+
+
+        public Sala() { }
 
         public Sala(string Ubicacion, int Capacidad)
         {
             ID = ++idSala;
             this.Ubicacion = Ubicacion;
-            this.Capacidad = Capacidad;            
+            this.Capacidad = Capacidad;
         }       
         
 

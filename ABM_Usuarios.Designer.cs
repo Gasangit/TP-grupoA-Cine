@@ -378,6 +378,7 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(954, 534);
             panel1.TabIndex = 50;
+            panel1.Paint += panel1_Paint;
             // 
             // btnvolver_usuarios
             // 

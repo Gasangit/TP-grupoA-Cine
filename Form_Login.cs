@@ -41,6 +41,9 @@ namespace TP_grupoA_Cine
                 else
                     switch (cine.intentos(mail))
                     {
+                        case 0:
+                            MessageBox.Show("Por favor ingresar un usuario correcto");
+                            break;
                         case 1:
                             MessageBox.Show("1er intento, contraseña incorrecta");
                             break;

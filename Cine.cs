@@ -50,21 +50,7 @@ namespace TP_grupoA_Cine
             Debug.WriteLine($">>> (Cine - altaUsuario()) Se CREÓ el USUARIO {usuario.Nombre}" +
                                         $" {usuario.Apellido} con ID {usuario.ID}");
             return true;
-        }
-        /*
-        public Usuario altaUsuario(int dni, string nombre,
-                                    string apellido, string mail, string password, 
-                                    DateTime fechaNacimiento, bool esAdmin)
-        {
-            //la clase Usuario tiene que tener un constructor para el ALTA
-            Usuario usuario = new Usuario(dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin);
-            //el ID se puede generar automaticamente con un atributo estatico en la clase Usuario
-            usuarios.Add(usuario);
-            Debug.WriteLine($">>> (Cine - altaUsuario()) Se CREÓ el USUARIO {usuario.Nombre}" +
-                                        $" {usuario.Apellido} con ID {usuario.ID}");
-            return usuario;
-        }
-        */
+        }        
 
         public void bajaUsuario(int idUsuario)
         {
@@ -98,6 +84,20 @@ namespace TP_grupoA_Cine
                                 $" {usuario.Apellido} con ID {usuario.ID}");
             return true;
         }
+
+
+        //Modificacion de los propios datos del usuario cuando esta logueado
+        public void modificacionUsuarioActual(int idUsuario, string mail, string password)
+        {
+
+            Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
+
+            usuario.ID = idUsuario;
+            usuario.Mail = mail;
+            usuario.Password = password;
+
+        }
+
         // SALA --------------------------------------------------------------------------------------------
         public bool altaSala(string ubicacion, int capacidad)
         {
@@ -110,19 +110,7 @@ namespace TP_grupoA_Cine
                                 $" con capacidad para {sala.Capacidad} espectadores");
             return true;
         }
-        /*
-        public Sala altaSala(string ubicacion, int capacidad)
-        {   
-            //tiene que haber un contructor en sala especial para crearla. El ID se puede generar
-            //automaticamente con un atributo estatico en la clase Sala.
-            Sala sala = new Sala(ubicacion, capacidad);
-            salas.Add(sala);
-
-            Debug.WriteLine($">>> (Cine - altaSala()) Se CREÓ la SALA ubicada en {sala.Ubicacion}" + 
-                                $" con capacidad para {sala.Capacidad} espectadores");
-            return sala;
-        }
-        */
+        
         public void bajaSala(int idSala)
         {
             Sala sala = (Sala)obtenerObjetoDeLista(idSala, "sala");
@@ -130,16 +118,7 @@ namespace TP_grupoA_Cine
             Debug.WriteLine($">>> Se ELIMINÓ la SALA ubicada en {sala.Ubicacion}" +
                                 $" con capacidad para {sala.Capacidad} espectadores");
             sala = null;
-        }
-        //  public void modificacionSala(int idSala)
-        // {
-        //acá se pueden llamar los datos del usuario en la base de datos y verificar cual es diferente
-        //para cambiarlo. Mientras tanto se modifica el objeto.
-
-        //   Sala sala = (Sala)obtenerObjetoDeLista(idSala, "usuario");
-        //habria que tomar los campos del FORM y aplicarlos al objeto sala
-        // Debug.WriteLine($">>> Se MODIFICÓ la SALA con ID {sala.ID}");
-        //}
+        }        
 
         public bool modificacionSala(int ID, string ubicacion, int capacidad)
         {
@@ -150,66 +129,69 @@ namespace TP_grupoA_Cine
             return true;
         }
 
-
-
-
         // FUNCION --------------------------------------------------------------------------------------------
-        /* public Funcion altaFuncion(Sala sala, Pelicula pelicula, DateTime fecha, double costo)
+         public bool altaFuncion(int idSala, int idPelicula, DateTime fecha, double costo)
          {
+            Sala miSala = null;
 
-             Funcion funcion = new Funcion(sala, pelicula, fecha, 0,costo); //se pasa cero pero no habría que ingresar Cantidad de clientes
-             funciones.Add(funcion);
-
-             Debug.WriteLine($">>> (Cine - altaFuncion()) Se CREÓ la FUNCION en la sala {funcion.MiSala.ID}" +
-                                 $" para la película {funcion.MiPelicula.Nombre} en la fecha {funcion.Fecha} con un costo de {funcion.Costo}");
-             return funcion;
-         }*/
-
-        public bool altaFuncion(DateTime fecha, double costo)
-        {
-
-            Funcion funcion = new Funcion(fecha, costo); //se pasa cero pero no habría que ingresar Cantidad de clientes
-            funciones.Add(funcion);
-
-            Debug.WriteLine($">>> (Cine - altaFuncion()) Se CREÓ la FUNCION en la sala en la fecha {funcion.Fecha} con un costo de {funcion.Costo}");
-            return true;
-        }
-
-
-
-        /* public void modificarFuncion(int ID, Sala sala, Pelicula pelicula, DateTime fecha, double costo)
-          {
-              foreach (Funcion funcion in funciones)
-              {
-                  if (funcion.ID == ID)
-                  {
-                      funcion.MiSala = sala;
-                      funcion.MiPelicula = pelicula;
-                      funcion.Fecha = fecha;
-                      funcion.Costo = costo;
-
-                  }
-              }
-          }*/
-
-
-        public bool modificarFuncion(int ID,DateTime fecha, int costo)
-        {
-            foreach (Funcion funcion in funciones)
+            foreach (Sala sala in this.salas)
             {
-                if (funcion.ID == ID)
+                if (idSala == sala.ID) 
                 {
-                    funcion.Fecha = fecha;
-                    funcion.Costo = costo;
-
-                    return true;
+                    miSala = sala;
+                    break;                
                 }
-                else { return false; }
             }
-            return false;
+
+            Pelicula miPelicula = null;
+
+            foreach(Pelicula pelicula in this.peliculas)
+            {
+                if (idPelicula == pelicula.ID) 
+                {
+
+                    miPelicula = pelicula;
+                    break;
+                
+                }
+            }
+
+            if (miPelicula == null || miSala == null)
+            {
+
+                return false;
+
+            }
+            else
+            {
+
+                Funcion funcion = new Funcion(miSala, miPelicula, fecha, 0, costo); //se pasa cero pero no habría que ingresar Cantidad de clientes
+                miPelicula.MisFunciones.Add(funcion);
+                miSala.MisFunciones.Add(funcion);
+                funciones.Add(new Funcion(miSala, miPelicula, fecha, 0, costo));
+                Debug.WriteLine($">>> (Cine - altaFuncion()) Se CREÓ la FUNCION en la sala {funcion.MiSala.ID}" +
+                                 $" para la película {funcion.MiPelicula.Nombre} en la fecha {funcion.Fecha} con un costo de {funcion.Costo}");
+                return true;
+            }            
+         }
+
+        public bool modificarFuncion(int ID,int idSala,int idPelicula, DateTime fecha, double costo)//
+        {
+
+            Sala unaSala = (Sala)obtenerObjetoDeLista(idSala, "sala");
+            Pelicula unaPelicula = (Pelicula)obtenerObjetoDeLista(idPelicula, "pelicula");
+            Funcion funcion = (Funcion)obtenerObjetoDeLista(ID,"funcion");
+
+            funcion.MiSala = unaSala;
+            funcion.MiPelicula = unaPelicula;
+            funcion.Fecha = fecha;
+            funcion.Costo = costo;
+
+
+            return true;
+
+
         }
-
-
 
         public void bajaFuncion(int idFuncion)
         {
@@ -219,10 +201,10 @@ namespace TP_grupoA_Cine
             funcion = null;
         }
         // PELICULA -------------------------------------------------------------------------------------------
-        public bool altaPelicula(string nombre, string sinopsis, int duracion, string poster)
+        public bool altaPelicula(string nombre, string sinopsis, int duracion)
         {
 
-            Pelicula pelicula = new Pelicula(nombre, sinopsis, duracion,poster);
+            Pelicula pelicula = new Pelicula(nombre, sinopsis, duracion);
             peliculas.Add(pelicula);
 
             Debug.WriteLine($">>> (Cine - altaPelicula()) Se creó la PELÍCULA {pelicula.Nombre} con ID {pelicula.ID}");
@@ -230,7 +212,7 @@ namespace TP_grupoA_Cine
         }
 
         
-        public bool modificarPelicula(int ID, string nombre, string sinopsis, int duracion, string poster)
+        public bool modificarPelicula(int ID, string nombre, string sinopsis, int duracion)
         {
 
             Pelicula pelicula = (Pelicula)obtenerObjetoDeLista(ID, "pelicula");
@@ -238,7 +220,6 @@ namespace TP_grupoA_Cine
             pelicula.Nombre = nombre;
             pelicula.Sinopsis = sinopsis;
             pelicula.Duracion = duracion;
-            pelicula.Poster = poster;
             return true;
 
         }
@@ -260,28 +241,40 @@ namespace TP_grupoA_Cine
             Debug.WriteLine($">>> (Cine - cargarCredito()) Se CARGARON $ {importe} quedando el CRÉDITO en {usuario.Credito} ID usuario : {usuario.ID}");
         }
 
-        public void comprarEntrada(int idUsuario, int idFuncion, int cantidad)
+        public string comprarEntrada(int idUsuario, int idFuncion = -1, int cantidad = 0)
         {
             Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
             Funcion funcion = (Funcion)obtenerObjetoDeLista(idFuncion, "funcion");
 
+             
+
             double importe = funcion.Costo * cantidad;
             int entradasDispoibles = funcion.MiSala.Capacidad - funcion.CantClientes;
 
-            if (importe > usuario.Credito)
-            {                           
+            if (cantidad == 0) {
+                return $"SELECCIONAR ENTRADA : debe seleccionar al menos una ENTRADA";
+            }
+            else if (idFuncion == -1)
+            {
+                return $"SELECCIONAR FUNCION: debe seleccionar al menos una FUNCIÓN";
+            }
+            else if (importe > usuario.Credito)
+            {
                 Debug.WriteLine($">>> (Cine - comprarEntrada()) CRÉDITO insuficiente para comprar la/s {cantidad} entrada/s");
+                return $"CRÉDITO INSUFICIENTE : tiene {usuario.Credito} de crédito no puede comprar {cantidad} entradas a ${importe}";
             }
             else if (entradasDispoibles < cantidad)
             {
                 Debug.WriteLine($">>> (Cine - comprarEntrada()) No pueden venderse {cantidad} entradas quedan disponibles {entradasDispoibles}");
+                return $"SIN BUTACAS DISPONIBLES : la sala esta completa (capacidad {funcion.MiSala.Capacidad})";
             }
             else
             {
                 usuario.Credito -= importe;
                 funcion.CantClientes += cantidad;
-                Debug.WriteLine($">>> >>> (Cine - comprarEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" + 
+                Debug.WriteLine($">>> >>> (Cine - comprarEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" +
                                     $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
+                return $"COMPRA REALIZADA : compró {cantidad} entradas a {funcion.Costo} por un importe total de {importe}";
             }
         }
 
@@ -413,26 +406,6 @@ namespace TP_grupoA_Cine
             }            
             return listaDeFunciones.ToList();
         }
-            //private object objetodelista(int id, string lista)//metodo para acortar el código al buscar un objeto
-            //{
-            //    object devolverobjeto = new object();
-            //    list<list<object>> listas = new list<list<object>>() { this.usuarios.cast<object>().tolist(), this.salas.cast<object>().tolist(),
-            //                                                        this.funciones.cast<object>().tolist(), this.peliculas.cast<object>().tolist() };
-            //    for (int i = 0; i < listas.count(); i++)
-            //    {
-            //        if (listas[i].gettype().name == lista)
-            //        {
-            //            for (int k = 0; k < listas[i].count(); k++)
-            //            {
-            //                if (listas[i][k].id == id) //esto tiene que dar un objeto
-            //                {
-            //                    devolverobjeto = listas[i][k];
-            //                    return devolverobjeto;
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
 
             private object obtenerObjetoDeLista(int ID, string tipoObjeto)
         {

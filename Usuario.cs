@@ -12,19 +12,28 @@ namespace TP_grupoA_Cine
 {
     public class Usuario
     {
-        public int ID { get; set; }        
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public int DNI { get; set; }
-        public string Mail { get; set; }
-        public string Password { get; set; }
-        public int IntentosFallidos { get; set; }
-        public bool Bloqueado{ get; set; }
-        public List<Funcion> MisFunciones { get; set; }
-        public double Credito { get; set; }
-        public DateTime FechaNacimiento { get; set; }
+        public int ID { get; set; } = 0;
+        public string Nombre { get; set; } = "";
+        public string Apellido { get; set; } = "";
+        public int DNI { get; set; } = 0;
+        public string Mail { get; set; } = "";
+        public string Password { get; set; } = "";
+        public int IntentosFallidos { get; set; } = 0;
+        public bool Bloqueado { get; set; } = false;
+        public List<Funcion> MisFunciones { get; set; } = new List<Funcion>();
+        public double Credito { get; set; } = 0.0;
+        public DateTime FechaNacimiento { get; set; } = new DateTime();
         public bool EsAdmin { get; set; } = false;
         private static int idUsuario { set; get; }
+
+
+        public Usuario(string mail, string password)
+        {
+            ID = ++idUsuario;
+            Mail = mail;
+            Password = password;
+        }
+
 
         public Usuario (int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento, bool esAdmin)
         {

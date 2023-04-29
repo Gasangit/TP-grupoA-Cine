@@ -16,25 +16,17 @@ namespace TP_grupoA_Cine
     {
         public TransfDelegado TransfEvento_CarteleraBotonera;
         public TransfDelegado TransfEvento_CarteleraLogin;
+        public TransfDelegado TransfEvento_CarteleraUsuarioActivo;
+        private int selectedFuncionBuscada;
 
         Cine cine = Cine.Instancia; // Traer el cine
 
         public Form_Cartelera()
         {
-
             InitializeComponent();
+            selectedFuncionBuscada = -1;
             label1.Text = cine.usuarioActual.Nombre;
             if (cine.usuarioActual.EsAdmin == false) btnvolver_cartelera.Visible = false;
-
-            if (cine.mostrarFunciones().Count < 1)
-            {
-                foreach (Funcion funcion in cine.mostrarFunciones())
-                {
-                    cbPelicula.Items.Add(funcion.MiPelicula.Nombre);
-                    cbUbicacion.Items.Add(funcion.MiSala.Ubicacion);
-                    cbCosto.Items.Add(funcion.Costo);
-                }
-            }
         }
 
         public delegate void TransfDelegado();
@@ -47,58 +39,61 @@ namespace TP_grupoA_Cine
 
         private void btnmostrar_funciones_Click(object sender, EventArgs e)
         {
-            //borro los datos
+            refreshData();
+            selectedFuncionBuscada = -1;
+
+
+        }
+
+        private void refreshData()
+        {
             dataGridView1.Rows.Clear();
 
-            int dia = Convert.ToInt32(monthCalendar1.SelectionStart.Day.ToString());
-            int mes = Convert.ToInt32(monthCalendar1.SelectionStart.Month.ToString());
-            int anio = Convert.ToInt32(monthCalendar1.SelectionStart.Year.ToString());
-
-            DateTime fechaFuncion = new DateTime(anio, mes, dia);
-            Debug.WriteLine(">>>>> Ubicacion: " + cbUbicacion.SelectedValue.ToString());
-
-            string ubicacionFuncion;
-            if (cbUbicacion.SelectedValue.ToString() == null) { ubicacionFuncion = ""; }
-            else { ubicacionFuncion = cbUbicacion.SelectedValue.ToString(); }
-
-            string peliculaFuncion;
-            if (cbPelicula.SelectedValue.ToString() == null) { peliculaFuncion = ""; }
-            else { peliculaFuncion = peliculaFuncion = cbPelicula.SelectedValue.ToString(); }
-
-            double costoFuncion = Convert.ToDouble(cbCosto.SelectedValue.ToString());
-
-            // fecha, ubicacion, costo, pelicula
-            List<Funcion> listaFuncionesFiltro = cine.buscarFuncion(fechaFuncion, ubicacionFuncion, costoFuncion, peliculaFuncion);
-
-            //foreach (Funcion funcion in listaFuncionesFiltro)
-            //{
-            //dataGridView1.Rows.Add(funcion.ToString());
-            int count = -1;
-
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {//columnas : poster pelicula sala fecha costo
-                count++;
-                row.Cells[0].Value = listaFuncionesFiltro[count].MiPelicula.Poster;
-                row.Cells[1].Value = listaFuncionesFiltro[count].MiPelicula.Nombre;
-                row.Cells[2].Value = listaFuncionesFiltro[count].MiSala.ID;
-                row.Cells[3].Value = listaFuncionesFiltro[count].Fecha;
-                row.Cells[4].Value = listaFuncionesFiltro[count].Costo;
-
-                if (count == (listaFuncionesFiltro.Count - 1)) break;
+            foreach (Funcion funcion in cine.mostrarFunciones())
+            {
+                dataGridView1.Rows.Add(funcion.ToString());
+                funcion_seleccionada.Text = "";
             }
+
+
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string ID = dataGridView1[0, e.RowIndex].Value.ToString();
+            string MiPelicula = dataGridView1[1, e.RowIndex].Value.ToString();
+            string MiSala = dataGridView1[2, e.RowIndex].Value.ToString();
+            string Fecha = dataGridView1[3, e.RowIndex].Value.ToString();
+            string Costo = dataGridView1[4, e.RowIndex].Value.ToString();
+            funcion_seleccionada.Text = ID;
         }
 
         private void btncerrar_Click(object sender, EventArgs e)
         {
-
-           this.TransfEvento_CarteleraLogin();
+            this.TransfEvento_CarteleraLogin();
         }
 
 
         private void btncomprar_Click(object sender, EventArgs e)
         {
-             
-          
+            string mensaje;
+            if (funcion_seleccionada.Text == "" || funcion_seleccionada.Text == null || cantidadentradas.Value == 0)  
+            {
+                MessageBox.Show("No seleccionó una funcion o la cantidad de entradas es 0. Verifique.");
+            }
+            else
+            {
+                mensaje = cine.comprarEntrada(cine.usuarioActual.ID, Convert.ToInt32(funcion_seleccionada.Text), Convert.ToInt32(cantidadentradas.Value));
+                MessageBox.Show(mensaje);
+            }
+            
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            cine.cargarCredito(cine.usuarioActual.ID, 500);
+            MessageBox.Show("SALDO ACTUAL: " + cine.usuarioActual.Credito);
         }
     }
 }

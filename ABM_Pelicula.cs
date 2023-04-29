@@ -42,20 +42,11 @@ namespace TP_grupoA_Cine
 
             foreach (Pelicula p in cine.mostrarPeliculas())
             {
-
-                if (p.Poster != "")
-                {
-                    dataGridView1.Rows.Add(Image.FromFile(p.Poster));
-                }
-                else
-                {
                     dataGridView1.Rows.Add(p.ToString());
-                }
             }
 
             nombre_pelicula.Text = "";
             duracion_pelicula.Text = "";
-            poster_pelicula.Text = "";
             sinopsis_pelicula.Text = "";
             id_pelicula.Text = "";
 
@@ -67,14 +58,13 @@ namespace TP_grupoA_Cine
             string ID = dataGridView1[0, e.RowIndex].Value.ToString();
             string nombre = dataGridView1[1, e.RowIndex].Value.ToString();
             string sinopsis = dataGridView1[2, e.RowIndex].Value.ToString();
-            string poster = dataGridView1[3, e.RowIndex].Value.ToString();
+            //string poster = dataGridView1[3, e.RowIndex].Value.ToString();
             //Image poster = (Image)dataGridView1[3, e.RowIndex].Value;
-            string duracion = dataGridView1[4, e.RowIndex].Value.ToString();
+            string duracion = dataGridView1[3, e.RowIndex].Value.ToString();
             selectedPelicula = int.Parse(ID);
             id_pelicula.Text = ID;
             nombre_pelicula.Text = nombre;
             sinopsis_pelicula.Text = sinopsis;
-            poster_pelicula.Text = poster;
             duracion_pelicula.Text = duracion;
 
             //posterpelicula.Image = poster;
@@ -83,17 +73,21 @@ namespace TP_grupoA_Cine
         //Modificar Pelicula
         private void btnmodificarpelicula_Click(object sender, EventArgs e)
         {
-            if (selectedPelicula != 1)
+            if (selectedPelicula != -1)
             {
-                if (cine.modificarPelicula(selectedPelicula, nombre_pelicula.Text, sinopsis_pelicula.Text, int.Parse(duracion_pelicula.Text), poster_pelicula.Text)) { 
+                if (cine.modificarPelicula(selectedPelicula, nombre_pelicula.Text, sinopsis_pelicula.Text, int.Parse(duracion_pelicula.Text)))
+                {
                     MessageBox.Show("Pelicula Modificada con éxito");
 
 
-            } else {
-                MessageBox.Show("Error al modificar");
+                }
+                else
+                {
+                    MessageBox.Show("Error al modificar");
+                }
             }
-        }
-            else {
+            else
+            {
                 MessageBox.Show("Debe seleccionar una pelicula");
             }
         }
@@ -115,10 +109,10 @@ namespace TP_grupoA_Cine
         //Alta de pelicula
         private void btnaltapelicula_Click(object sender, EventArgs e)
         {
-            if (duracion_pelicula.Text == "" || poster_pelicula.Text == "" || sinopsis_pelicula.Text == "" || duracion_pelicula.Text == null || poster_pelicula.Text == null || sinopsis_pelicula.Text == null)
+            if (duracion_pelicula.Text == "" || sinopsis_pelicula.Text == "" || duracion_pelicula.Text == null || sinopsis_pelicula.Text == null)
                 MessageBox.Show("Se deben completar los campos");
             else
-                if (cine.altaPelicula(nombre_pelicula.Text, sinopsis_pelicula.Text, Convert.ToInt32(duracion_pelicula.Text), poster_pelicula.Text))
+                if (cine.altaPelicula(nombre_pelicula.Text, sinopsis_pelicula.Text, Convert.ToInt32(duracion_pelicula.Text)))
                 MessageBox.Show("La pelicula se agrego con éxito");
             else
                 MessageBox.Show("Error al agregar la pelicula");

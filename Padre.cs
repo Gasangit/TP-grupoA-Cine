@@ -13,7 +13,8 @@ namespace TP_grupoA_Cine
         private AMB_Funciones hijoFuncion;  //ABM funciones
         private ABM_Salas hijoSala; //ABM de Salas
         private ABM_Usuarios hijoUsuario; //ABM de usuarios
-        private Form_Botonera hijoBotonera; // Botonera vista del Administrador                       
+        private Form_Botonera hijoBotonera; // Botonera vista del Administrador
+        private Form_Usuario_Activo hijoUsuarioActivo; // Vista del usuario para poder modificar sus datos
 
         private TextBox textBox1; //Cuadro Mail
         private TextBox textBox2; //Cuadro Contrase?a
@@ -24,14 +25,23 @@ namespace TP_grupoA_Cine
         {
             InitializeComponent();
 
-            //Dejamos ya registrado 1 objeto de cada tipo/clase
+            //Dejamos datos registrados de prueba
             cine.altaUsuario(28976543, "Gaston", "Mansilla", "gaston@gmail.com", "123", new DateTime(1982, 04, 02), false); // usuario comun 
-            cine.altaUsuario(39186055, "Luke", "Skywalker", "luke@gmail.com", "456", new DateTime(1970, 05, 25), true); // usuario admin
+            cine.altaUsuario(39186055, "Luke", "Skywalker", "luke@gmail.com", "456", new DateTime(1970, 05, 25), true); // usuario admin          
+            cine.altaPelicula("Ant-Man 3", "El doctor Hank Pym", 135);
+            cine.altaPelicula("Super Mario Bros", "Its me maaarioo", 104);
             cine.altaSala("Flores", 70);
-            cine.altaPelicula("Ant-Man 3", "El doctor Hank Pym anuncia que abandona S.H.I.E.L.D. tras descubrir que han tratado de apropiarse de la tecnologia de su Ant-Man, que Pym considera altamente peligrosa. Varios anios despues, Scott Lang sale de prision tras cumplir tres anios de condena por robo", 135, "C:\\Users\\asolo\\source\\repos\\Gasangit\\TP-grupoA-Cine\\img\\antman.jpg");
-            cine.altaFuncion(new DateTime(2023, 04, 28), 1500);
+            cine.altaSala("Palermo", 90);
+            cine.altaSala("Recoleta", 120);
+            cine.altaFuncion(cine.mostrarSalas()[0].ID, cine.mostrarPeliculas()[1].ID,new DateTime(2023, 04, 28), 1500);
+            cine.altaFuncion(cine.mostrarSalas()[1].ID, cine.mostrarPeliculas()[0].ID, new DateTime(2023, 04, 03), 1500);
+            cine.altaFuncion(cine.mostrarSalas()[2].ID, cine.mostrarPeliculas()[1].ID, new DateTime(2023, 06, 12), 1500);
 
-           
+            //Otra hardcodeada
+
+
+            //cine.altaFuncion(cine.mostrarSalas()[1], cine.mostrarPeliculas()[1], new DateTime(2023, 04, 29), 1850);
+
 
             //Pantalla pirincipal Form2 Login
             hijoLogin = new Form_Login();
@@ -66,8 +76,7 @@ namespace TP_grupoA_Cine
                 hijoCartelera = new Form_Cartelera(); //abre Form_Cartelera
                 hijoCartelera.MdiParent = this;
                 hijoCartelera.Dock = DockStyle.Fill;
-                hijoCartelera.TransfEvento_CarteleraBotonera += TransfDelegado_CarteleraBotonera;
-                hijoCartelera.TransfEvento_CarteleraLogin += TransfDelegado_CarteleraLogin;
+                establecerConexionCartelera();
                 hijoCartelera.Show();
             }
 
@@ -102,6 +111,14 @@ namespace TP_grupoA_Cine
             hijoLogin.TransfEvento_LoginRegistro += TransfDelegado_FormRegistro;
         }
 
+        public void establecerConexionCartelera() 
+        {
+            hijoCartelera.TransfEvento_CarteleraBotonera += TransfDelegado_CarteleraBotonera;
+            hijoCartelera.TransfEvento_CarteleraLogin += TransfDelegado_CarteleraLogin;
+            hijoCartelera.TransfEvento_CarteleraUsuarioActivo += TransfDelegado_CarteleraUsuarioActivo;
+
+        }
+
         public void TransfDelegado_BotoneraCartelera() //Cierra Form Botonera y abre Form Cartelera
         {
 
@@ -112,6 +129,7 @@ namespace TP_grupoA_Cine
             hijoCartelera.Dock = DockStyle.Fill;
             hijoCartelera.TransfEvento_CarteleraBotonera += TransfDelegado_CarteleraBotonera;
             hijoCartelera.TransfEvento_CarteleraLogin += TransfDelegado_CarteleraLogin;
+            hijoCartelera.TransfEvento_CarteleraUsuarioActivo += TransfDelegado_CarteleraUsuarioActivo;
             hijoCartelera.Show();
         }
 
@@ -248,6 +266,31 @@ namespace TP_grupoA_Cine
             hijoLogin.Dock = DockStyle.Fill;
             establecerBotonesLogin();
             hijoLogin.Show();
+        }
+
+        public void TransfDelegado_CarteleraUsuarioActivo()
+        {
+
+            hijoCartelera.Close();
+
+            hijoUsuarioActivo = new Form_Usuario_Activo();
+            hijoUsuarioActivo.MdiParent = this;
+            hijoUsuarioActivo.Dock = DockStyle.Fill;
+            //hijoUsuarioActivo.TransfEvento_UsuarioActivoCartelera +=
+            hijoUsuarioActivo.Show();
+        
+        }
+
+        public void TransfDelegado_UsuarioActivoCartelera() 
+        {
+            hijoUsuarioActivo.Close();
+
+            hijoCartelera = new Form_Cartelera();
+            hijoCartelera.MdiParent = this;
+            hijoCartelera.Dock = DockStyle.Fill;
+            establecerConexionCartelera();
+            hijoCartelera.Show();       
+        
         }
     }
 }
