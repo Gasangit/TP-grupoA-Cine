@@ -66,7 +66,7 @@
             // labelDni
             // 
             labelDni.AutoSize = true;
-            labelDni.Location = new Point(269, 206);
+            labelDni.Location = new Point(269, 200);
             labelDni.Name = "labelDni";
             labelDni.Size = new Size(50, 15);
             labelDni.TabIndex = 5;
@@ -123,7 +123,7 @@
             // labelMail
             // 
             labelMail.AutoSize = true;
-            labelMail.Location = new Point(269, 237);
+            labelMail.Location = new Point(269, 235);
             labelMail.Name = "labelMail";
             labelMail.Size = new Size(56, 15);
             labelMail.TabIndex = 6;
@@ -132,7 +132,7 @@
             // labelFechaNacimiento
             // 
             labelFechaNacimiento.AutoSize = true;
-            labelFechaNacimiento.Location = new Point(269, 308);
+            labelFechaNacimiento.Location = new Point(269, 305);
             labelFechaNacimiento.Name = "labelFechaNacimiento";
             labelFechaNacimiento.Size = new Size(125, 15);
             labelFechaNacimiento.TabIndex = 7;
@@ -141,7 +141,7 @@
             // labelCredito
             // 
             labelCredito.AutoSize = true;
-            labelCredito.Location = new Point(269, 274);
+            labelCredito.Location = new Point(269, 270);
             labelCredito.Name = "labelCredito";
             labelCredito.Size = new Size(70, 15);
             labelCredito.TabIndex = 8;
@@ -150,7 +150,7 @@
             // labelMisFunciones
             // 
             labelMisFunciones.AutoSize = true;
-            labelMisFunciones.Location = new Point(599, 130);
+            labelMisFunciones.Location = new Point(442, 130);
             labelMisFunciones.Name = "labelMisFunciones";
             labelMisFunciones.Size = new Size(83, 15);
             labelMisFunciones.TabIndex = 9;
@@ -159,7 +159,7 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(599, 173);
+            dataGridView1.Location = new Point(442, 173);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(240, 150);
