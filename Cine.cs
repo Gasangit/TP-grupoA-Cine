@@ -54,34 +54,44 @@ namespace TP_grupoA_Cine
 
         public void bajaUsuario(int idUsuario)
         {
-            Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
-            usuarios.Remove(usuario);
-            usuario.Bloqueado = true;   //no se si se lo bloquea, se lo pasa a null.
-                                        //Seguro si se lo saca de la lista
-            Debug.WriteLine($">>> (Cine - bajaUsuario()) Se ELIMINÓ el USUARIO {usuario.Nombre}" + 
-                                $" {usuario.Apellido} con ID {usuario.ID}");
-            usuario = null;
+            try
+            {
+                Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
+
+
+                usuarios.Remove(usuario);
+                usuario.Bloqueado = true;
+                Debug.WriteLine($">>> (Cine - bajaUsuario()) Se ELIMINÓ el USUARIO {usuario.Nombre}" +
+                                    $" {usuario.Apellido} con ID {usuario.ID}");
+                usuario = null;
+            }
+            catch (Exception ex) { Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado."); }
+
         }
         public bool modificacionUsuario(int idUsuario, int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento, bool esAdmin, bool bloqueado) {
 
-            //acá se pueden llamar los datos del usuario en la base de datos y verificar cual es diferente
-            //para cambiarlo. Mientras tanto se modifica el objeto.
+            try
+            {
+                Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
 
-            Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
+                usuario.ID = idUsuario;
+                usuario.DNI = dni;
+                usuario.Nombre = nombre;
+                usuario.Apellido = apellido;
+                usuario.Mail = mail;
+                usuario.Password = password;
+                usuario.FechaNacimiento = fechaNacimiento;
+                usuario.EsAdmin = esAdmin;
+                usuario.Bloqueado = bloqueado;
 
-            usuario.ID = idUsuario;
-            usuario.DNI = dni;
-            usuario.Nombre = nombre;
-            usuario.Apellido = apellido;
-            usuario.Mail = mail;    
-            usuario.Password = password;    
-            usuario.FechaNacimiento = fechaNacimiento;
-            usuario.EsAdmin = esAdmin;
-            usuario.Bloqueado = bloqueado;
+                Debug.WriteLine($">>> Se MODIFICÓ el USUARIO {usuario.Nombre}" +
+                                    $" {usuario.Apellido} con ID {usuario.ID}");
+            }
+            catch (Exception ex) 
+            { 
+                Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado."); 
+            }
 
-
-            Debug.WriteLine($">>> Se MODIFICÓ el USUARIO {usuario.Nombre}" +
-                                $" {usuario.Apellido} con ID {usuario.ID}");
             return true;
         }
 
@@ -407,52 +417,67 @@ namespace TP_grupoA_Cine
 
         private object obtenerObjetoDeLista(int ID, string tipoObjeto)
         {
-            object objeto = new { ID = "Objeto no encontrado"};
-
+            object objeto = new object();
+            
             if (tipoObjeto.ToLower() == "usuario")
             {
+                bool idOk = false;
                 for (int i = 0; i < usuarios.Count; i++)
                 {
                     if (usuarios[i].ID == ID)
                     {
                         objeto = usuarios[i];
+                        idOk = true;
+                        break;
                     }
                 }
+                if (idOk == false) { throw new Exception(); }
             }
             else if (tipoObjeto.ToLower() == "sala")
             {
+                bool idOk = false;
                 for (int i = 0; i < salas.Count; i++)
                 {
                     if (salas[i].ID == ID)
                     {
                         objeto = salas[i];
+                        break;
                     }
                 }
+                if (idOk == false) { throw new Exception(); }
             }
             else if (tipoObjeto.ToLower() == "funcion")
             {
+                bool idOk = false;
                 for (int i = 0; i < funciones.Count; i++)
                 {
                     if (funciones[i].ID == ID)
                     {
                         objeto = funciones[i];
+                        break;
                     }
                 }
+                if (idOk == false) { throw new Exception(); }
             }
             else if (tipoObjeto.ToLower() == "pelicula")
             {
+                bool idOk = false;
                 for (int i = 0; i < peliculas.Count; i++)
                 {
                     if (peliculas[i].ID == ID)
                     {
                         objeto = peliculas[i];
+                        break;
                     }
                 }
+                if (idOk == false) { throw new Exception(); }
             }
-            else 
+            else
             { 
-                Console.WriteLine(">>> Se devuelve un OBJETO GENERICO, no se identificó el objeto que desea generar");
+                Debug.WriteLine($">>> {this.GetType().Name} No se encontró el objeto solicitado, revise ID y tipo de objeto");
+                throw new Exception();
             }
+
             return objeto;
         }
 
