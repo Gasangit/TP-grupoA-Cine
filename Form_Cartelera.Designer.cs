@@ -30,12 +30,16 @@
         {
             btnmostrar_funciones = new Button();
             dataGridView1 = new DataGridView();
+            id = new DataGridViewTextBoxColumn();
+            pelicula = new DataGridViewTextBoxColumn();
+            sala = new DataGridViewTextBoxColumn();
+            fecha = new DataGridViewTextBoxColumn();
+            costo = new DataGridViewTextBoxColumn();
             label5 = new Label();
             panel1 = new Panel();
             label8 = new Label();
             cantidadentradas = new NumericUpDown();
             btncomprar = new Button();
-            btncerrar = new Button();
             label7 = new Label();
             cbCosto = new ComboBox();
             label6 = new Label();
@@ -50,14 +54,10 @@
             cargar500 = new Button();
             funcion_seleccionada = new TextBox();
             label9 = new Label();
+            btncerrar = new Button();
             panel2 = new Panel();
             btnmodificarusuario = new Button();
             btnvolver_cartelera = new Button();
-            id = new DataGridViewTextBoxColumn();
-            pelicula = new DataGridViewTextBoxColumn();
-            sala = new DataGridViewTextBoxColumn();
-            fecha = new DataGridViewTextBoxColumn();
-            costo = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)cantidadentradas).BeginInit();
@@ -85,6 +85,41 @@
             dataGridView1.Size = new Size(565, 162);
             dataGridView1.TabIndex = 61;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            // 
+            // id
+            // 
+            id.Frozen = true;
+            id.HeaderText = "ID";
+            id.Name = "id";
+            id.ReadOnly = true;
+            id.Visible = false;
+            // 
+            // pelicula
+            // 
+            pelicula.Frozen = true;
+            pelicula.HeaderText = "Pelicula";
+            pelicula.Name = "pelicula";
+            pelicula.ReadOnly = true;
+            // 
+            // sala
+            // 
+            sala.Frozen = true;
+            sala.HeaderText = "Sala";
+            sala.Name = "sala";
+            sala.ReadOnly = true;
+            // 
+            // fecha
+            // 
+            fecha.Frozen = true;
+            fecha.HeaderText = "Fecha";
+            fecha.Name = "fecha";
+            fecha.ReadOnly = true;
+            // 
+            // costo
+            // 
+            costo.HeaderText = "Costo";
+            costo.Name = "costo";
+            costo.ReadOnly = true;
             // 
             // label5
             // 
@@ -134,9 +169,12 @@
             // cantidadentradas
             // 
             cantidadentradas.Location = new Point(612, 74);
+            cantidadentradas.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            cantidadentradas.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             cantidadentradas.Name = "cantidadentradas";
             cantidadentradas.Size = new Size(120, 23);
             cantidadentradas.TabIndex = 84;
+            cantidadentradas.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // btncomprar
             // 
@@ -151,17 +189,6 @@
             btncomprar.Text = "COMPRAR";
             btncomprar.UseVisualStyleBackColor = true;
             btncomprar.Click += btncomprar_Click;
-            // 
-            // btncerrar
-            // 
-            btncerrar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            btncerrar.Location = new Point(761, 358);
-            btncerrar.Name = "btncerrar";
-            btncerrar.Size = new Size(149, 37);
-            btncerrar.TabIndex = 82;
-            btncerrar.Text = "CERRAR SESION";
-            btncerrar.UseVisualStyleBackColor = true;
-            btncerrar.Click += btncerrar_Click;
             // 
             // label7
             // 
@@ -307,6 +334,17 @@
             label9.TabIndex = 88;
             label9.Text = "Funcion Seleccionada:";
             // 
+            // btncerrar
+            // 
+            btncerrar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btncerrar.Location = new Point(761, 358);
+            btncerrar.Name = "btncerrar";
+            btncerrar.Size = new Size(149, 37);
+            btncerrar.TabIndex = 82;
+            btncerrar.Text = "CERRAR SESION";
+            btncerrar.UseVisualStyleBackColor = true;
+            btncerrar.Click += btncerrar_Click;
+            // 
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(192, 192, 255);
@@ -343,41 +381,6 @@
             btnvolver_cartelera.Text = "VOLVER";
             btnvolver_cartelera.UseVisualStyleBackColor = true;
             btnvolver_cartelera.Click += btnvolver_cartelera_Click;
-            // 
-            // id
-            // 
-            id.Frozen = true;
-            id.HeaderText = "ID";
-            id.Name = "id";
-            id.ReadOnly = true;
-            id.Visible = false;
-            // 
-            // pelicula
-            // 
-            pelicula.Frozen = true;
-            pelicula.HeaderText = "Pelicula";
-            pelicula.Name = "pelicula";
-            pelicula.ReadOnly = true;
-            // 
-            // sala
-            // 
-            sala.Frozen = true;
-            sala.HeaderText = "Sala";
-            sala.Name = "sala";
-            sala.ReadOnly = true;
-            // 
-            // fecha
-            // 
-            fecha.Frozen = true;
-            fecha.HeaderText = "Fecha";
-            fecha.Name = "fecha";
-            fecha.ReadOnly = true;
-            // 
-            // costo
-            // 
-            costo.HeaderText = "Costo";
-            costo.Name = "costo";
-            costo.ReadOnly = true;
             // 
             // Form_Cartelera
             // 

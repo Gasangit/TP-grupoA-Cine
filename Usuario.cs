@@ -59,5 +59,15 @@ namespace TP_grupoA_Cine
 
         }
 
+
+        public string[] ToStringCredito()
+        {
+            return new string[]
+            {
+                ID.ToString(), Nombre, Apellido, DNI.ToString(),Credito.ToString(), Mail, Password, FechaNacimiento.ToString()};
+
+        }
+
+
     }
 }

@@ -18,7 +18,7 @@ namespace TP_grupoA_Cine
         public TransfDelegado TransfEvento_CarteleraBotonera;
         public TransfDelegado TransfEvento_CarteleraLogin;
         public TransfDelegado TransfEvento_CarteleraUsuarioActivo;
-        
+
         private int selectedFuncionBuscada;
 
         Cine cine = Cine.Instancia; // Traer el cine
@@ -79,9 +79,9 @@ namespace TP_grupoA_Cine
         private void btncomprar_Click(object sender, EventArgs e)
         {
             string mensaje;
-            if (funcion_seleccionada.Text == "" || funcion_seleccionada.Text == null || cantidadentradas.Value == 0)  
+            if (funcion_seleccionada.Text == "" || funcion_seleccionada.Text == null)
             {
-                MessageBox.Show("No seleccionó una funcion o la cantidad de entradas es 0. Verifique.");
+                MessageBox.Show("Debe seleccionar una FUNCION");
             }
             else
             {

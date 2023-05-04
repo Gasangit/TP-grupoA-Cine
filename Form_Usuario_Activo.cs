@@ -14,6 +14,7 @@ namespace TP_grupoA_Cine
     {
 
         public TransfDelegado TransfEvento_UsuarioActivoCartelera;
+        public TransfDelegado TransfEvento_UsuarioActivo_UsuarioFuncion;
         private Cine cine;
         private int selectedUserActive;
 
@@ -26,56 +27,69 @@ namespace TP_grupoA_Cine
 
         public delegate void TransfDelegado();
 
-        //private void button(object sender, EventArgs e)
-        //{
-        //    refreshData();
-        //    selectedUserActive = -1;
-        //}
+        private void btnMostrarDatos_Click(object sender, EventArgs e)
+        {
 
-        //private void refreshData()
-        //{
-        //    dataGridView1.Rows.Clear();
+            refreshData();
+            selectedUserActive = -1;
+        }
 
-        //    foreach (Usuario u in cine.mostrarUsuarios())
-        //        dataGridView1.Rows.Add(u.ToString());
+        private void refreshData()
+        {
+            Usuario u = cine.usuarioActual;
 
-        //    mailusuario.Text = "";
-        //    passwordusuario.Text = "";
-
-        //}
-
-        //private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        //{
-        //    string ID = dataGridView1[0, e.RowIndex].Value.ToString();
-        //    string mailUser = dataGridView1[1, e.RowIndex].Value.ToString();
-        //    string passUser = dataGridView1[2, e.RowIndex].Value.ToString();
-
-        //    selectedUserActive = int.Parse(ID);
-        //    mailusuario.Text = mailUser;
-        //    passwordusuario.Text = passUser;
-
-        //}
-
-
-        //private void botonmodificar(object sender, EventArgs e)
-        //{
-        //    if (selectedUserActive != -1)
-        //    {
-        //        if (cine.modificacionUsuarioActual(selectedUserActive, mailusuario.Tex, passwordusuario.Text))
-        //            MessageBox.Show("Tu usuario fue modificado con éxito");
-        //        else
-        //            MessageBox.Show("error al modificar");
-        //    }
-        //}
+            if (u != null) 
+            { 
+                    tbEmail.Text = u.Mail;
+                    tbNombre.Text = u.Nombre;
+                    tbApellido.Text = u.Apellido;
+                    tbCredito.Text = u.Credito.ToString();
+                    tbDNI.Text = u.DNI.ToString();
+                    mcNacimiento.SelectionStart = u.FechaNacimiento;
+                    mcNacimiento.SelectionEnd = u.FechaNacimiento;
+                    tbContrasenia.Text = u.Password;
+            }
+        }
 
         private void btnvolver_Click(object sender, EventArgs e)
         {
-            this.TransfEvento_UsuarioActivoCartelera();
+            this.TransfEvento_UsuarioActivoCartelera(); //Vuelve a cartelera
         }
 
-        private void btnactualizar_Click(object sender, EventArgs e)
+        private void btnFunciones_Click(object sender, EventArgs e)
         {
+            this.TransfEvento_UsuarioActivo_UsuarioFuncion(); //Lleva a form de mis funciones
+        }
 
+        private void btnActualizarDatos_Click(object sender, EventArgs e)
+        {
+            string nombre = tbNombre.Text;
+            int dni = Convert.ToInt32(tbDNI.Text);
+            string mail = tbEmail.Text;
+            string apellido = tbApellido.Text;
+            int dia = Convert.ToInt32(mcNacimiento.SelectionStart.Day.ToString());
+            int mes = Convert.ToInt32(mcNacimiento.SelectionStart.Month.ToString());
+            int anio = Convert.ToInt32(mcNacimiento.SelectionStart.Year.ToString());
+            DateTime fechaNacimiento = new DateTime(anio, mes, dia);
+            string password = tbContrasenia.Text;
+
+            if (selectedUserActive != -1)
+            {
+
+                if (nombre != null && nombre != "" && password != null && password != "" && dni != 0 && dni != 0 && mail != null && mail != "" && apellido != null && apellido != "" && fechaNacimiento.Year != 0) //quité la comprobación del admin porque al ser combobox simpre vamos a tener un valor
+                {
+                    //Update Usuario
+
+                    cine.modificacionUsuarioActual(selectedUserActive, mail, password, nombre, apellido, dni, fechaNacimiento);
+
+                    MessageBox.Show("Registrado con éxito");
+
+                }
+                else
+                {
+                    MessageBox.Show("error al modificar");
+                }
+            }
         }
     }
 }

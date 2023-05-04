@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            label5 = new Label();
             monthCalendar1 = new MonthCalendar();
             btnRegistrarse = new Button();
             label6 = new Label();
@@ -45,38 +46,33 @@
             tbMail = new TextBox();
             tbDNI = new TextBox();
             tbNombre = new TextBox();
-            label5 = new Label();
+            panel2 = new Panel();
             panel1.SuspendLayout();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BackColor = SystemColors.ActiveCaption;
-            panel1.Controls.Add(label5);
-            panel1.Controls.Add(monthCalendar1);
-            panel1.Controls.Add(btnRegistrarse);
-            panel1.Controls.Add(label6);
-            panel1.Controls.Add(label9);
-            panel1.Controls.Add(label8);
-            panel1.Controls.Add(label7);
-            panel1.Controls.Add(label4);
-            panel1.Controls.Add(label3);
-            panel1.Controls.Add(label2);
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(cbEsAdmin);
-            panel1.Controls.Add(tbApellido);
-            panel1.Controls.Add(tbContraseña);
-            panel1.Controls.Add(tbMail);
-            panel1.Controls.Add(tbDNI);
-            panel1.Controls.Add(tbNombre);
-            panel1.Location = new Point(12, 12);
+            panel1.Controls.Add(panel2);
+            panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(776, 426);
+            panel1.Size = new Size(950, 506);
             panel1.TabIndex = 0;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label5.Location = new Point(423, 207);
+            label5.Name = "label5";
+            label5.Size = new Size(137, 20);
+            label5.TabIndex = 6;
+            label5.Text = "Fecha Nacimiento";
             // 
             // monthCalendar1
             // 
-            monthCalendar1.Location = new Point(465, 255);
+            monthCalendar1.Location = new Point(573, 207);
             monthCalendar1.Name = "monthCalendar1";
             monthCalendar1.TabIndex = 5;
             // 
@@ -84,7 +80,7 @@
             // 
             btnRegistrarse.BackColor = SystemColors.Info;
             btnRegistrarse.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            btnRegistrarse.Location = new Point(166, 353);
+            btnRegistrarse.Location = new Point(177, 321);
             btnRegistrarse.Name = "btnRegistrarse";
             btnRegistrarse.Size = new Size(175, 38);
             btnRegistrarse.TabIndex = 4;
@@ -96,7 +92,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label6.Location = new Point(389, 96);
+            label6.Location = new Point(423, 80);
             label6.Name = "label6";
             label6.Size = new Size(53, 20);
             label6.TabIndex = 3;
@@ -106,7 +102,7 @@
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label9.Location = new Point(58, 268);
+            label9.Location = new Point(61, 248);
             label9.Name = "label9";
             label9.Size = new Size(148, 20);
             label9.TabIndex = 3;
@@ -116,7 +112,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label8.Location = new Point(389, 157);
+            label8.Location = new Point(423, 141);
             label8.Name = "label8";
             label8.Size = new Size(92, 20);
             label8.TabIndex = 3;
@@ -127,7 +123,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label7.Location = new Point(58, 157);
+            label7.Location = new Point(61, 140);
             label7.Name = "label7";
             label7.Size = new Size(65, 20);
             label7.TabIndex = 3;
@@ -138,7 +134,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(86, 214);
+            label4.Location = new Point(61, 197);
             label4.Name = "label4";
             label4.Size = new Size(37, 20);
             label4.TabIndex = 3;
@@ -148,7 +144,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(58, 100);
+            label3.Location = new Point(61, 79);
             label3.Name = "label3";
             label3.Size = new Size(65, 20);
             label3.TabIndex = 3;
@@ -158,7 +154,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Bold, GraphicsUnit.Point);
-            label2.Location = new Point(254, 23);
+            label2.Location = new Point(303, 13);
             label2.Name = "label2";
             label2.Size = new Size(298, 26);
             label2.TabIndex = 2;
@@ -168,7 +164,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(176, 61);
+            label1.Location = new Point(231, 39);
             label1.Name = "label1";
             label1.Size = new Size(436, 20);
             label1.TabIndex = 2;
@@ -178,7 +174,7 @@
             // 
             cbEsAdmin.FormattingEnabled = true;
             cbEsAdmin.Items.AddRange(new object[] { "SI", "NO" });
-            cbEsAdmin.Location = new Point(252, 265);
+            cbEsAdmin.Location = new Point(263, 245);
             cbEsAdmin.Name = "cbEsAdmin";
             cbEsAdmin.Size = new Size(89, 23);
             cbEsAdmin.TabIndex = 1;
@@ -186,60 +182,76 @@
             // 
             // tbApellido
             // 
-            tbApellido.Location = new Point(167, 154);
+            tbApellido.Location = new Point(180, 133);
             tbApellido.Name = "tbApellido";
             tbApellido.Size = new Size(172, 23);
             tbApellido.TabIndex = 0;
             // 
             // tbContraseña
             // 
-            tbContraseña.Location = new Point(539, 154);
+            tbContraseña.Location = new Point(573, 138);
             tbContraseña.Name = "tbContraseña";
             tbContraseña.Size = new Size(174, 23);
             tbContraseña.TabIndex = 0;
             // 
             // tbMail
             // 
-            tbMail.Location = new Point(539, 97);
+            tbMail.Location = new Point(573, 81);
             tbMail.Name = "tbMail";
             tbMail.Size = new Size(174, 23);
             tbMail.TabIndex = 0;
             // 
             // tbDNI
             // 
-            tbDNI.Location = new Point(167, 211);
+            tbDNI.Location = new Point(180, 190);
             tbDNI.Name = "tbDNI";
             tbDNI.Size = new Size(174, 23);
             tbDNI.TabIndex = 0;
             // 
             // tbNombre
             // 
-            tbNombre.Location = new Point(164, 97);
+            tbNombre.Location = new Point(177, 76);
             tbNombre.Name = "tbNombre";
             tbNombre.Size = new Size(174, 23);
             tbNombre.TabIndex = 0;
             // 
-            // label5
+            // panel2
             // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.Location = new Point(389, 226);
-            label5.Name = "label5";
-            label5.Size = new Size(137, 20);
-            label5.TabIndex = 6;
-            label5.Text = "Fecha Nacimiento";
+            panel2.BackColor = Color.FromArgb(192, 192, 255);
+            panel2.Controls.Add(btnRegistrarse);
+            panel2.Controls.Add(label5);
+            panel2.Controls.Add(label9);
+            panel2.Controls.Add(label6);
+            panel2.Controls.Add(cbEsAdmin);
+            panel2.Controls.Add(label7);
+            panel2.Controls.Add(label2);
+            panel2.Controls.Add(label4);
+            panel2.Controls.Add(monthCalendar1);
+            panel2.Controls.Add(label3);
+            panel2.Controls.Add(label8);
+            panel2.Controls.Add(label1);
+            panel2.Controls.Add(tbApellido);
+            panel2.Controls.Add(tbMail);
+            panel2.Controls.Add(tbDNI);
+            panel2.Controls.Add(tbNombre);
+            panel2.Controls.Add(tbContraseña);
+            panel2.Location = new Point(21, 16);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(895, 438);
+            panel2.TabIndex = 8;
             // 
             // Form_Registro
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(945, 504);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Form_Registro";
             Text = "Form_Registro";
             panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -263,5 +275,6 @@
         private Button btnRegistrarse;
         private MonthCalendar monthCalendar1;
         private Label label5;
+        private Panel panel2;
     }
 }

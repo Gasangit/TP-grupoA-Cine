@@ -29,26 +29,41 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            tbCredito = new TextBox();
+            label2 = new Label();
+            btnActualizarDatos = new Button();
+            btnFunciones = new Button();
+            mcNacimiento = new MonthCalendar();
+            tbContrasenia = new TextBox();
+            tbEmail = new TextBox();
+            tbDNI = new TextBox();
+            tbApellido = new TextBox();
+            tbNombre = new TextBox();
+            labelCredito = new Label();
+            labelFechaNacimiento = new Label();
+            labelMail = new Label();
             labelDni = new Label();
             labelApellido = new Label();
             labelNombre = new Label();
             label1 = new Label();
-            btnactualizar = new Button();
+            btnMostrarDatos = new Button();
             btnvolver = new Button();
-            labelMail = new Label();
-            labelFechaNacimiento = new Label();
-            labelCredito = new Label();
-            labelMisFunciones = new Label();
-            dataGridView1 = new DataGridView();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BackColor = SystemColors.ActiveCaption;
-            panel1.Controls.Add(dataGridView1);
-            panel1.Controls.Add(labelMisFunciones);
+            panel1.Controls.Add(tbCredito);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(btnActualizarDatos);
+            panel1.Controls.Add(btnFunciones);
+            panel1.Controls.Add(mcNacimiento);
+            panel1.Controls.Add(tbContrasenia);
+            panel1.Controls.Add(tbEmail);
+            panel1.Controls.Add(tbDNI);
+            panel1.Controls.Add(tbApellido);
+            panel1.Controls.Add(tbNombre);
             panel1.Controls.Add(labelCredito);
             panel1.Controls.Add(labelFechaNacimiento);
             panel1.Controls.Add(labelMail);
@@ -56,114 +71,183 @@
             panel1.Controls.Add(labelApellido);
             panel1.Controls.Add(labelNombre);
             panel1.Controls.Add(label1);
-            panel1.Controls.Add(btnactualizar);
+            panel1.Controls.Add(btnMostrarDatos);
             panel1.Controls.Add(btnvolver);
             panel1.Location = new Point(0, -2);
             panel1.Name = "panel1";
             panel1.Size = new Size(948, 534);
             panel1.TabIndex = 0;
             // 
+            // tbCredito
+            // 
+            tbCredito.Location = new Point(785, 50);
+            tbCredito.Name = "tbCredito";
+            tbCredito.ReadOnly = true;
+            tbCredito.Size = new Size(99, 23);
+            tbCredito.TabIndex = 20;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.Location = new Point(626, 51);
+            label2.Name = "label2";
+            label2.Size = new Size(153, 20);
+            label2.TabIndex = 19;
+            label2.Text = "SALDO CREDITO";
+            // 
+            // btnActualizarDatos
+            // 
+            btnActualizarDatos.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnActualizarDatos.Location = new Point(407, 463);
+            btnActualizarDatos.Name = "btnActualizarDatos";
+            btnActualizarDatos.Size = new Size(142, 27);
+            btnActualizarDatos.TabIndex = 18;
+            btnActualizarDatos.Text = "ACTUALIZAR DATOS";
+            btnActualizarDatos.UseVisualStyleBackColor = true;
+            btnActualizarDatos.Click += btnActualizarDatos_Click;
+            // 
+            // btnFunciones
+            // 
+            btnFunciones.Location = new Point(575, 463);
+            btnFunciones.Name = "btnFunciones";
+            btnFunciones.Size = new Size(103, 27);
+            btnFunciones.TabIndex = 17;
+            btnFunciones.Text = "MIS FUNCIONES";
+            btnFunciones.UseVisualStyleBackColor = true;
+            btnFunciones.Click += btnFunciones_Click;
+            // 
+            // mcNacimiento
+            // 
+            mcNacimiento.Location = new Point(419, 288);
+            mcNacimiento.Name = "mcNacimiento";
+            mcNacimiento.TabIndex = 16;
+            // 
+            // tbContrasenia
+            // 
+            tbContrasenia.Location = new Point(419, 254);
+            tbContrasenia.Name = "tbContrasenia";
+            tbContrasenia.Size = new Size(247, 23);
+            tbContrasenia.TabIndex = 15;
+            // 
+            // tbEmail
+            // 
+            tbEmail.Location = new Point(419, 219);
+            tbEmail.Name = "tbEmail";
+            tbEmail.Size = new Size(247, 23);
+            tbEmail.TabIndex = 14;
+            // 
+            // tbDNI
+            // 
+            tbDNI.Location = new Point(419, 184);
+            tbDNI.Name = "tbDNI";
+            tbDNI.Size = new Size(247, 23);
+            tbDNI.TabIndex = 13;
+            // 
+            // tbApellido
+            // 
+            tbApellido.Location = new Point(419, 149);
+            tbApellido.Name = "tbApellido";
+            tbApellido.Size = new Size(247, 23);
+            tbApellido.TabIndex = 12;
+            // 
+            // tbNombre
+            // 
+            tbNombre.Location = new Point(419, 110);
+            tbNombre.Name = "tbNombre";
+            tbNombre.Size = new Size(247, 23);
+            tbNombre.TabIndex = 11;
+            // 
+            // labelCredito
+            // 
+            labelCredito.AutoSize = true;
+            labelCredito.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            labelCredito.Location = new Point(239, 253);
+            labelCredito.Name = "labelCredito";
+            labelCredito.Size = new Size(92, 20);
+            labelCredito.TabIndex = 8;
+            labelCredito.Text = "Contraseña";
+            // 
+            // labelFechaNacimiento
+            // 
+            labelFechaNacimiento.AutoSize = true;
+            labelFechaNacimiento.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            labelFechaNacimiento.Location = new Point(239, 288);
+            labelFechaNacimiento.Name = "labelFechaNacimiento";
+            labelFechaNacimiento.Size = new Size(159, 20);
+            labelFechaNacimiento.TabIndex = 7;
+            labelFechaNacimiento.Text = "Fecha de Nacimiento";
+            // 
+            // labelMail
+            // 
+            labelMail.AutoSize = true;
+            labelMail.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            labelMail.Location = new Point(239, 218);
+            labelMail.Name = "labelMail";
+            labelMail.Size = new Size(53, 20);
+            labelMail.TabIndex = 6;
+            labelMail.Text = "E-Mail";
+            // 
             // labelDni
             // 
             labelDni.AutoSize = true;
-            labelDni.Location = new Point(269, 200);
+            labelDni.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            labelDni.Location = new Point(239, 183);
             labelDni.Name = "labelDni";
-            labelDni.Size = new Size(50, 15);
+            labelDni.Size = new Size(37, 20);
             labelDni.TabIndex = 5;
-            labelDni.Text = "dni aqui";
+            labelDni.Text = "DNI";
             // 
             // labelApellido
             // 
             labelApellido.AutoSize = true;
-            labelApellido.Location = new Point(269, 165);
+            labelApellido.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            labelApellido.Location = new Point(239, 148);
             labelApellido.Name = "labelApellido";
-            labelApellido.Size = new Size(75, 15);
+            labelApellido.Size = new Size(65, 20);
             labelApellido.TabIndex = 4;
-            labelApellido.Text = "apellido aqui";
+            labelApellido.Text = "Apellido";
             // 
             // labelNombre
             // 
             labelNombre.AutoSize = true;
-            labelNombre.Location = new Point(269, 130);
+            labelNombre.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            labelNombre.Location = new Point(239, 113);
             labelNombre.Name = "labelNombre";
-            labelNombre.Size = new Size(75, 15);
+            labelNombre.Size = new Size(65, 20);
             labelNombre.TabIndex = 3;
-            labelNombre.Text = "nombre aqui";
+            labelNombre.Text = "Nombre";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(338, 36);
+            label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Location = new Point(361, 21);
             label1.Name = "label1";
-            label1.Size = new Size(252, 32);
+            label1.Size = new Size(205, 32);
             label1.TabIndex = 2;
-            label1.Text = "Esta es su información";
+            label1.Text = "Perfil de Usuario";
             // 
-            // btnactualizar
+            // btnMostrarDatos
             // 
-            btnactualizar.Location = new Point(540, 434);
-            btnactualizar.Name = "btnactualizar";
-            btnactualizar.Size = new Size(142, 27);
-            btnactualizar.TabIndex = 1;
-            btnactualizar.Text = "ACTUALIZAR DATOS";
-            btnactualizar.UseVisualStyleBackColor = true;
-            btnactualizar.Click += btnactualizar_Click;
+            btnMostrarDatos.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnMostrarDatos.Location = new Point(407, 72);
+            btnMostrarDatos.Name = "btnMostrarDatos";
+            btnMostrarDatos.Size = new Size(142, 27);
+            btnMostrarDatos.TabIndex = 1;
+            btnMostrarDatos.Text = "MOSTRAR DATOS";
+            btnMostrarDatos.UseVisualStyleBackColor = true;
+            btnMostrarDatos.Click += btnMostrarDatos_Click;
             // 
             // btnvolver
             // 
-            btnvolver.Location = new Point(269, 434);
+            btnvolver.Location = new Point(251, 463);
             btnvolver.Name = "btnvolver";
             btnvolver.Size = new Size(94, 27);
             btnvolver.TabIndex = 0;
             btnvolver.Text = "VOLVER";
             btnvolver.UseVisualStyleBackColor = true;
             btnvolver.Click += btnvolver_Click;
-            // 
-            // labelMail
-            // 
-            labelMail.AutoSize = true;
-            labelMail.Location = new Point(269, 235);
-            labelMail.Name = "labelMail";
-            labelMail.Size = new Size(56, 15);
-            labelMail.TabIndex = 6;
-            labelMail.Text = "mail aqui";
-            // 
-            // labelFechaNacimiento
-            // 
-            labelFechaNacimiento.AutoSize = true;
-            labelFechaNacimiento.Location = new Point(269, 305);
-            labelFechaNacimiento.Name = "labelFechaNacimiento";
-            labelFechaNacimiento.Size = new Size(125, 15);
-            labelFechaNacimiento.TabIndex = 7;
-            labelFechaNacimiento.Text = "fecha nacimiento aqui";
-            // 
-            // labelCredito
-            // 
-            labelCredito.AutoSize = true;
-            labelCredito.Location = new Point(269, 270);
-            labelCredito.Name = "labelCredito";
-            labelCredito.Size = new Size(70, 15);
-            labelCredito.TabIndex = 8;
-            labelCredito.Text = "credito aqui";
-            // 
-            // labelMisFunciones
-            // 
-            labelMisFunciones.AutoSize = true;
-            labelMisFunciones.Location = new Point(442, 130);
-            labelMisFunciones.Name = "labelMisFunciones";
-            labelMisFunciones.Size = new Size(83, 15);
-            labelMisFunciones.TabIndex = 9;
-            labelMisFunciones.Text = "Mis Funciones";
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(442, 173);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(240, 150);
-            dataGridView1.TabIndex = 10;
             // 
             // Form_Usuario_Activo
             // 
@@ -179,14 +263,13 @@
             Text = "Form_Usuario_Activo";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private Panel panel1;
-        private Button btnactualizar;
+        private Button btnMostrarDatos;
         private Button btnvolver;
         private Label labelDni;
         private Label labelApellido;
@@ -195,7 +278,15 @@
         private Label labelCredito;
         private Label labelFechaNacimiento;
         private Label labelMail;
-        private DataGridView dataGridView1;
-        private Label labelMisFunciones;
+        private MonthCalendar mcNacimiento;
+        private TextBox tbContrasenia;
+        private TextBox tbEmail;
+        private TextBox tbDNI;
+        private TextBox tbApellido;
+        private TextBox tbNombre;
+        private Button btnFunciones;
+        private Button btnActualizarDatos;
+        private Label label2;
+        private TextBox tbCredito;
     }
 }

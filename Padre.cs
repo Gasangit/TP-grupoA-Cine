@@ -15,6 +15,7 @@ namespace TP_grupoA_Cine
         private ABM_Usuarios hijoUsuario; //ABM de usuarios
         private Form_Botonera hijoBotonera; // Botonera vista del Administrador
         private Form_Usuario_Activo hijoUsuarioActivo; // Vista del usuario para poder modificar sus datos
+        private Form_Usuario_Funciones hijoUsuarioFunciones; // Vista de las funciones que compro el usuario
 
         private TextBox textBox1; //Cuadro Mail
         private TextBox textBox2; //Cuadro Contrase?a
@@ -275,6 +276,7 @@ namespace TP_grupoA_Cine
             hijoUsuarioActivo.MdiParent = this;
             hijoUsuarioActivo.Dock = DockStyle.Fill;
             hijoUsuarioActivo.TransfEvento_UsuarioActivoCartelera += TransfDelegado_UsuarioActivoCartelera;
+            hijoUsuarioActivo.TransfEvento_UsuarioActivo_UsuarioFuncion += TransfDelegado_UsuarioActivo_UsuarioFuncion;
             hijoUsuarioActivo.Show();
         
         }
@@ -289,6 +291,23 @@ namespace TP_grupoA_Cine
             establecerConexionCartelera();
             hijoCartelera.Show();       
         
+        }
+
+        public void TransfDelegado_UsuarioActivo_UsuarioFuncion() 
+        {
+            hijoUsuarioActivo.Close();
+
+            hijoUsuarioFunciones = new Form_Usuario_Funciones();
+            hijoUsuarioFunciones.MdiParent = this;
+            hijoUsuarioFunciones.Dock = DockStyle.Fill;
+            VolverUsuarioActivo();
+            hijoUsuarioFunciones.Show();
+            
+        }
+
+        public void VolverUsuarioActivo()        
+        {
+           hijoUsuarioFunciones.TransfEvento_UsuarioFuncion_Volver_UsuarioActual += TransfDelegado_UsuarioActivo_UsuarioFuncion;
         }
     }
 }
