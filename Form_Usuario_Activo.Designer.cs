@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            tbId = new TextBox();
             tbCredito = new TextBox();
             label2 = new Label();
             btnActualizarDatos = new Button();
@@ -54,6 +55,7 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.ActiveCaption;
+            panel1.Controls.Add(tbId);
             panel1.Controls.Add(tbCredito);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(btnActualizarDatos);
@@ -77,6 +79,15 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(948, 534);
             panel1.TabIndex = 0;
+            // 
+            // tbId
+            // 
+            tbId.Location = new Point(672, 110);
+            tbId.Name = "tbId";
+            tbId.ReadOnly = true;
+            tbId.Size = new Size(247, 23);
+            tbId.TabIndex = 21;
+            tbId.Visible = false;
             // 
             // tbCredito
             // 
@@ -288,5 +299,6 @@
         private Button btnActualizarDatos;
         private Label label2;
         private TextBox tbCredito;
+        private TextBox tbId;
     }
 }

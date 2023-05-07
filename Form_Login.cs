@@ -73,6 +73,23 @@ namespace TP_grupoA_Cine
 
         }
 
+        private void pbMostrar_Click(object sender, EventArgs e)
+        {
+            pbOcultar.BringToFront();
+
+            textBox2.PasswordChar = '\0'; // Mostramos la contraseña
+
+        }
+
+
+        private void pbOcultar_Click(object sender, EventArgs e)
+        {
+            pbMostrar.BringToFront();
+
+            textBox2.PasswordChar = '*'; //Ocultamos la contraseña
+        }
+
+
         public delegate void DelegadoLogin();
     }
 }

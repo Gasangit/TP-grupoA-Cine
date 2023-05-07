@@ -14,11 +14,32 @@ namespace TP_grupoA_Cine
     {
         public TransfDelegado TransfEvento_UsuarioFuncion_UsuarioActual;
         public TransfDelegado TransfEvento_UsuarioFuncion_Volver_UsuarioActual;
+        private Cine cine;
+        private int selectedUserFuncion;
 
         public Form_Usuario_Funciones()
         {
             InitializeComponent();
+            cine = Cine.Instancia;
+            selectedUserFuncion = -1;
         }
+
+        private void btnmostrarFunciones_Click(object sender, EventArgs e)
+        {
+            refreshData();
+            selectedUserFuncion = -1;
+        }
+
+
+        private void refreshData()
+        {
+            dataGridView1.Rows.Clear();
+            foreach (Funcion funcion in cine.mostrarFunciones())
+                dataGridView1.Rows.Add(funcion.ToString());
+        }
+
+
+
 
         private void btnvolver_Click(object sender, EventArgs e)
         {

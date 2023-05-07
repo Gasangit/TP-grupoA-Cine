@@ -353,6 +353,20 @@ namespace TP_grupoA_Cine
             return mensaje;
         }
 
+        public bool mostrarFuncionesUsuario(int idUsuario,int idFuncion, int cantidad, int idSala, int idPelicula, DateTime fecha, double costo)
+        {
+            Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
+            Funcion funcion = (Funcion)obtenerObjetoDeLista(idFuncion, "funcion");
+
+
+
+            // Funcion funcion = usuario.MisFunciones[idFuncion];
+
+            // double importe = funcion.Costo * cantidad;
+            return true;// Prueba
+        }
+
+
         public void devolverEntrada(int idUsuario,int idFuncion, int cantidad) //se agreaga idFuncion (no esta en UML)
         {
             try 

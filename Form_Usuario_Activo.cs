@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -38,18 +39,20 @@ namespace TP_grupoA_Cine
         {
             Usuario u = cine.usuarioActual;
 
-            if (u != null) 
-            { 
-                    tbEmail.Text = u.Mail;
-                    tbNombre.Text = u.Nombre;
-                    tbApellido.Text = u.Apellido;
-                    tbCredito.Text = u.Credito.ToString();
-                    tbDNI.Text = u.DNI.ToString();
-                    mcNacimiento.SelectionStart = u.FechaNacimiento;
-                    mcNacimiento.SelectionEnd = u.FechaNacimiento;
-                    tbContrasenia.Text = u.Password;
+            if (u != null)
+            {
+                tbId.Text = u.ID.ToString();
+                tbEmail.Text = u.Mail;
+                tbNombre.Text = u.Nombre;
+                tbApellido.Text = u.Apellido;
+                tbCredito.Text = u.Credito.ToString();
+                tbDNI.Text = u.DNI.ToString();
+                mcNacimiento.SelectionStart = u.FechaNacimiento;
+                mcNacimiento.SelectionEnd = u.FechaNacimiento;
+                tbContrasenia.Text = u.Password;
             }
         }
+
 
         private void btnvolver_Click(object sender, EventArgs e)
         {
@@ -61,35 +64,41 @@ namespace TP_grupoA_Cine
             this.TransfEvento_UsuarioActivo_UsuarioFuncion(); //Lleva a form de mis funciones
         }
 
-        private void btnActualizarDatos_Click(object sender, EventArgs e)
+        public void btnActualizarDatos_Click(object sender, EventArgs e)
         {
-            string nombre = tbNombre.Text;
-            int dni = Convert.ToInt32(tbDNI.Text);
-            string mail = tbEmail.Text;
-            string apellido = tbApellido.Text;
-            int dia = Convert.ToInt32(mcNacimiento.SelectionStart.Day.ToString());
-            int mes = Convert.ToInt32(mcNacimiento.SelectionStart.Month.ToString());
-            int anio = Convert.ToInt32(mcNacimiento.SelectionStart.Year.ToString());
-            DateTime fechaNacimiento = new DateTime(anio, mes, dia);
-            string password = tbContrasenia.Text;
-
-            if (selectedUserActive != -1)
+            if (tbNombre.Text != null && tbNombre.Text != "" && tbContrasenia.Text != null && tbContrasenia.Text != "" && Convert.ToInt32(tbDNI.Text) != 0 && tbDNI.Text != null && tbEmail.Text != null && tbEmail.Text != "" && tbApellido.Text != null && tbApellido.Text != "")
             {
 
-                if (nombre != null && nombre != "" && password != null && password != "" && dni != 0 && dni != 0 && mail != null && mail != "" && apellido != null && apellido != "" && fechaNacimiento.Year != 0) //quité la comprobación del admin porque al ser combobox simpre vamos a tener un valor
+                string ID = tbId.Text;
+                selectedUserActive = int.Parse(ID);
+                string nombre = tbNombre.Text;
+                int dni = Convert.ToInt32(tbDNI.Text);
+                string mail = tbEmail.Text;
+                string apellido = tbApellido.Text;
+                int dia = Convert.ToInt32(mcNacimiento.SelectionStart.Day.ToString());
+                int mes = Convert.ToInt32(mcNacimiento.SelectionStart.Month.ToString());
+                int anio = Convert.ToInt32(mcNacimiento.SelectionStart.Year.ToString());
+                DateTime fechaNacimiento = new DateTime(anio, mes, dia);
+                string password = tbContrasenia.Text;
+
+
+                if (selectedUserActive != -1)
                 {
-                    //Update Usuario
+                    if (cine.modificacionUsuarioActual(selectedUserActive, tbEmail.Text, tbContrasenia.Text, tbNombre.Text, tbApellido.Text, Convert.ToInt32(tbDNI.Text), fechaNacimiento))
 
-                    cine.modificacionUsuarioActual(selectedUserActive, mail, password, nombre, apellido, dni, fechaNacimiento);
-
-                    MessageBox.Show("Registrado con éxito");
-
+                        MessageBox.Show("Modificado con éxito");
+                    else
+                        MessageBox.Show("Error al modificar");
                 }
-                else
-                {
-                    MessageBox.Show("error al modificar");
-                }
+
+
+
             }
+            else
+                MessageBox.Show("Completar los campos");
+
+
         }
+
     }
 }

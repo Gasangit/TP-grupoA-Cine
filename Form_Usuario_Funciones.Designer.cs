@@ -31,13 +31,14 @@
             label1 = new Label();
             dataGridView1 = new DataGridView();
             btnvolver = new Button();
+            btnmostrarFunciones = new Button();
+            idUsuario = new DataGridViewTextBoxColumn();
             idFuncion = new DataGridViewTextBoxColumn();
             fechaFuncion = new DataGridViewTextBoxColumn();
             pelicula = new DataGridViewTextBoxColumn();
             sala = new DataGridViewTextBoxColumn();
             cantidad = new DataGridViewTextBoxColumn();
             costoCompra = new DataGridViewTextBoxColumn();
-            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -54,7 +55,7 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idFuncion, fechaFuncion, pelicula, sala, cantidad, costoCompra });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idUsuario, idFuncion, fechaFuncion, pelicula, sala, cantidad, costoCompra });
             dataGridView1.Location = new Point(88, 137);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
@@ -70,6 +71,23 @@
             btnvolver.Text = "VOLVER";
             btnvolver.UseVisualStyleBackColor = true;
             btnvolver.Click += btnvolver_Click;
+            // 
+            // btnmostrarFunciones
+            // 
+            btnmostrarFunciones.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnmostrarFunciones.Location = new Point(88, 104);
+            btnmostrarFunciones.Name = "btnmostrarFunciones";
+            btnmostrarFunciones.Size = new Size(133, 27);
+            btnmostrarFunciones.TabIndex = 6;
+            btnmostrarFunciones.Text = "VER FUNCIONES";
+            btnmostrarFunciones.UseVisualStyleBackColor = true;
+            btnmostrarFunciones.Click += btnmostrarFunciones_Click;
+            // 
+            // idUsuario
+            // 
+            idUsuario.Frozen = true;
+            idUsuario.HeaderText = "ID Usuario";
+            idUsuario.Name = "idUsuario";
             // 
             // idFuncion
             // 
@@ -113,23 +131,13 @@
             costoCompra.Name = "costoCompra";
             costoCompra.ReadOnly = true;
             // 
-            // button1
-            // 
-            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            button1.Location = new Point(88, 104);
-            button1.Name = "button1";
-            button1.Size = new Size(133, 27);
-            button1.TabIndex = 6;
-            button1.Text = "VER FUNCIONES";
-            button1.UseVisualStyleBackColor = true;
-            // 
             // Form_Usuario_Funciones
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(945, 528);
-            Controls.Add(button1);
+            Controls.Add(btnmostrarFunciones);
             Controls.Add(btnvolver);
             Controls.Add(dataGridView1);
             Controls.Add(label1);
@@ -146,12 +154,13 @@
         private Label label1;
         private DataGridView dataGridView1;
         private Button btnvolver;
+        private Button btnmostrarFunciones;
+        private DataGridViewTextBoxColumn idUsuario;
         private DataGridViewTextBoxColumn idFuncion;
         private DataGridViewTextBoxColumn fechaFuncion;
         private DataGridViewTextBoxColumn pelicula;
         private DataGridViewTextBoxColumn sala;
         private DataGridViewTextBoxColumn cantidad;
         private DataGridViewTextBoxColumn costoCompra;
-        private Button button1;
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Login));
             textBox1 = new TextBox();
             textBox2 = new TextBox();
             button1 = new Button();
@@ -37,13 +38,19 @@
             panel1 = new Panel();
             label3 = new Label();
             panel2 = new Panel();
+            pbMostrar = new PictureBox();
+            pbOcultar = new PictureBox();
             panel1.SuspendLayout();
+            panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbMostrar).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbOcultar).BeginInit();
             SuspendLayout();
             // 
             // textBox1
             // 
             textBox1.Location = new Point(402, 166);
             textBox1.Name = "textBox1";
+            textBox1.PlaceholderText = "Ingrese su mail";
             textBox1.Size = new Size(233, 23);
             textBox1.TabIndex = 0;
             textBox1.TextChanged += textBox1_TextChanged;
@@ -52,6 +59,7 @@
             // 
             textBox2.Location = new Point(402, 232);
             textBox2.Name = "textBox2";
+            textBox2.PasswordChar = '*';
             textBox2.Size = new Size(233, 23);
             textBox2.TabIndex = 1;
             // 
@@ -131,10 +139,34 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(192, 192, 255);
+            panel2.Controls.Add(pbMostrar);
+            panel2.Controls.Add(pbOcultar);
             panel2.Location = new Point(24, 31);
             panel2.Name = "panel2";
             panel2.Size = new Size(895, 438);
             panel2.TabIndex = 7;
+            // 
+            // pbMostrar
+            // 
+            pbMostrar.Image = (Image)resources.GetObject("pbMostrar.Image");
+            pbMostrar.Location = new Point(608, 201);
+            pbMostrar.Name = "pbMostrar";
+            pbMostrar.Size = new Size(42, 23);
+            pbMostrar.SizeMode = PictureBoxSizeMode.Zoom;
+            pbMostrar.TabIndex = 0;
+            pbMostrar.TabStop = false;
+            pbMostrar.Click += pbMostrar_Click;
+            // 
+            // pbOcultar
+            // 
+            pbOcultar.Image = (Image)resources.GetObject("pbOcultar.Image");
+            pbOcultar.Location = new Point(608, 201);
+            pbOcultar.Name = "pbOcultar";
+            pbOcultar.Size = new Size(42, 23);
+            pbOcultar.SizeMode = PictureBoxSizeMode.Zoom;
+            pbOcultar.TabIndex = 1;
+            pbOcultar.TabStop = false;
+            pbOcultar.Click += pbOcultar_Click;
             // 
             // Form_Login
             // 
@@ -147,6 +179,9 @@
             Text = "Inicio de Sesión";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pbMostrar).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbOcultar).EndInit();
             ResumeLayout(false);
         }
 
@@ -161,5 +196,7 @@
         private Panel panel1;
         private Label label3;
         private Panel panel2;
+        private PictureBox pbMostrar;
+        private PictureBox pbOcultar;
     }
 }
