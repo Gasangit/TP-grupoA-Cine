@@ -26,10 +26,11 @@ namespace TP_grupoA_Cine
         public bool EsAdmin { get; set; } = false;
         private static int idUsuario { set; get; }
 
+        public Usuario() { }
 
         public Usuario(string mail, string password)
         {
-            ID = ++idUsuario;
+            //ID = ++idUsuario;
             Mail = mail;
             Password = password;
         }
@@ -54,7 +55,7 @@ namespace TP_grupoA_Cine
         {
             return new string[]
             {
-                ID.ToString(), Nombre, Apellido, DNI.ToString(), Mail, Password, FechaNacimiento.ToString(), EsAdmin.ToString() };
+                ID.ToString(), Nombre, Apellido, DNI.ToString(), Mail, Password, FechaNacimiento.ToString(), EsAdmin.ToString(), Bloqueado.ToString() };
 
 
         }

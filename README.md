@@ -31,3 +31,4 @@ Formularios del usuario comun:
 * Cartelera (busqueda y compra) - Los filtros estan en construccion
 * Actualizar mis datos (en construccion)
 
+COMPRA-> Se admite entre 1 y 10 boletos por compra.

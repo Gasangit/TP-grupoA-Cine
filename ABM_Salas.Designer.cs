@@ -28,10 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
-            ID = new DataGridViewTextBoxColumn();
-            ubicacion = new DataGridViewTextBoxColumn();
-            capacidad = new DataGridViewTextBoxColumn();
             btnbaja_sala = new Button();
             btnmodificar_sala = new Button();
             btnalta_sala = new Button();
@@ -45,42 +41,13 @@
             panel1 = new Panel();
             btnvolver_salas = new Button();
             btnmostrar_sala = new Button();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            dataGridView1 = new DataGridView();
+            ID = new DataGridViewTextBoxColumn();
+            ubicacion = new DataGridViewTextBoxColumn();
+            capacidad = new DataGridViewTextBoxColumn();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ID, ubicacion, capacidad });
-            dataGridView1.Location = new Point(287, 188);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(394, 185);
-            dataGridView1.TabIndex = 38;
-            dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
-            // 
-            // ID
-            // 
-            ID.Frozen = true;
-            ID.HeaderText = "ID";
-            ID.Name = "ID";
-            ID.ReadOnly = true;
-            ID.Visible = false;
-            // 
-            // ubicacion
-            // 
-            ubicacion.Frozen = true;
-            ubicacion.HeaderText = "Ubicación";
-            ubicacion.Name = "ubicacion";
-            ubicacion.ReadOnly = true;
-            // 
-            // capacidad
-            // 
-            capacidad.Frozen = true;
-            capacidad.HeaderText = "Capacidad";
-            capacidad.Name = "capacidad";
-            capacidad.ReadOnly = true;
             // 
             // btnbaja_sala
             // 
@@ -119,10 +86,10 @@
             // 
             label5.AutoSize = true;
             label5.BackColor = SystemColors.ActiveCaption;
-            label5.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Point);
+            label5.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
             label5.Location = new Point(434, 17);
             label5.Name = "label5";
-            label5.Size = new Size(84, 26);
+            label5.Size = new Size(85, 25);
             label5.TabIndex = 34;
             label5.Text = "SALAS";
             // 
@@ -225,6 +192,39 @@
             btnmostrar_sala.UseVisualStyleBackColor = true;
             btnmostrar_sala.Click += btnmostrar_sala_Click;
             // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ID, ubicacion, capacidad });
+            dataGridView1.Location = new Point(287, 188);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowTemplate.Height = 25;
+            dataGridView1.Size = new Size(394, 185);
+            dataGridView1.TabIndex = 38;
+            dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            // 
+            // ID
+            // 
+            ID.Frozen = true;
+            ID.HeaderText = "ID";
+            ID.Name = "ID";
+            ID.ReadOnly = true;
+            ID.Visible = false;
+            // 
+            // ubicacion
+            // 
+            ubicacion.Frozen = true;
+            ubicacion.HeaderText = "Ubicación";
+            ubicacion.Name = "ubicacion";
+            ubicacion.ReadOnly = true;
+            // 
+            // capacidad
+            // 
+            capacidad.Frozen = true;
+            capacidad.HeaderText = "Capacidad";
+            capacidad.Name = "capacidad";
+            capacidad.ReadOnly = true;
+            // 
             // ABM_Salas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -235,15 +235,13 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "ABM_Salas";
             Text = "Form5";
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
-
-        private DataGridView dataGridView1;
         private Button btnbaja_sala;
         private Button btnmodificar_sala;
         private Button btnalta_sala;
@@ -254,11 +252,12 @@
         private TextBox ubicacionsala_text;
         private Label label2;
         private TextBox idsala_text;
-        private DataGridViewTextBoxColumn ID;
-        private DataGridViewTextBoxColumn ubicacion;
-        private DataGridViewTextBoxColumn capacidad;
         private Panel panel1;
         private Button btnvolver_salas;
         private Button btnmostrar_sala;
+        private DataGridView dataGridView1;
+        private DataGridViewTextBoxColumn ID;
+        private DataGridViewTextBoxColumn ubicacion;
+        private DataGridViewTextBoxColumn capacidad;
     }
 }

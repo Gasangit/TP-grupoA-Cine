@@ -182,10 +182,10 @@
             // 
             label5.AutoSize = true;
             label5.BackColor = SystemColors.ActiveCaption;
-            label5.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Point);
+            label5.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
             label5.Location = new Point(404, 9);
             label5.Name = "label5";
-            label5.Size = new Size(128, 26);
+            label5.Size = new Size(128, 25);
             label5.TabIndex = 34;
             label5.Text = "USUARIOS";
             // 

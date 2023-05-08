@@ -37,7 +37,7 @@ namespace TP_grupoA_Cine
 
         private void refreshData()
         {
-            Usuario u = cine.usuarioActual;
+            Usuario u = cine.usuarioActual();
 
             if (u != null)
             {
@@ -82,7 +82,7 @@ namespace TP_grupoA_Cine
                 string password = tbContrasenia.Text;
 
 
-                if (selectedUserActive != -1)
+                if (selectedUserActive != -1)// Modifica al usuario
                 {
                     if (cine.modificacionUsuarioActual(selectedUserActive, tbEmail.Text, tbContrasenia.Text, tbNombre.Text, tbApellido.Text, Convert.ToInt32(tbDNI.Text), fechaNacimiento))
 
@@ -90,15 +90,25 @@ namespace TP_grupoA_Cine
                     else
                         MessageBox.Show("Error al modificar");
                 }
-
-
-
             }
             else
                 MessageBox.Show("Completar los campos");
-
-
         }
 
+        private void btnCargar_Click(object sender, EventArgs e) //Boton para cargar credito
+        {
+            //Sumar credito del monto ingresado en montoCarga (TextBox)
+            int credito = Convert.ToInt32(montoCarga.Text);
+            if(credito > 0)
+            {
+                cine.cargarCredito(cine.usuarioActual().ID, credito);
+                MessageBox.Show("SALDO ACTUAL: " + cine.usuarioActual().Credito, "Carga Exitosa");
+                refreshData();
+            } else
+            {
+                MessageBox.Show("Ingrese un monto a cargar", "ERROR");
+            }
+            
+        }
     }
 }

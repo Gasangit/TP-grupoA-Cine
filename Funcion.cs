@@ -27,7 +27,7 @@ namespace TP_grupoA_Cine
 
         public Funcion(DateTime Fecha, double Costo)
         {
-            this.ID = ++idFuncion;
+          //  this.ID = ++idFuncion;
             this.Fecha = Fecha;
             this.Costo = Costo;
 
@@ -53,7 +53,16 @@ namespace TP_grupoA_Cine
                 ID.ToString(),MiPelicula.Nombre.ToString(),MiSala.Ubicacion.ToString(), Fecha.ToString(), Costo.ToString() //CantClientes.ToString() // Muestra cantidad de clientes que ya compraron la funcion
             };
         }
-      
+
+        public string[] ToStringFunciones()
+        {
+
+            return new string[]
+            {
+                ID.ToString(),Fecha.ToString(),MiPelicula.Nombre.ToString(),MiSala.Ubicacion.ToString(),"", Costo.ToString() //CantClientes.ToString() // Muestra cantidad de clientes que ya compraron la funcion
+            };
+        }
+
     }
 
 }

@@ -14,15 +14,17 @@ namespace TP_grupoA_Cine
     public class Cine
     {
 
-        public List<Usuario> usuarios { get; set; } = new List<Usuario>();
-        public List<Funcion> funciones { get; set; } = new List<Funcion>();
-        public List<Sala> salas { get; set; } = new List<Sala>();
-        public List<Pelicula> peliculas { get; set; } = new List<Pelicula>();
-        public Usuario usuarioActual { get; set; }
+        private List<Usuario> usuarios = new List<Usuario>();
+        private List<Funcion> funciones = new List<Funcion>();
+        private List<Sala> salas = new List<Sala>();
+        private List<Pelicula> peliculas = new List<Pelicula>();
+        private Usuario UsuarioActual = new Usuario();
 
-        public string nombreUsuario() {
 
-            return usuarioActual.Nombre;
+
+        public Usuario usuarioActual() {
+
+            return this.UsuarioActual;
         }
         // SINGLETON -------------------------------------------------------------------------------------------
         private readonly static Cine _instancia = new Cine();
@@ -250,10 +252,10 @@ namespace TP_grupoA_Cine
             }
         }
         // PELICULA -------------------------------------------------------------------------------------------
-        public bool altaPelicula(string nombre, string sinopsis, int duracion)
+        public bool altaPelicula(string nombre, string sinopsis, int duracion, string poster)
         {
 
-            Pelicula pelicula = new Pelicula(nombre, sinopsis, duracion);
+            Pelicula pelicula = new Pelicula(nombre, sinopsis, duracion, poster);
             peliculas.Add(pelicula);
 
             Debug.WriteLine($">>> (Cine - altaPelicula()) Se creó la PELÍCULA {pelicula.Nombre} con ID {pelicula.ID}");
@@ -313,7 +315,7 @@ namespace TP_grupoA_Cine
         public string comprarEntrada(int idUsuario, int idFuncion, int cantidad)
         {
             string mensaje = "";
-
+            Debug.WriteLine(cantidad);
             try
             {
                 Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
@@ -357,8 +359,6 @@ namespace TP_grupoA_Cine
         {
             Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
             Funcion funcion = (Funcion)obtenerObjetoDeLista(idFuncion, "funcion");
-
-
 
             // Funcion funcion = usuario.MisFunciones[idFuncion];
 
@@ -410,7 +410,7 @@ namespace TP_grupoA_Cine
                     {
                         if (usuarios[i].Bloqueado != true)
                         {
-                            this.usuarioActual = usuarios[i];
+                            this.UsuarioActual = usuarios[i];
                             comprobar = "ok";
                             usuarios[i].IntentosFallidos = 0;
                         }
@@ -449,7 +449,7 @@ namespace TP_grupoA_Cine
 
         public void cerrarSesion()
         {
-            this.usuarioActual = null;
+            this.UsuarioActual = null;
         }
 
         // FRONT --------------------------------------------------------------------------------------------
@@ -530,6 +530,7 @@ namespace TP_grupoA_Cine
                     if (salas[i].ID == ID)
                     {
                         objeto = salas[i];
+                        idOk = true;
                         break;
                     }
                 }
@@ -543,6 +544,7 @@ namespace TP_grupoA_Cine
                     if (funciones[i].ID == ID)
                     {
                         objeto = funciones[i];
+                        idOk = true;
                         break;
                     }
                 }
@@ -556,6 +558,7 @@ namespace TP_grupoA_Cine
                     if (peliculas[i].ID == ID)
                     {
                         objeto = peliculas[i];
+                        idOk = true;
                         break;
                     }
                 }

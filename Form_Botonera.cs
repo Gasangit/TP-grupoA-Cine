@@ -69,6 +69,11 @@ namespace TP_grupoA_Cine
 
         }
 
+        private void btnBusqueda_Click(object sender, EventArgs e)
+        {
+
+        }
+
         public delegate void DelegadoBotonera();
     }
 }

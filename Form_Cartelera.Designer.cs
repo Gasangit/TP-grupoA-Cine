@@ -30,11 +30,6 @@
         {
             btnmostrar_funciones = new Button();
             dataGridView1 = new DataGridView();
-            id = new DataGridViewTextBoxColumn();
-            pelicula = new DataGridViewTextBoxColumn();
-            sala = new DataGridViewTextBoxColumn();
-            fecha = new DataGridViewTextBoxColumn();
-            costo = new DataGridViewTextBoxColumn();
             label5 = new Label();
             panel1 = new Panel();
             label8 = new Label();
@@ -51,13 +46,19 @@
             label2 = new Label();
             label1 = new Label();
             panel3 = new Panel();
-            cargar500 = new Button();
+            btnBusqueda = new Button();
             funcion_seleccionada = new TextBox();
             label9 = new Label();
             btncerrar = new Button();
             panel2 = new Panel();
             btnmodificarusuario = new Button();
             btnvolver_cartelera = new Button();
+            id = new DataGridViewTextBoxColumn();
+            pelicula = new DataGridViewTextBoxColumn();
+            sala = new DataGridViewTextBoxColumn();
+            fecha = new DataGridViewTextBoxColumn();
+            costo = new DataGridViewTextBoxColumn();
+            poster = new DataGridViewImageColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)cantidadentradas).BeginInit();
@@ -78,48 +79,13 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { id, pelicula, sala, fecha, costo });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { id, pelicula, sala, fecha, costo, poster });
             dataGridView1.Location = new Point(357, 159);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowTemplate.Height = 25;
+            dataGridView1.RowTemplate.Height = 50;
             dataGridView1.Size = new Size(565, 162);
             dataGridView1.TabIndex = 61;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
-            // 
-            // id
-            // 
-            id.Frozen = true;
-            id.HeaderText = "ID";
-            id.Name = "id";
-            id.ReadOnly = true;
-            id.Visible = false;
-            // 
-            // pelicula
-            // 
-            pelicula.Frozen = true;
-            pelicula.HeaderText = "Pelicula";
-            pelicula.Name = "pelicula";
-            pelicula.ReadOnly = true;
-            // 
-            // sala
-            // 
-            sala.Frozen = true;
-            sala.HeaderText = "Sala";
-            sala.Name = "sala";
-            sala.ReadOnly = true;
-            // 
-            // fecha
-            // 
-            fecha.Frozen = true;
-            fecha.HeaderText = "Fecha";
-            fecha.Name = "fecha";
-            fecha.ReadOnly = true;
-            // 
-            // costo
-            // 
-            costo.HeaderText = "Costo";
-            costo.Name = "costo";
-            costo.ReadOnly = true;
             // 
             // label5
             // 
@@ -289,7 +255,7 @@
             // panel3
             // 
             panel3.BackColor = Color.FromArgb(192, 192, 255);
-            panel3.Controls.Add(cargar500);
+            panel3.Controls.Add(btnBusqueda);
             panel3.Controls.Add(funcion_seleccionada);
             panel3.Controls.Add(label9);
             panel3.Controls.Add(btncerrar);
@@ -303,17 +269,16 @@
             panel3.Size = new Size(922, 463);
             panel3.TabIndex = 87;
             // 
-            // cargar500
+            // btnBusqueda
             // 
-            cargar500.Font = new Font("Segoe UI", 13F, FontStyle.Bold, GraphicsUnit.Point);
-            cargar500.ForeColor = Color.Red;
-            cargar500.Location = new Point(847, 106);
-            cargar500.Name = "cargar500";
-            cargar500.Size = new Size(63, 42);
-            cargar500.TabIndex = 90;
-            cargar500.Text = "$500";
-            cargar500.UseVisualStyleBackColor = true;
-            cargar500.Click += button1_Click;
+            btnBusqueda.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnBusqueda.Location = new Point(488, 361);
+            btnBusqueda.Name = "btnBusqueda";
+            btnBusqueda.Size = new Size(206, 31);
+            btnBusqueda.TabIndex = 91;
+            btnBusqueda.Text = "BUSQUEDA AVANZADA";
+            btnBusqueda.UseVisualStyleBackColor = true;
+            btnBusqueda.Click += btnBusqueda_Click;
             // 
             // funcion_seleccionada
             // 
@@ -351,7 +316,7 @@
             panel2.BorderStyle = BorderStyle.FixedSingle;
             panel2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             panel2.ForeColor = Color.Red;
-            panel2.Location = new Point(591, 28);
+            panel2.Location = new Point(593, 28);
             panel2.Name = "panel2";
             panel2.Size = new Size(323, 77);
             panel2.TabIndex = 86;
@@ -381,6 +346,52 @@
             btnvolver_cartelera.Text = "VOLVER";
             btnvolver_cartelera.UseVisualStyleBackColor = true;
             btnvolver_cartelera.Click += btnvolver_cartelera_Click;
+            // 
+            // id
+            // 
+            id.Frozen = true;
+            id.HeaderText = "ID";
+            id.Name = "id";
+            id.ReadOnly = true;
+            id.Visible = false;
+            // 
+            // pelicula
+            // 
+            pelicula.Frozen = true;
+            pelicula.HeaderText = "Pelicula";
+            pelicula.Name = "pelicula";
+            pelicula.ReadOnly = true;
+            // 
+            // sala
+            // 
+            sala.Frozen = true;
+            sala.HeaderText = "Sala";
+            sala.Name = "sala";
+            sala.ReadOnly = true;
+            // 
+            // fecha
+            // 
+            fecha.Frozen = true;
+            fecha.HeaderText = "Fecha";
+            fecha.Name = "fecha";
+            fecha.ReadOnly = true;
+            // 
+            // costo
+            // 
+            costo.Frozen = true;
+            costo.HeaderText = "Costo";
+            costo.Name = "costo";
+            costo.ReadOnly = true;
+            // 
+            // poster
+            // 
+            poster.Frozen = true;
+            poster.HeaderText = "Poster";
+            poster.ImageLayout = DataGridViewImageCellLayout.Stretch;
+            poster.Name = "poster";
+            poster.ReadOnly = true;
+            poster.Resizable = DataGridViewTriState.True;
+            poster.SortMode = DataGridViewColumnSortMode.Automatic;
             // 
             // Form_Cartelera
             // 
@@ -427,11 +438,12 @@
         private Panel panel3;
         private TextBox funcion_seleccionada;
         private Label label9;
-        private Button cargar500;
+        private Button btnBusqueda;
         private DataGridViewTextBoxColumn id;
         private DataGridViewTextBoxColumn pelicula;
         private DataGridViewTextBoxColumn sala;
         private DataGridViewTextBoxColumn fecha;
         private DataGridViewTextBoxColumn costo;
+        private DataGridViewImageColumn poster;
     }
 }

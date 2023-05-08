@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Xml.Linq;
+using System.Net;
 
 
 namespace TP_grupoA_Cine
@@ -18,6 +19,7 @@ namespace TP_grupoA_Cine
         public TransfDelegado TransfEvento_CarteleraBotonera;
         public TransfDelegado TransfEvento_CarteleraLogin;
         public TransfDelegado TransfEvento_CarteleraUsuarioActivo;
+        public TransfDelegado TransfEvento_CarteleraPeliculasSalas;
 
         private int selectedFuncionBuscada;
 
@@ -27,8 +29,24 @@ namespace TP_grupoA_Cine
         {
             InitializeComponent();
             selectedFuncionBuscada = -1;
-            label1.Text = cine.usuarioActual.Nombre;
-            if (cine.usuarioActual.EsAdmin == false) btnvolver_cartelera.Visible = false;
+            label1.Text = cine.usuarioActual().Nombre;
+            if (cine.usuarioActual().EsAdmin == false) btnvolver_cartelera.Visible = false;
+
+
+            foreach (Pelicula p in cine.mostrarPeliculas())
+            {
+                cbPelicula.Items.Add(p.Nombre.ToString());
+            }
+
+            foreach (Funcion f in cine.mostrarFunciones())
+            {
+                cbCosto.Items.Add(f.Costo.ToString());
+            }
+
+            foreach (Sala s in cine.mostrarSalas())
+            {
+                cbUbicacion.Items.Add(s.Ubicacion.ToString());
+            }
         }
 
         public delegate void TransfDelegado();
@@ -53,8 +71,103 @@ namespace TP_grupoA_Cine
 
             foreach (Funcion funcion in cine.mostrarFunciones())
             {
-                dataGridView1.Rows.Add(funcion.ToString());
-                funcion_seleccionada.Text = "";
+                if (Convert.ToString(cbPelicula.SelectedItem) == "" && Convert.ToString(cbCosto.SelectedItem) == "" &&
+                    Convert.ToString(cbUbicacion.SelectedItem) == "")
+                {
+                    string url = funcion.MiPelicula.Poster.ToString();
+                    WebClient wc = new WebClient();
+                    byte[] bytes = wc.DownloadData(url);
+                    MemoryStream ms = new MemoryStream(bytes);
+
+                    dataGridView1.Rows.Add(funcion.ID.ToString(), funcion.MiPelicula.Nombre.ToString(), funcion.MiSala.Ubicacion.ToString(),
+                                            funcion.Fecha.ToString(), funcion.Costo.ToString(), Image.FromStream(ms));
+                    funcion_seleccionada.Text = "";
+                }
+                else
+                    if (Convert.ToString(cbPelicula.SelectedItem) == funcion.MiPelicula.Nombre.ToString() &&
+                        Convert.ToString(cbUbicacion.SelectedItem) == "" &&
+                        Convert.ToString(cbCosto.SelectedItem) == "")
+                {
+                    string url = funcion.MiPelicula.Poster.ToString();
+                    WebClient wc = new WebClient();
+                    byte[] bytes = wc.DownloadData(url);
+                    MemoryStream ms = new MemoryStream(bytes);
+
+                    dataGridView1.Rows.Add(funcion.ID.ToString(), funcion.MiPelicula.Nombre.ToString(), funcion.MiSala.Ubicacion.ToString(),
+                                            funcion.Fecha.ToString(), funcion.Costo.ToString(), Image.FromStream(ms));
+                    funcion_seleccionada.Text = "";
+                }
+                else
+                      if (Convert.ToString(cbPelicula.SelectedItem) == funcion.MiPelicula.Nombre.ToString() &&
+                        Convert.ToString(cbUbicacion.SelectedItem) == funcion.MiSala.Ubicacion.ToString() &&
+                        Convert.ToString(cbCosto.SelectedItem) == "")
+                {
+                    string url = funcion.MiPelicula.Poster.ToString();
+                    WebClient wc = new WebClient();
+                    byte[] bytes = wc.DownloadData(url);
+                    MemoryStream ms = new MemoryStream(bytes);
+
+                    dataGridView1.Rows.Add(funcion.ID.ToString(), funcion.MiPelicula.Nombre.ToString(), funcion.MiSala.Ubicacion.ToString(),
+                                            funcion.Fecha.ToString(), funcion.Costo.ToString(), Image.FromStream(ms));
+                    funcion_seleccionada.Text = "";
+
+                }
+                else
+                    if (Convert.ToString(cbPelicula.SelectedItem) == funcion.MiPelicula.Nombre.ToString() &&
+                        Convert.ToString(cbUbicacion.SelectedItem) == "" &&
+                        Convert.ToString(cbCosto.SelectedItem) == funcion.Costo.ToString())
+                {
+                    string url = funcion.MiPelicula.Poster.ToString();
+                    WebClient wc = new WebClient();
+                    byte[] bytes = wc.DownloadData(url);
+                    MemoryStream ms = new MemoryStream(bytes);
+
+                    dataGridView1.Rows.Add(funcion.ToString());
+                    funcion_seleccionada.Text = "";
+
+                }
+                else
+                    if (Convert.ToString(cbPelicula.SelectedItem) == "" &&
+                        Convert.ToString(cbUbicacion.SelectedItem) == funcion.MiSala.Ubicacion.ToString() &&
+                        Convert.ToString(cbCosto.SelectedItem) == funcion.Costo.ToString())
+                {
+                    string url = funcion.MiPelicula.Poster.ToString();
+                    WebClient wc = new WebClient();
+                    byte[] bytes = wc.DownloadData(url);
+                    MemoryStream ms = new MemoryStream(bytes);
+
+                    dataGridView1.Rows.Add(funcion.ID.ToString(), funcion.MiPelicula.Nombre.ToString(), funcion.MiSala.Ubicacion.ToString(),
+                                            funcion.Fecha.ToString(), funcion.Costo.ToString(), Image.FromStream(ms));
+                    funcion_seleccionada.Text = "";
+                }
+                else
+                    if (Convert.ToString(cbPelicula.SelectedItem) == "" &&
+                        Convert.ToString(cbUbicacion.SelectedItem) == funcion.MiSala.Ubicacion.ToString() &&
+                        Convert.ToString(cbCosto.SelectedItem) == "")
+                {
+                    string url = funcion.MiPelicula.Poster.ToString();
+                    WebClient wc = new WebClient();
+                    byte[] bytes = wc.DownloadData(url);
+                    MemoryStream ms = new MemoryStream(bytes);
+
+                    dataGridView1.Rows.Add(funcion.ToString());
+                    funcion_seleccionada.Text = "";
+                }
+                else
+                    if (Convert.ToString(cbPelicula.SelectedItem) == "" &&
+                        Convert.ToString(cbUbicacion.SelectedItem) == "" &&
+                        Convert.ToString(cbCosto.SelectedItem) == funcion.Costo.ToString())
+                {
+                    string url = funcion.MiPelicula.Poster.ToString();
+                    WebClient wc = new WebClient();
+                    byte[] bytes = wc.DownloadData(url);
+                    MemoryStream ms = new MemoryStream(bytes);
+
+                    dataGridView1.Rows.Add(funcion.ID.ToString(), funcion.MiPelicula.Nombre.ToString(), funcion.MiSala.Ubicacion.ToString(),
+                                            funcion.Fecha.ToString(), funcion.Costo.ToString(), Image.FromStream(ms));
+                    funcion_seleccionada.Text = "";
+                }
+
             }
 
 
@@ -81,12 +194,12 @@ namespace TP_grupoA_Cine
             string mensaje;
             if (funcion_seleccionada.Text == "" || funcion_seleccionada.Text == null)
             {
-                MessageBox.Show("Debe seleccionar una FUNCION");
+                MessageBox.Show("Debe seleccionar una FUNCION", "ERROR");
             }
             else
             {
-                mensaje = cine.comprarEntrada(cine.usuarioActual.ID, Convert.ToInt32(funcion_seleccionada.Text), Convert.ToInt32(cantidadentradas.Value));
-                MessageBox.Show(mensaje);
+                mensaje = cine.comprarEntrada(cine.usuarioActual().ID, Convert.ToInt32(funcion_seleccionada.Text), Convert.ToInt32(cantidadentradas.Value));
+                MessageBox.Show(mensaje, "Compra Exitosa");
             }
         }
 
@@ -95,10 +208,15 @@ namespace TP_grupoA_Cine
             this.TransfEvento_CarteleraUsuarioActivo();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e) //Boton de carga de credito
         {
-            cine.cargarCredito(cine.usuarioActual.ID, 500);
-            MessageBox.Show("SALDO ACTUAL: " + cine.usuarioActual.Credito);
+            cine.cargarCredito(cine.usuarioActual().ID, 500);
+            MessageBox.Show("SALDO ACTUAL: " + cine.usuarioActual().Credito, "Carga Exitosa");
+        }
+
+        private void btnBusqueda_Click(object sender, EventArgs e)
+        {
+            this.TransfEvento_CarteleraPeliculasSalas();
         }
     }
 }

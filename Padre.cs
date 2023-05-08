@@ -16,6 +16,7 @@ namespace TP_grupoA_Cine
         private Form_Botonera hijoBotonera; // Botonera vista del Administrador
         private Form_Usuario_Activo hijoUsuarioActivo; // Vista del usuario para poder modificar sus datos
         private Form_Usuario_Funciones hijoUsuarioFunciones; // Vista de las funciones que compro el usuario
+        private Form_PeliculasSalas hijoPeliculasSalas; // Vista de las Peliculas y Salas
 
         private TextBox textBox1; //Cuadro Mail
         private TextBox textBox2; //Cuadro Contrase?a
@@ -29,8 +30,8 @@ namespace TP_grupoA_Cine
             //Dejamos datos registrados de prueba
             cine.altaUsuario(28976543, "Gaston", "Mansilla", "gaston@gmail.com", "123", new DateTime(1982, 04, 02), false); // usuario comun 
             cine.altaUsuario(39186055, "Luke", "Skywalker", "luke@gmail.com", "456", new DateTime(1970, 05, 25), true); // usuario admin          
-            cine.altaPelicula("Ant-Man 3", "El doctor Hank Pym", 135);
-            cine.altaPelicula("Super Mario Bros", "Its me maaarioo", 104);
+            cine.altaPelicula("Ant-Man 3", "El doctor Hank Pym", 135, "https://womenwriteaboutcomics.com/wp-content/uploads/2015/07/0c4381226e8a0e3acd89de6f48d0c658.jpg");
+            cine.altaPelicula("Super Mario Bros", "Its me maaarioo", 104, "https://dx35vtwkllhj9.cloudfront.net/universalstudios/super-mario-bros/images/regions/us/onesheet.jpg"); 
             cine.altaSala("Flores", 70);
             cine.altaSala("Palermo", 90);
             cine.altaSala("Recoleta", 120);
@@ -64,7 +65,7 @@ namespace TP_grupoA_Cine
         {
             hijoLogin.Close(); //cierra login
 
-            if (cine.usuarioActual.EsAdmin)
+            if (cine.usuarioActual().EsAdmin)
             {
                 hijoBotonera = new Form_Botonera(); //abre Form_Botonera
                 hijoBotonera.MdiParent = this;
@@ -117,6 +118,7 @@ namespace TP_grupoA_Cine
             hijoCartelera.TransfEvento_CarteleraBotonera += TransfDelegado_CarteleraBotonera;
             hijoCartelera.TransfEvento_CarteleraLogin += TransfDelegado_CarteleraLogin;
             hijoCartelera.TransfEvento_CarteleraUsuarioActivo += TransfDelegado_CarteleraUsuarioActivo;
+            hijoCartelera.TransfEvento_CarteleraPeliculasSalas += TransfDelegado_CarteleraPeliculasSalas;
 
         }
 
@@ -131,6 +133,7 @@ namespace TP_grupoA_Cine
             hijoCartelera.TransfEvento_CarteleraBotonera += TransfDelegado_CarteleraBotonera;
             hijoCartelera.TransfEvento_CarteleraLogin += TransfDelegado_CarteleraLogin;
             hijoCartelera.TransfEvento_CarteleraUsuarioActivo += TransfDelegado_CarteleraUsuarioActivo;
+            hijoCartelera.TransfEvento_CarteleraPeliculasSalas += TransfDelegado_CarteleraPeliculasSalas;
             hijoCartelera.Show();
         }
 
@@ -300,14 +303,33 @@ namespace TP_grupoA_Cine
             hijoUsuarioFunciones = new Form_Usuario_Funciones();
             hijoUsuarioFunciones.MdiParent = this;
             hijoUsuarioFunciones.Dock = DockStyle.Fill;
-            VolverUsuarioActivo();
+            hijoUsuarioFunciones.TransfEvento_UsuarioFuncion_Volver_UsuarioActual += TransfDelegado_CarteleraUsuarioActivo;
             hijoUsuarioFunciones.Show();
             
+        }        
+
+        public void TransfDelegado_CarteleraPeliculasSalas()
+        {
+            hijoCartelera.Close();
+
+            hijoPeliculasSalas = new Form_PeliculasSalas();
+            hijoPeliculasSalas.MdiParent = this;
+            hijoPeliculasSalas.Dock = DockStyle.Fill;
+            hijoPeliculasSalas.TransfEvento_VolverCartelera += TransfDelegado_VolverCartelera;
+            hijoPeliculasSalas.Show();        
+        
         }
 
-        public void VolverUsuarioActivo()        
+        public void TransfDelegado_VolverCartelera()
         {
-           hijoUsuarioFunciones.TransfEvento_UsuarioFuncion_Volver_UsuarioActual += TransfDelegado_UsuarioActivo_UsuarioFuncion;
+            hijoPeliculasSalas.Close();
+
+            hijoCartelera = new Form_Cartelera();
+            hijoCartelera.MdiParent = this;
+            hijoCartelera.Dock = DockStyle.Fill;
+            establecerConexionCartelera();
+            hijoCartelera.Show();        
         }
+
     }
 }
