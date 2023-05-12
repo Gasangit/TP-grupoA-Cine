@@ -113,7 +113,7 @@ namespace TP_grupoA_Cine
 
             if (selectedUser != -1)
             {
-                if (cine.modificacionUsuario(selectedUser, int.Parse(dniusuario.Text), nombreusuario.Text, apellidousuario.Text, mailusuario.Text, passwordusuario.Text, DateTime.Parse(nacimientousuario.Text), esAdmin, bloqueado))
+                if (cine.modificarUsuario(selectedUser, int.Parse(dniusuario.Text), nombreusuario.Text, apellidousuario.Text, mailusuario.Text, passwordusuario.Text, DateTime.Parse(nacimientousuario.Text), esAdmin, bloqueado))
                     MessageBox.Show("usuario modificado con éxito");
                 else
                     MessageBox.Show("error al modificar");
@@ -129,7 +129,7 @@ namespace TP_grupoA_Cine
         {
             if (selectedUser != -1)
             {
-                cine.bajaUsuario(selectedUser);
+                cine.eliminarUsuario(selectedUser);
                 MessageBox.Show("Usuario Eliminado con éxito");
             }
             else

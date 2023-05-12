@@ -18,6 +18,7 @@ Solamente podra comprar entradas si dispone del credito necesaria y si la sala t
 Tipos de Usuarios:
 * Administrador: Al loguearse podra ingresar y maipular al ABM de Usuarios, Peliculas, Salas y Funciones. Ademas podrá ver la cartelera.
 * Cliente: Podra ver cartelera y comprar tickets para funcion seleccionada.
+NOTA: AL crear un usuario nuevo siempr se registra desbloqueado (en la base de datos bloqueado = 0 por default). Solo el administrador al modificar puede bloquearlo (en la base de datos bloqueado = 1).
 
 Formularios del admin:
 * Login (inicio)

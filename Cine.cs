@@ -19,6 +19,7 @@ namespace TP_grupoA_Cine
         private List<Sala> salas = new List<Sala>();
         private List<Pelicula> peliculas = new List<Pelicula>();
         private Usuario UsuarioActual = new Usuario();
+        private ControladorDB DB;
 
 
 
@@ -29,7 +30,9 @@ namespace TP_grupoA_Cine
         // SINGLETON -------------------------------------------------------------------------------------------
         private readonly static Cine _instancia = new Cine();
 
-        private Cine() {}
+        private Cine() {
+            DB = new ControladorDB();
+        }
 
         public static Cine Instancia
         {
@@ -44,66 +47,139 @@ namespace TP_grupoA_Cine
                                    string apellido, string mail, string password,
                                    DateTime fechaNacimiento, bool esAdmin)
         {
-            //la clase Usuario tiene que tener un constructor para el ALTA
-            Usuario usuario = new Usuario(dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin);
-            //el ID se puede generar automaticamente con un atributo estatico en la clase Usuario
-            usuarios.Add(usuario);
-            Debug.WriteLine($">>> (Cine - altaUsuario()) Se CREÓ el USUARIO {usuario.Nombre}" +
-                                        $" {usuario.Apellido} con ID {usuario.ID}");
-            return true;
-        }        
 
-        public void bajaUsuario(int idUsuario)
+            //comprobación para que no me agreguen usuarios con DNI duplicado
+            bool esValido = true;
+            foreach (Usuario u in usuarios)
+            {
+                if (u.DNI == dni)
+                    esValido = false;
+            }
+            if (esValido)
+            {
+                int NewUser;
+                NewUser = DB.altaUsuarioDB(dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin);
+                if (NewUser != -1)
+                {
+                    //Ahora sí lo agrego en la lista
+                    //la clase Usuario tiene que tener un constructor para el ALTA
+                    Usuario nuevo = new Usuario(dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin);
+                    //el ID se puede generar automaticamente con un atributo estatico en la clase Usuario
+                    usuarios.Add(nuevo);
+                    Debug.WriteLine($">>> (Cine - altaUsuario()) Se CREÓ el USUARIO {nuevo.Nombre}" +
+                                       $" {nuevo.Apellido} con ID {nuevo.ID}");
+                    return true;
+                }
+                else
+                {
+                    //algo salió mal con la query porque no generó un id válido
+                    return false;
+                }
+            }
+            else
+                return false;
+
+        }
+
+        public bool eliminarUsuario(int Id)
         {
-            try
+            //primero me aseguro que lo pueda agregar a la base
+            if (DB.eliminarUsuarioDB(Id) == 1)
             {
-                Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
-
-
-                usuarios.Remove(usuario);
-                usuario.Bloqueado = true;
-                Debug.WriteLine($">>> (Cine - bajaUsuario()) Se ELIMINÓ el USUARIO {usuario.Nombre}" +
-                                    $" {usuario.Apellido} con ID {usuario.ID}");
-                usuario = null;
+                try
+                {
+                    //Ahora sí lo elimino en la lista
+                    foreach (Usuario u in usuarios)
+                        if (u.ID == Id)
+                        {
+                            usuarios.Remove(u);
+                            return true;
+                        }
+                    return false;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
             }
-            catch (Exception ex) 
-            { 
-                Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado."); 
-            }
-
-        }
-        public bool modificacionUsuario(int idUsuario, int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento, bool esAdmin, bool bloqueado) {
-
-            try
+            else
             {
-                Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
-
-                usuario.ID = idUsuario;
-                usuario.DNI = dni;
-                usuario.Nombre = nombre;
-                usuario.Apellido = apellido;
-                usuario.Mail = mail;
-                usuario.Password = password;
-                usuario.FechaNacimiento = fechaNacimiento;
-                usuario.EsAdmin = esAdmin;
-                usuario.Bloqueado = bloqueado;
-
-                Debug.WriteLine($">>> Se MODIFICÓ el USUARIO {usuario.Nombre}" +
-                                    $" {usuario.Apellido} con ID {usuario.ID}");
+                //algo salió mal con la query porque no generó 1 registro
+                return false;
             }
-            catch (Exception ex) 
-            { 
-                Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado."); 
-            }
-
-            return true;
         }
 
-
+        public bool modificarUsuario(int idUsuario, int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento, bool esAdmin, bool bloqueado)
+        {
+            //primero me aseguro que lo pueda agregar a la base
+            if (DB.modificarUsuarioDB(idUsuario, dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin, bloqueado) == 1)
+            {
+                try
+                {
+                    //Ahora sí lo MODIFICO en la lista
+                    for (int i = 0; i < usuarios.Count; i++)
+                        if (usuarios[i].ID == idUsuario)
+                        {
+                            usuarios[i].Nombre = nombre;
+                            usuarios[i].Apellido = apellido;
+                            usuarios[i].Mail = mail;
+                            usuarios[i].Password = password;
+                            usuarios[i].FechaNacimiento = fechaNacimiento;
+                            usuarios[i].EsAdmin = esAdmin;
+                            usuarios[i].Bloqueado = bloqueado;
+                        }
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                //algo salió mal con la query porque no generó 1 registro
+                return false;
+            }
+        }
+        
         //Modificacion de los propios datos del usuario cuando esta logueado
         public bool modificacionUsuarioActual(int idUsuario, string mail, string password, string nombre, string apellido, int dni, DateTime fechaNacimiento)
         {
-            try
+            //primero me aseguro que lo pueda agregar a la base
+            bool esAdmin = usuarios[idUsuario].EsAdmin;
+            bool bloqueado = usuarios[idUsuario].Bloqueado;
+          
+                    if (DB.modificarUsuarioDB(idUsuario,dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin, bloqueado)==1)
+            {
+                try
+                {
+                    //Ahora sí lo MODIFICO en la lista
+                    Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
+                    {
+                            usuario.Nombre = nombre;
+                            usuario.Apellido = apellido;
+                            usuario.Mail = mail;
+                            usuario.Password = password;
+                            usuario.FechaNacimiento = fechaNacimiento;
+                            usuario.EsAdmin = esAdmin;
+                            usuario.Bloqueado = bloqueado;
+                        }
+                    return true;
+                }
+                catch (Exception)
+                {
+                    Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
+                    return false;
+                }
+            }
+            else
+            {
+                //algo salió mal con la query porque no generó 1 registro
+                return false;
+            }
+
+
+          try
             {
                 Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
 
@@ -117,7 +193,7 @@ namespace TP_grupoA_Cine
             }
             catch (Exception ex) 
             {
-                Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
+                
             }
 
             return true;
@@ -399,6 +475,8 @@ namespace TP_grupoA_Cine
         //se ingresa como ARGUMENTOS mail y password desde FORM
         public bool iniciarSesion(string mail, string password)
         {
+            usuarios = DB.llenarListaUsuarios();
+
             string comprobar = "";
             for (int i = 0; i < this.usuarios.Count(); i++)
             {
@@ -458,18 +536,22 @@ namespace TP_grupoA_Cine
             devolver la lista original y que la misma no sea modificada.    */
         public List<Funcion> mostrarFunciones() 
         {
+            funciones = DB.llenarListaFuncion();
             return funciones.ToList();
         }
         public List<Sala> mostrarSalas()
         {
+            salas = DB.llenarListaSala();
             return salas.ToList();
         }
         public List<Pelicula> mostrarPeliculas()
         {
+            peliculas = DB.llenarListaPelicula();
             return peliculas.ToList();
         }
         public List<Usuario> mostrarUsuarios()
         {
+            usuarios = DB.llenarListaUsuarios();
             return usuarios.ToList();
         }
 
@@ -504,7 +586,7 @@ namespace TP_grupoA_Cine
             return listaDeFunciones.ToList();
         }
 
-        private object obtenerObjetoDeLista(int ID, string tipoObjeto)
+        public object obtenerObjetoDeLista(int ID, string tipoObjeto)
         {
             object objeto = new object();
             

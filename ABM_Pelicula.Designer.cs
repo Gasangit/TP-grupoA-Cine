@@ -158,7 +158,7 @@
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idpelicula, nombrepelicula, sinopsispelicula, duracionpelicula, posterp });
             dataGridView1.Location = new Point(144, 242);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowTemplate.Height = 25;
+            dataGridView1.RowTemplate.Height = 50;
             dataGridView1.Size = new Size(645, 187);
             dataGridView1.TabIndex = 12;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
@@ -280,7 +280,7 @@
             // 
             posterp.Frozen = true;
             posterp.HeaderText = "Poster";
-            posterp.ImageLayout = DataGridViewImageCellLayout.Stretch;
+            posterp.ImageLayout = DataGridViewImageCellLayout.Zoom;
             posterp.Name = "posterp";
             posterp.ReadOnly = true;
             // 

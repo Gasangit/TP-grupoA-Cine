@@ -53,7 +53,7 @@ namespace TP_grupoA_Cine
                                         p.Duracion.ToString(), Image.FromStream(ms));
                 //dataGridView1.Rows.Add(p.ToString());
             }
-           
+
             nombre_pelicula.Text = "";
             duracion_pelicula.Text = "";
             sinopsis_pelicula.Text = "";

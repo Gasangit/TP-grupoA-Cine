@@ -387,7 +387,7 @@
             // 
             poster.Frozen = true;
             poster.HeaderText = "Poster";
-            poster.ImageLayout = DataGridViewImageCellLayout.Stretch;
+            poster.ImageLayout = DataGridViewImageCellLayout.Zoom;
             poster.Name = "poster";
             poster.ReadOnly = true;
             poster.Resizable = DataGridViewTriState.True;
