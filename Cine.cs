@@ -163,7 +163,7 @@ namespace TP_grupoA_Cine
             bool esAdmin = usuarios[idUsuario].EsAdmin;
             bool bloqueado = usuarios[idUsuario].Bloqueado;
           
-                    if (DB.modificarUsuarioDB(idUsuario,dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin, bloqueado)==1)
+                    if (DB.modificarUsuarioActualDB(idUsuario,dni, nombre, apellido, mail, password, fechaNacimiento)==1)
             {
                 try
                 {
@@ -175,14 +175,12 @@ namespace TP_grupoA_Cine
                             usuario.Mail = mail;
                             usuario.Password = password;
                             usuario.FechaNacimiento = fechaNacimiento;
-                            usuario.EsAdmin = esAdmin;
-                            usuario.Bloqueado = bloqueado;
                         }
                     return true;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
+                    Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado. Error : " + ex);
                     return false;
                 }
             }
@@ -533,16 +531,24 @@ namespace TP_grupoA_Cine
 
         public void cargarCredito(int idUsuario, double importe)
         {
-            try
+            if (DB.cargarCreditoDB(idUsuario, importe) == 1)
             {
-                Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
-                usuario.Credito += importe;
-                Debug.WriteLine($">>> (Cine - cargarCredito()) Se CARGARON $ {importe} quedando el CRÉDITO en {usuario.Credito} ID usuario : {usuario.ID}");
+                try
+                {
+                    Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
+                    usuario.Credito += importe;
+                    Debug.WriteLine($">>> (Cine - cargarCredito()) Se CARGARON $ {importe} quedando el CRÉDITO en {usuario.Credito} ID usuario : {usuario.ID}");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado. Mensaje de error : " + ex);
+                }
             }
-            catch (Exception ex)
+            else 
             {
-                Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
+                Debug.WriteLine(">>> Cine -- cargarCredito : No se cargó el CRÉDITO en la base de datos y tampoco en el objeto USUARIO");
             }
+            
         }
 
         public string comprarEntrada(int idUsuario, int idFuncion, int cantidad)
@@ -555,29 +561,35 @@ namespace TP_grupoA_Cine
                 Funcion funcion = (Funcion)obtenerObjetoDeLista(idFuncion, "funcion");
 
                 double importe = funcion.Costo * cantidad;
-              ///  int entradasDispoibles = funcion.MiSala.Capacidad - funcion.CantClientes;
+                int entradasDispoibles = funcion.MiSala.Capacidad - funcion.CantClientes;
 
                 if (importe > usuario.Credito)
                 {
                     Debug.WriteLine($">>> (Cine - comprarEntrada()) CRÉDITO insuficiente para comprar la/s {cantidad} entrada/s");
                     mensaje = $"CRÉDITO INSUFICIENTE : tiene {usuario.Credito} de crédito no puede comprar {cantidad} entradas a ${importe}";
                 }
-              //  else if (entradasDispoibles < cantidad)
-              //  {
-              //      Debug.WriteLine($">>> (Cine - comprarEntrada()) No pueden venderse {cantidad} entradas quedan disponibles {entradasDispoibles}");
-              ///      mensaje = $"SIN BUTACAS DISPONIBLES : la sala esta completa (capacidad {funcion.MiSala.Capacidad})";
-              //  }
+                else if (entradasDispoibles < cantidad)
+                {
+                    Debug.WriteLine($">>> (Cine - comprarEntrada()) No pueden venderse {cantidad} entradas quedan disponibles {entradasDispoibles}");
+               mensaje = $"SIN BUTACAS DISPONIBLES : la sala esta completa (capacidad {funcion.MiSala.Capacidad})";
+                }
                 else
                 {
-                    usuario.Credito -= importe;
-                    usuario.MisFunciones.Add(funcion);
+                    if (DB.comprarEntradaDB(idUsuario, idFuncion, cantidad, funcion.Costo) == 1)
+                    {
+                        usuario.Credito -= importe;
+                        usuario.MisFunciones.Add(funcion);
 
-                //    funcion.CantClientes += cantidad;
-                    funcion.Clientes.Add(usuario);
+                        funcion.Clientes.Add(usuario);
 
-                    Debug.WriteLine($">>> >>> (Cine - comprarEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" +
-                                        $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
-                    mensaje = $"COMPRA REALIZADA : compró {cantidad} entradas a {funcion.Costo} por un importe total de {importe}";
+                        funcion.CantClientes += cantidad;
+
+                        Debug.WriteLine($">>> >>> (Cine - comprarEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" +
+                                            $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
+
+                        mensaje = $"COMPRA REALIZADA : compró {cantidad} entradas a {funcion.Costo} por un importe total de {importe}";
+                    }
+                  
                 }
             }
             catch (Exception ex)

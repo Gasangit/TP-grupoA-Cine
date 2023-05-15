@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -87,6 +88,13 @@ namespace TP_grupoA_Cine
                 }
 
             }
+        }
+
+        private void dataGridView3_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+
+        {
+            string idFuncion = dataGridView3[0, e.RowIndex].Value.ToString();
+            funcion_seleccionada.Text = idFuncion;
         }
 
         private void btnVolver_Click(object sender, EventArgs e) //Boton para volver a la cartelera

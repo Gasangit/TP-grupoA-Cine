@@ -177,6 +177,7 @@
             dataGridView3.RowTemplate.Height = 25;
             dataGridView3.Size = new Size(601, 150);
             dataGridView3.TabIndex = 1;
+            dataGridView3.CellDoubleClick += dataGridView3_CellDoubleClick;
             // 
             // idFuncion
             // 

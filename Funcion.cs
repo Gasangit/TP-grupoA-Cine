@@ -18,7 +18,7 @@ namespace TP_grupoA_Cine
         public Pelicula MiPelicula { set; get; } = new Pelicula();
         public List<Usuario> Clientes { set; get; } = new List<Usuario>();
         public DateTime Fecha { set; get; } = new DateTime();
-        //public int CantClientes { set; get; } = 0;
+        public int CantClientes { set; get; } = 0;
         public double Costo { set; get; } = 0.0;
         //private static int idFuncion { set; get; }
 

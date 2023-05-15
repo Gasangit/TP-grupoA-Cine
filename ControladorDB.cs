@@ -180,12 +180,50 @@ namespace TP_grupoA_Cine
         }
         #endregion
 
+        #region Modificar Usuario Actual
+        public int modificarUsuarioActualDB(int id, int Dni, string Nombre, string Apellido, string Mail, string Password, DateTime FechaDeNacimiento)
+        {
+            string connectionString = Properties.Resources.ConnectionStr;
+            string queryString = "UPDATE [dbo].[Usuarios] SET dniUsuario = @dni, nombreUsuario=@nombre, apellidoUsuario = @apellido, mailUsuario=@mail,passwordUsuario=@password, fechaNacimiento = @fechaNac WHERE idUsuario=@idusuario;";
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@idusuario", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@dni", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@nombre", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@apellido", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@mail", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@password", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@fechaNac", SqlDbType.Date));
+                command.Parameters["@idusuario"].Value = id;
+                command.Parameters["@dni"].Value = Dni;
+                command.Parameters["@nombre"].Value = Nombre;
+                command.Parameters["@apellido"].Value = Apellido;
+                command.Parameters["@mail"].Value = Mail;
+                command.Parameters["@password"].Value = Password;
+                command.Parameters["@fechaNac"].Value = FechaDeNacimiento;
+                try
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    return command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    return 0;
+                }
+            }
+        }
+        #endregion
+
         #region cargar credito
         public int cargarCreditoDB(int idUsuario, double importe) 
         {
 
             string connectionString = Properties.Resources.ConnectionStr;
-            string queryString = "UPDATE [dbo].[Usuarios] SET credito = credito + @credito WHERE idUsuario = ;";
+            string queryString = "UPDATE [dbo].[Usuarios] SET credito = credito + @credito WHERE idUsuario = @idUsuario ;";
 
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
@@ -199,8 +237,18 @@ namespace TP_grupoA_Cine
                 command.Parameters["@idusuario"].Value = idUsuario;
 
                 try
-                { 
-                    
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    Debug.WriteLine($">>> ControladorDB -- cargarCreditoDB : se actualizó el crédito en la base de datos {importe} usuario : {idUsuario}");
+                    return command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+
+                    Debug.WriteLine($">>> ControladorDB -- cargarCreditoDB : falló el ingreso del CRÉDITO");
+                    return 0;
                 }
             }
 
@@ -670,6 +718,69 @@ namespace TP_grupoA_Cine
             }
             return usuarioFuncion;
         }
+
+        #region Comprar Entrada
+        public int comprarEntradaDB(int idUsuario, int idFuncion, int cantidad, double precioFuncion)
+        {
+            //Confirmamos que podamos agregar el registro a la base de datos
+            int resultadoQueryUsuarioFuncion;
+            int resultadoQueryUsuario;
+            int resultadoActualizacion = 0;
+
+            string queryUsuarioFuncion = "INSERT INTO [dbo].[Usuario_Funcion] ([idUsuario],[idFuncion],[cantidadCompra]) VALUES (@idUsuario, @idFuncion, @cantidad);";
+            string queryUsuario = "UPDATE [dbo].[Usuarios] SET [credito] = ([credito] - @importe) WHERE [idUsuario] = @idUsuario";
+
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand commandUsuarioFuncion = new SqlCommand(queryUsuarioFuncion, connection);
+                commandUsuarioFuncion.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.Int));
+                commandUsuarioFuncion.Parameters.Add(new SqlParameter("@idFuncion", SqlDbType.Int));
+                commandUsuarioFuncion.Parameters.Add(new SqlParameter("@cantidad", SqlDbType.Int));
+
+                commandUsuarioFuncion.Parameters["@idUsuario"].Value = idUsuario;
+                commandUsuarioFuncion.Parameters["@idFuncion"].Value = idFuncion;
+                commandUsuarioFuncion.Parameters["@cantidad"].Value = cantidad;
+
+                //--------------------------------------------------------------------------
+
+                SqlCommand commandUsuario = new SqlCommand(queryUsuario, connection);
+
+                
+                commandUsuario.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.Int));
+                commandUsuario.Parameters.Add(new SqlParameter("@importe", SqlDbType.Float));
+
+                commandUsuario.Parameters["@idUsuario"].Value = idUsuario;
+                commandUsuario.Parameters["@importe"].Value = cantidad * precioFuncion;
+
+                try
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    resultadoQueryUsuarioFuncion = commandUsuarioFuncion.ExecuteNonQuery();
+
+                    if (resultadoQueryUsuarioFuncion == 1)
+                    {
+                        resultadoQueryUsuario = commandUsuario.ExecuteNonQuery();
+
+                        if (resultadoQueryUsuario == 1)
+                        {
+                            resultadoActualizacion = 1;
+                        }
+                        else { resultadoActualizacion = -1; }
+                    }
+                    else { resultadoActualizacion = -1;  }
+
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    return -1;
+                }
+                return resultadoActualizacion;
+            }
+        }
+        #endregion
         #endregion
     }
 }
