@@ -180,6 +180,33 @@ namespace TP_grupoA_Cine
         }
         #endregion
 
+        #region cargar credito
+        public int cargarCreditoDB(int idUsuario, double importe) 
+        {
+
+            string connectionString = Properties.Resources.ConnectionStr;
+            string queryString = "UPDATE [dbo].[Usuarios] SET credito = credito + @credito WHERE idUsuario = ;";
+
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                command.Parameters.Add(new SqlParameter("@credito", SqlDbType.Float));
+                command.Parameters.Add(new SqlParameter("@idusuario", SqlDbType.Int));
+
+                command.Parameters["@credito"].Value = importe;
+                command.Parameters["@idusuario"].Value = idUsuario;
+
+                try
+                { 
+                    
+                }
+            }
+
+        }
+        #endregion
+
         #endregion Final region Usuarios
 
         #region Pelicula
