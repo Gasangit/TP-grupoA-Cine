@@ -38,6 +38,7 @@
             fechaNacimiento = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn1 = new DataGridViewCheckBoxColumn();
             bloqueado = new DataGridViewCheckBoxColumn();
+            usuariocredito = new DataGridViewTextBoxColumn();
             btnbaja_usuario = new Button();
             btnmodificar_usuario = new Button();
             btnalta_usuario = new Button();
@@ -69,7 +70,7 @@
             // 
             dataGridView1.BackgroundColor = SystemColors.InactiveCaption;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ID, nombre, apellido, dni, mail, password, fechaNacimiento, dataGridViewTextBoxColumn1, bloqueado });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ID, nombre, apellido, dni, mail, password, fechaNacimiento, dataGridViewTextBoxColumn1, bloqueado, usuariocredito });
             dataGridView1.Location = new Point(12, 66);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
@@ -144,6 +145,13 @@
             bloqueado.ReadOnly = true;
             bloqueado.Resizable = DataGridViewTriState.True;
             bloqueado.SortMode = DataGridViewColumnSortMode.Automatic;
+            // 
+            // usuariocredito
+            // 
+            usuariocredito.Frozen = true;
+            usuariocredito.HeaderText = "Crédito";
+            usuariocredito.Name = "usuariocredito";
+            usuariocredito.ReadOnly = true;
             // 
             // btnbaja_usuario
             // 
@@ -289,7 +297,7 @@
             // esadmin
             // 
             esadmin.FormattingEnabled = true;
-            esadmin.Items.AddRange(new object[] { "SI", "NO" });
+            esadmin.Items.AddRange(new object[] { "True", "False" });
             esadmin.Location = new Point(737, 325);
             esadmin.Name = "esadmin";
             esadmin.Size = new Size(121, 23);
@@ -331,7 +339,7 @@
             // usuariobloqueado
             // 
             usuariobloqueado.FormattingEnabled = true;
-            usuariobloqueado.Items.AddRange(new object[] { "SI", "NO" });
+            usuariobloqueado.Items.AddRange(new object[] { "True", "False" });
             usuariobloqueado.Location = new Point(737, 377);
             usuariobloqueado.Name = "usuariobloqueado";
             usuariobloqueado.Size = new Size(121, 23);
@@ -431,6 +439,7 @@
         private ComboBox usuariobloqueado;
         private Button btnmostrar_usuarios;
         private Panel panel1;
+        private Button btnvolver_usuarios;
         private DataGridViewTextBoxColumn ID;
         private DataGridViewTextBoxColumn nombre;
         private DataGridViewTextBoxColumn apellido;
@@ -440,6 +449,6 @@
         private DataGridViewTextBoxColumn fechaNacimiento;
         private DataGridViewCheckBoxColumn dataGridViewTextBoxColumn1;
         private DataGridViewCheckBoxColumn bloqueado;
-        private Button btnvolver_usuarios;
+        private DataGridViewTextBoxColumn usuariocredito;
     }
 }

@@ -86,13 +86,13 @@ namespace TP_grupoA_Cine
                 {
                     if (cine.modificacionUsuarioActual(selectedUserActive, tbEmail.Text, tbContrasenia.Text, tbNombre.Text, tbApellido.Text, Convert.ToInt32(tbDNI.Text), fechaNacimiento))
 
-                        MessageBox.Show("Modificado con éxito");
+                        MessageBox.Show("Modificado con éxito", "OK");
                     else
-                        MessageBox.Show("Error al modificar");
+                        MessageBox.Show("Error al modificar", "ERROR");
                 }
             }
             else
-                MessageBox.Show("Completar los campos");
+                MessageBox.Show("Completar los campos", "ERROR");
         }
 
         private void btnCargar_Click(object sender, EventArgs e) //Boton para cargar credito
@@ -102,7 +102,7 @@ namespace TP_grupoA_Cine
             if(credito > 0)
             {
                 cine.cargarCredito(cine.usuarioActual().ID, credito);
-                MessageBox.Show("SALDO ACTUAL: " + cine.usuarioActual().Credito, "Carga Exitosa");
+                MessageBox.Show("SALDO ACTUAL: " + cine.usuarioActual().Credito, "CARGA EXITOSA");
                 refreshData();
             } else
             {

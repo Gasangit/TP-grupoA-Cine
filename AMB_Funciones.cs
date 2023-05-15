@@ -22,7 +22,7 @@ namespace TP_grupoA_Cine
         public DelegadoFuncion TransfEvento_FuncionBotonera;
         private string idSala;
         private string idPelicula;
-        
+
 
         Cine cine = Cine.Instancia; // Traer el cine
 
@@ -58,15 +58,21 @@ namespace TP_grupoA_Cine
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+
         {
-            string ID = dataGridView1[0, e.RowIndex].Value.ToString();            
-            string idSala = dataGridView1[1, e.RowIndex].Value.ToString(); 
-            string idPelicula = dataGridView1[2, e.RowIndex].Value.ToString();
-            string Fecha = dataGridView1[3, e.RowIndex].Value.ToString();
-            string Costo = dataGridView1[4, e.RowIndex].Value.ToString();
+            string ID = dataGridView1[0, e.RowIndex].Value.ToString();
+            string nombreSala = dataGridView1[1, e.RowIndex].Value.ToString();
+            string idSala = dataGridView1[2, e.RowIndex].Value.ToString();
+            string nombrePelicula = dataGridView1[3, e.RowIndex].Value.ToString();
+            string idPelicula = dataGridView1[4, e.RowIndex].Value.ToString();
+            string Fecha = dataGridView1[5, e.RowIndex].Value.ToString();
+            string Costo = dataGridView1[6, e.RowIndex].Value.ToString();
+
             idfuncion_text.Text = ID;
+
             salafuncion_text.Text = idSala;
             Debug.WriteLine(">>> numero sala : " + idSala);
+
             peliculafuncion_text.Text = idPelicula;
             Debug.WriteLine(">>> numero pelicula : " + idPelicula);
             fechafuncion_text.Text = Fecha;
@@ -79,15 +85,15 @@ namespace TP_grupoA_Cine
         private void btnmodificar_funcion_Click(object sender, EventArgs e)
         {
             if (selectedFuncion != -1)
-            {             
+            {
 
                 if (cine.modificarFuncion(selectedFuncion, Convert.ToInt32(salafuncion_text.Text), Convert.ToInt32(peliculafuncion_text.Text), DateTime.Parse(fechafuncion_text.Text), double.Parse(costofuncion_text.Text)))
-                    MessageBox.Show("Modificado con éxito");
+                    MessageBox.Show("Modificado con éxito", "OK");
                 else
-                    MessageBox.Show("Error al modificar");
+                    MessageBox.Show("Error al modificar", "ERROR");
             }
             else
-                MessageBox.Show("Debe seleccionar una funcion");
+                MessageBox.Show("Debe seleccionar una funcion", "ERROR");
 
         }
 
@@ -97,24 +103,24 @@ namespace TP_grupoA_Cine
             if (selectedFuncion != -1)
             {
                 cine.bajaFuncion(selectedFuncion);
-                MessageBox.Show("Eliminado con éxito");
+                MessageBox.Show("Eliminado con éxito", "OK");
 
             }
             else
-                MessageBox.Show("Debe seleccionar una funcion");
+                MessageBox.Show("Debe seleccionar una funcion", "ERROR");
         }
 
         //Agrega una Funcion
 
         private void btnalta_funcion_Click(object sender, EventArgs e)
-        {          
+        {
 
             if (costofuncion_text.Text == "" || fechafuncion_text.Text == "" || costofuncion_text.Text == null || fechafuncion_text.Text == null)
-                MessageBox.Show("Debe completar los datos para agregar");
-            else if (cine.altaFuncion(Convert.ToInt32(salafuncion_text.Text), Convert.ToInt32(peliculafuncion_text.Text), DateTime.Parse(fechafuncion_text.Text), int.Parse(costofuncion_text.Text)))
-                MessageBox.Show("Agregado con éxito");
+                MessageBox.Show("Debe completar los datos para agregar", "ERROR");
+            else if (cine.altaFuncion(Convert.ToInt32(salafuncion_text.Text), Convert.ToInt32(peliculafuncion_text.Text), DateTime.Parse(fechafuncion_text.Text), double.Parse(costofuncion_text.Text)))
+                MessageBox.Show("Agregado con éxito", "OK");
             else
-                MessageBox.Show("Error al agregar la funcion");
+                MessageBox.Show("Error al agregar la funcion", "ERROR");
         }
 
 

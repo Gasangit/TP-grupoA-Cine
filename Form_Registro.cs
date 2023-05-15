@@ -42,28 +42,23 @@ namespace TP_grupoA_Cine
             //DateTime fechaNacimiento = new DateTime(dia, mes, anio); //este casteo hay que cambiarlo. Tenemos que fomar un fecha.
             string password = tbContraseña.Text;
             bool esAdmin = false;
-            if (cbEsAdmin.Text.ToLower() == "si") esAdmin = true;
+            bool bloqueado = false;
 
-
+            //if (cbEsAdmin.Text.ToLower() == "si") esAdmin = true;
 
             if (nombre != null && nombre != "" && password != null && password != "" && dni != 0 && dni != 0 && mail != null && mail != "" && apellido != null && apellido != "" && fechaNacimiento.Year != 0) //quité la comprobación del admin porque al ser combobox simpre vamos a tener un valor
             {
                 //Registro Usuario
 
-                cine.altaUsuario(dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin); //Dni tira error por el textbox no permite string --acordarse que el DNI el profe lo pidiò como INT--
+                cine.altaUsuario(dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin, bloqueado); //Dni tira error por el textbox no permite string --acordarse que el DNI el profe lo pidiò como INT--
 
-                MessageBox.Show("Registrado con éxito");
+                MessageBox.Show("Registrado con éxito", "REGISTRO EXITOSO");
 
             }
             else
             {
-                MessageBox.Show("Debe completar los campos");
+                MessageBox.Show("Debe completar los campos", "ERROR");
             }
-        }
-
-        private void cbEsAdmin_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         public delegate void DelegadoRegistro();

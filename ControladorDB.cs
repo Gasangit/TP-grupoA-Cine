@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace TP_grupoA_Cine
 {
@@ -42,7 +43,7 @@ namespace TP_grupoA_Cine
                     //mientras haya registros/filas en mi DataReader, sigo leyendo
                     while (reader.Read())
                     {
-                        user = new Usuario(reader.GetInt32(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetDateTime(6), reader.GetBoolean(7));
+                        user = new Usuario(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetDateTime(6), reader.GetBoolean(7), reader.GetBoolean(8), reader.GetDouble(9));
                         misUsuarios.Add(user);
                     }
                     //En este punto ya recorrí todas las filas del resultado de la query
@@ -50,39 +51,43 @@ namespace TP_grupoA_Cine
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
                 }
             }
             return misUsuarios;
         }
 
         #region AltaUsuario 
-        public int altaUsuarioDB(int Dni, string Nombre, string Apellido, string Mail, string Password, DateTime FechaDeNacimiento, bool EsADM)
+        public int altaUsuarioDB(int Dni, string Nombre, string Apellido, string Mail, string Password, DateTime FechaDeNacimiento, bool EsADM, bool Bloqueado)
         {
             //Confirmamos que podamos agregar el registro a la base de datos
             int resultadoQuery;
             int idNuevoUsuario = -1;
-            string queryString = "INSERT INTO [dbo].[Usuarios] ([dniUsuario],[nombreUsuario],[apellidoUsuario],[mailUsuario],[passwordUsuario],[fechaNacimiento],[esAdmin],[bloqueado]) VALUES (@dni,@nombre,@apellido,@mail,@password,@fechaNacimiento,@esadm);";
+            string queryString = "INSERT INTO [dbo].[Usuarios] ([dniUsuario],[nombreUsuario],[apellidoUsuario],[mailUsuario],[passwordUsuario],[fechaNacimiento],[esAdmin],[bloqueado]) VALUES (@dni,@nombre,@apellido,@mail,@password,@fechaNacimiento,@esadm, @bloqueado);";
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
             {
                 //Configuramos los datos que se insertan para no recibir inyecciones sql
                 SqlCommand command = new SqlCommand(queryString, connection);
+                System.Diagnostics.Debug.WriteLine(">>>ControladorDB : --- " + command.ToString());
                 command.Parameters.Add(new SqlParameter("@dni", SqlDbType.Int));
                 command.Parameters.Add(new SqlParameter("@nombre", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@apellido", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@mail", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@password", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@fechaNacimiento", SqlDbType.DateTime));
+                command.Parameters.Add(new SqlParameter("@fechaNacimiento", SqlDbType.Date));
                 command.Parameters.Add(new SqlParameter("@esadm", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@bloqueado", SqlDbType.Bit));
 
                 //Se llenan los parametros con los datos de los argumentos
                 command.Parameters["@dni"].Value = Dni;
                 command.Parameters["@nombre"].Value = Nombre;
+                command.Parameters["@apellido"].Value = Apellido;
                 command.Parameters["@mail"].Value = Mail;
                 command.Parameters["@password"].Value = Password;
                 command.Parameters["@fechaNacimiento"].Value = FechaDeNacimiento;
                 command.Parameters["@esadm"].Value = EsADM;
+                command.Parameters["@bloqueado"].Value = Bloqueado;
 
                 try
                 {
@@ -91,7 +96,8 @@ namespace TP_grupoA_Cine
                     resultadoQuery = command.ExecuteNonQuery();
 
                     //Query para Obtener el ID que la base nos entrego
-                    string ConsultaID = "SELECT MAX([ID]) FROM [dbo].[Usuarios]";
+                    string ConsultaID = "SELECT MAX([idUsuario]) FROM [dbo].[Usuarios]";
+                    System.Diagnostics.Debug.WriteLine(" >>>CONTROLADORDB : ùltimo ID ingresado : " + ConsultaID);
                     command = new SqlCommand(ConsultaID, connection);
                     SqlDataReader reader = command.ExecuteReader();
                     reader.Read();
@@ -100,7 +106,7 @@ namespace TP_grupoA_Cine
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Debug.WriteLine(">>>ControladorDb -- Excepción ALTA USUARIO : " + ex.Message);
                     return -1;
                 }
                 return idNuevoUsuario;
@@ -126,14 +132,14 @@ namespace TP_grupoA_Cine
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
                     return 0;
                 }
             }
         }
         #endregion
-        #region Modificar Usaurio
-        public int modificarUsuarioDB(int ID, int Dni, string Nombre, string Apellido, string Mail, string Password, DateTime FechaDeNacimiento, bool EsADM, bool Bloqueado)
+        #region Modificar Usuario
+        public int modificarUsuarioDB(int id, int Dni, string Nombre, string Apellido, string Mail, string Password, DateTime FechaDeNacimiento, bool EsADM, bool Bloqueado)
         {
             string connectionString = Properties.Resources.ConnectionStr;
             string queryString = "UPDATE [dbo].[Usuarios] SET dniUsuario = @dni, nombreUsuario=@nombre, apellidoUsuario = @apellido, mailUsuario=@mail,passwordUsuario=@password, fechaNacimiento = @fechaNac, esAdmin=@esadm, bloqueado=@bloqueado WHERE idUsuario=@idusuario;";
@@ -147,16 +153,16 @@ namespace TP_grupoA_Cine
                 command.Parameters.Add(new SqlParameter("@apellido", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@mail", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@password", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@fechaNac", SqlDbType.DateTime));
+                command.Parameters.Add(new SqlParameter("@fechaNac", SqlDbType.Date));
                 command.Parameters.Add(new SqlParameter("@esadm", SqlDbType.Bit));
                 command.Parameters.Add(new SqlParameter("@bloqueado", SqlDbType.Bit));
-                command.Parameters["@idusuario"].Value = ID;
+                command.Parameters["@idusuario"].Value = id;
                 command.Parameters["@dni"].Value = Dni;
                 command.Parameters["@nombre"].Value = Nombre;
                 command.Parameters["@apellido"].Value = Apellido;
                 command.Parameters["@mail"].Value = Mail;
                 command.Parameters["@password"].Value = Password;
-                command.Parameters["@fechaNac"].Value = Nombre;
+                command.Parameters["@fechaNac"].Value = FechaDeNacimiento;
                 command.Parameters["@esadm"].Value = EsADM;
                 command.Parameters["@bloqueado"].Value = Bloqueado;
                 try
@@ -167,7 +173,7 @@ namespace TP_grupoA_Cine
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
                     return 0;
                 }
             }
@@ -194,26 +200,26 @@ namespace TP_grupoA_Cine
                     Pelicula peli;
                     while (reader.Read())
                     {
-                        peli = new Pelicula(reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetString(4));
+                        peli = new Pelicula(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetString(4));
                         misPeliculas.Add(peli);
                     }
                     reader.Close();
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
                 }
             }
             return misPeliculas;
         }
 
         #region Alta Pelicula
-        public int altaPelicula(string Nombre, string Sinopsis, int Duracion, string Poster)
+        public int altaPeliculaDB(string Nombre, string Sinopsis, int Duracion, string Poster)
         {
             //Confirmamos que podamos agregar el registro a la base de datos
             int resultadoQuery;
             int idNuevaPelicula = -1;
-            string queryString = "INSERT INTO [dbo].[Peliculas] ([nombrePelicula],[sinopsisPelicula],[posterPelicula]) VALUES (@nombre,@sinopsis,@duracion,@poster);";
+            string queryString = "INSERT INTO [dbo].[Peliculas] ([nombrePelicula],[sinopsisPelicula],[duracionPelicula],[posterPelicula]) VALUES (@nombre,@sinopsis,@duracion,@poster);";
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
             {
@@ -237,7 +243,7 @@ namespace TP_grupoA_Cine
                     resultadoQuery = command.ExecuteNonQuery();
 
                     //Query para Obtener el ID que la base nos entrego
-                    string ConsultaID = "SELECT MAX([ID]) FROM [dbo].[Peliculas]";
+                    string ConsultaID = "SELECT MAX([idPelicula]) FROM [dbo].[Peliculas]";
                     command = new SqlCommand(ConsultaID, connection);
                     SqlDataReader reader = command.ExecuteReader();
                     reader.Read();
@@ -246,7 +252,7 @@ namespace TP_grupoA_Cine
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
                     return -1;
                 }
                 return idNuevaPelicula;
@@ -272,14 +278,14 @@ namespace TP_grupoA_Cine
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
                     return 0;
                 }
             }
         }
         #endregion
         #region Modificar Pelicula
-        public int modificarPeliculaDB(int ID, string Nombre, string Sinopsis, int Duracion, string Poster)
+        public int modificarPeliculaDB(int id, string Nombre, string Sinopsis, int Duracion, string Poster)
         {
             string connectionString = Properties.Resources.ConnectionStr;
             string queryString = "UPDATE [dbo].[Peliculas] SET nombrePelicula = @nombrePelicula, sinopsisPelicula=@sinopsisPelicula, duracionPelicula = @duracionPelicula, posterPelicula=@posterPelicula WHERE idPelicula = @idPelicula;";
@@ -288,15 +294,15 @@ namespace TP_grupoA_Cine
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
                 command.Parameters.Add(new SqlParameter("@idPelicula", SqlDbType.Int));
-                command.Parameters.Add(new SqlParameter("@nombre", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@sinopsis", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@duracion", SqlDbType.Int));
-                command.Parameters.Add(new SqlParameter("@poster", SqlDbType.NVarChar));
-                command.Parameters["@idPelicula"].Value = ID;
-                command.Parameters["@nombre"].Value = Nombre;
-                command.Parameters["@sinopsis"].Value = Sinopsis;
-                command.Parameters["@duracion"].Value = Duracion;
-                command.Parameters["@poster"].Value = Poster;
+                command.Parameters.Add(new SqlParameter("@nombrePelicula", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@sinopsisPelicula", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@duracionPelicula", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@posterPelicula", SqlDbType.NVarChar));
+                command.Parameters["@idPelicula"].Value = id;
+                command.Parameters["@nombrePelicula"].Value = Nombre;
+                command.Parameters["@sinopsisPelicula"].Value = Sinopsis;
+                command.Parameters["@duracionPelicula"].Value = Duracion;
+                command.Parameters["@posterPelicula"].Value = Poster;
                 try
                 {
                     connection.Open();
@@ -305,7 +311,7 @@ namespace TP_grupoA_Cine
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
                     return 0;
                 }
             }
@@ -317,6 +323,8 @@ namespace TP_grupoA_Cine
         public List<Funcion> llenarListaFuncion()
         {
             List<Funcion> misFunciones = new List<Funcion>();
+            List<Sala> salas = llenarListaSala();
+            List<Pelicula> peliculas = llenarListaPelicula();
 
             string consulta = "SELECT * FROM Funciones";
 
@@ -330,14 +338,32 @@ namespace TP_grupoA_Cine
                     SqlDataReader reader = command.ExecuteReader();
                     Funcion fun;
 
+                    Cine cine = Cine.Instancia;
+                    Sala miSala = new Sala();
+                    Pelicula miPelicula = new Pelicula();
+
                     while (reader.Read())
                     {
-                        int idSala = reader.GetInt32(1);
-                        int idPelicula = reader.GetInt32(2);
-                        Sala miSala = (Sala)cine.obtenerObjetoDeLista(idSala, "sala");
-                        Pelicula miPelicula = (Pelicula)cine.obtenerObjetoDeLista(idPelicula, "pelicula");
+                        int idSala = reader.GetInt32(3);
+                        int idPelicula = reader.GetInt32(4);
 
-                        fun = new Funcion(miSala, miPelicula, reader.GetDateTime(3), reader.GetInt32(4), reader.GetDouble(5));
+                        foreach (Sala sala in salas)
+                        {
+                            if(sala.ID == idSala)
+                            {
+                                miSala = sala;
+                            }
+                        }
+
+                        foreach (Pelicula pelicula in peliculas)
+                        {
+                            if (pelicula.ID == idPelicula)
+                            {
+                                miPelicula = pelicula;
+                            }
+                        }
+
+                        fun = new Funcion(reader.GetInt32(0), miSala, miPelicula, reader.GetDateTime(1), reader.GetDouble(2));
                         misFunciones.Add(fun);
                     }
 
@@ -345,7 +371,7 @@ namespace TP_grupoA_Cine
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
                 }
             }
             return misFunciones;
@@ -357,22 +383,24 @@ namespace TP_grupoA_Cine
             //Confirmamos que podamos agregar el registro a la base de datos
             int resultadoQuery;
             int idNuevaFuncion = -1;
-            string queryString = "INSERT INTO [dbo].[Funciones] ([idSala],[idPelicula],[fechaFuncion],[costoFuncion]) VALUES (@idSala,@idPelicula,@fecha,@costo);";
+            string queryString = "INSERT INTO [dbo].[Funciones] ([fechaFuncion],[costoFuncion],[idSala],[idPelicula]) VALUES (@fecha,@costo,@idSala,@idPelicula);";
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
             {
                 //Configuramos los datos que se insertan para no recibir inyecciones sql
                 SqlCommand command = new SqlCommand(queryString, connection);
-                command.Parameters.Add(new SqlParameter("@idSala", SqlDbType.Int));
-                command.Parameters.Add(new SqlParameter("@idPelicula", SqlDbType.Int));
                 command.Parameters.Add(new SqlParameter("@fecha", SqlDbType.DateTime));
                 command.Parameters.Add(new SqlParameter("@costo", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@idSala", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@idPelicula", SqlDbType.Int));
+
 
                 //Se llenan los parametros con los datos de los argumentos
-                command.Parameters["@idSala"].Value = idSala;
-                command.Parameters["@idPelicula"].Value = idPelicula;
                 command.Parameters["@fecha"].Value = fecha;
                 command.Parameters["@costo"].Value = costo;
+                command.Parameters["@idSala"].Value = idSala;
+                command.Parameters["@idPelicula"].Value = idPelicula;
+                
 
                 try
                 {
@@ -381,7 +409,7 @@ namespace TP_grupoA_Cine
                     resultadoQuery = command.ExecuteNonQuery();
 
                     //Query para Obtener el ID que la base nos entrego
-                    string ConsultaID = "SELECT MAX([ID]) FROM [dbo].[Funciones]";
+                    string ConsultaID = "SELECT MAX([idFuncion]) FROM [dbo].[Funciones]";
                     command = new SqlCommand(ConsultaID, connection);
                     SqlDataReader reader = command.ExecuteReader();
                     reader.Read();
@@ -390,7 +418,7 @@ namespace TP_grupoA_Cine
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
                     return -1;
                 }
                 return idNuevaFuncion;
@@ -416,7 +444,7 @@ namespace TP_grupoA_Cine
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
                     return 0;
                 }
             }
@@ -449,7 +477,7 @@ namespace TP_grupoA_Cine
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
                     return 0;
                 }
             }
@@ -475,14 +503,14 @@ namespace TP_grupoA_Cine
                     Sala sala;
                     while (reader.Read())
                     {
-                        sala = new Sala(reader.GetString(1), reader.GetInt32(2));
+                        sala = new Sala(reader.GetInt32(0),reader.GetString(1), reader.GetInt32(2));
                         misSalas.Add(sala);
                     }
                     reader.Close();
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
                 }
             }
             return misSalas;
@@ -522,7 +550,7 @@ namespace TP_grupoA_Cine
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
                     return -1;
                 }
                 return idNuevaSala;
@@ -548,7 +576,7 @@ namespace TP_grupoA_Cine
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
                     return 0;
                 }
             }
@@ -577,7 +605,7 @@ namespace TP_grupoA_Cine
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
                     return 0;
                 }
             }
@@ -608,7 +636,7 @@ namespace TP_grupoA_Cine
                 catch (Exception ex)
                 {
 
-                    Console.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
 
                 }
 

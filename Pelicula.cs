@@ -14,14 +14,14 @@ namespace TP_grupoA_Cine
         public string Sinopsis { set; get; } = "";
         public List<Funcion> MisFunciones { set; get; } = new List<Funcion>();
         public int Duracion { set; get; } = 0;
-        private static int idPelicula;
-        public string Poster;
+        //private static int idPelicula;
+        public string Poster { set; get; } = "";
 
         public Pelicula() { }
 
-        public Pelicula(string nombre, string sinopsis, int duracion, string poster)
+        public Pelicula(int id, string nombre, string sinopsis, int duracion, string poster)
         {
-            ID = idPelicula++;
+            ID = id;
             Nombre = nombre;
             Sinopsis = sinopsis;
             Duracion = duracion;
@@ -37,7 +37,8 @@ namespace TP_grupoA_Cine
                 ID.ToString(),
                 Nombre.ToString(),
                 Sinopsis.ToString(),
-                Duracion.ToString()
+                Duracion.ToString(),
+                Poster.ToString()
             };
 
 

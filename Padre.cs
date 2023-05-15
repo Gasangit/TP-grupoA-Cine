@@ -26,25 +26,7 @@ namespace TP_grupoA_Cine
         public Padre() //Form principal transparente
         {
             InitializeComponent();
-
-            //Dejamos datos registrados de prueba
-            cine.altaUsuario(28976543, "Gaston", "Mansilla", "gaston@gmail.com", "123", new DateTime(1982, 04, 02), false); // usuario comun 
-            cine.altaUsuario(39186055, "Luke", "Skywalker", "luke@gmail.com", "456", new DateTime(1970, 05, 25), true); // usuario admin          
-            cine.altaPelicula("Ant-Man 3", "El doctor Hank Pym", 135, "https://womenwriteaboutcomics.com/wp-content/uploads/2015/07/0c4381226e8a0e3acd89de6f48d0c658.jpg");
-            cine.altaPelicula("Super Mario Bros", "Its me maaarioo", 104, "https://dx35vtwkllhj9.cloudfront.net/universalstudios/super-mario-bros/images/regions/us/onesheet.jpg"); 
-            cine.altaSala("Flores", 70);
-            cine.altaSala("Palermo", 90);
-            cine.altaSala("Recoleta", 120);
-            cine.altaFuncion(cine.mostrarSalas()[0].ID, cine.mostrarPeliculas()[1].ID,new DateTime(2023, 04, 28), 1500);
-            cine.altaFuncion(cine.mostrarSalas()[1].ID, cine.mostrarPeliculas()[0].ID, new DateTime(2023, 04, 03), 1500);
-            cine.altaFuncion(cine.mostrarSalas()[2].ID, cine.mostrarPeliculas()[1].ID, new DateTime(2023, 06, 12), 1500);
-
-            //Otra hardcodeada
-
-
-            //cine.altaFuncion(cine.mostrarSalas()[1], cine.mostrarPeliculas()[1], new DateTime(2023, 04, 29), 1850);
-
-
+            
             //Pantalla pirincipal Form2 Login
             hijoLogin = new Form_Login();
             hijoLogin.MdiParent = this;

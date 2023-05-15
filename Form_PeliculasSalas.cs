@@ -99,7 +99,7 @@ namespace TP_grupoA_Cine
             string mensaje;
             if (funcion_seleccionada.Text == "" || funcion_seleccionada.Text == null)
             {
-                MessageBox.Show("Debe seleccionar una FUNCION");
+                MessageBox.Show("Debe seleccionar una FUNCION", "ERROR");
             }
             else
             {

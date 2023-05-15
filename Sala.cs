@@ -16,14 +16,14 @@ namespace TP_grupoA_Cine
         public string Ubicacion { get; set; } = "";
         public int Capacidad { get; set; } = 0;
         public List<Funcion> MisFunciones { get; set; } = new List<Funcion>();
-        private static int idSala { get; set; }
+        //private static int idSala { get; set; }
 
 
         public Sala() { }
 
-        public Sala(string Ubicacion, int Capacidad)
+        public Sala(int id, string Ubicacion, int Capacidad)
         {
-            ID = ++idSala;
+            this.ID = id;
             this.Ubicacion = Ubicacion;
             this.Capacidad = Capacidad;
         }       

@@ -199,7 +199,7 @@ namespace TP_grupoA_Cine
             else
             {
                 mensaje = cine.comprarEntrada(cine.usuarioActual().ID, Convert.ToInt32(funcion_seleccionada.Text), Convert.ToInt32(cantidadentradas.Value));
-                MessageBox.Show(mensaje, "Compra Exitosa");
+                MessageBox.Show(mensaje, "COMPRA EXITOSA!");
             }
         }
 
@@ -211,7 +211,7 @@ namespace TP_grupoA_Cine
         private void button1_Click(object sender, EventArgs e) //Boton de carga de credito
         {
             cine.cargarCredito(cine.usuarioActual().ID, 500);
-            MessageBox.Show("SALDO ACTUAL: " + cine.usuarioActual().Credito, "Carga Exitosa");
+            MessageBox.Show("SALDO ACTUAL: " + cine.usuarioActual().Credito, "CARGA EXITOSA!");
         }
 
         private void btnBusqueda_Click(object sender, EventArgs e)

@@ -65,12 +65,12 @@ namespace TP_grupoA_Cine
             if (selectedSala != -1)
             {
                 if (cine.modificacionSala(selectedSala, ubicacionsala_text.Text, int.Parse(capacidadsala_text.Text)))
-                    MessageBox.Show("Modificado con éxito");
+                    MessageBox.Show("Modificado con éxito", "OK");
                 else
-                    MessageBox.Show("Error al modificar la sala");
+                    MessageBox.Show("Error al modificar la sala","ERROR");
             }
             else
-                MessageBox.Show("Debe seleccionar una sala");
+                MessageBox.Show("Debe seleccionar una sala","ERROR");
 
         }
 
@@ -79,23 +79,23 @@ namespace TP_grupoA_Cine
             if (selectedSala != -1)
             {
                 cine.bajaSala(selectedSala);
-                MessageBox.Show("Eliminado con éxito");
+                MessageBox.Show("Eliminado con éxito", "OK");
 
             }
             else
-                MessageBox.Show("Debe seleccionar una sala");
+                MessageBox.Show("Debe seleccionar una sala", "ERROR");
 
         }
 
         private void btnalta_sala_Click(object sender, EventArgs e) //dar de alta una sala
         {
             if (capacidadsala_text.Text == "" || ubicacionsala_text.Text == "" || capacidadsala_text.Text == null || ubicacionsala_text.Text == null)
-                MessageBox.Show("Debe completar los datos para agregar");
+                MessageBox.Show("Debe completar los datos para agregar", "ERROR");
             else
                 if (cine.altaSala(ubicacionsala_text.Text, int.Parse(capacidadsala_text.Text)))
-                MessageBox.Show("Agregado con éxito");
+                MessageBox.Show("Agregado con éxito", "OK");
             else
-                MessageBox.Show("Error al agregar una sala");
+                MessageBox.Show("Error al agregar una sala", "ERROR");
         }
 
         private void btnvolver_salas_Click(object sender, EventArgs e)

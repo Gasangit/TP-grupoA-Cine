@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Net;
+using System.Diagnostics;
 
 namespace TP_grupoA_Cine
 {
@@ -50,14 +51,15 @@ namespace TP_grupoA_Cine
                 MemoryStream ms = new MemoryStream(bytes);
                 //nombre, sinopsis, duracion, poster
                 dataGridView1.Rows.Add(p.ID.ToString(), p.Nombre.ToString(), p.Sinopsis.ToString(),
-                                        p.Duracion.ToString(), Image.FromStream(ms));
-                //dataGridView1.Rows.Add(p.ToString());
+                                        p.Duracion.ToString(), Image.FromStream(ms), p.Poster.ToString());
+                //dataGridView1.Rows.Add(p.ToString(),Image.FromStream(ms));
             }
 
             nombre_pelicula.Text = "";
             duracion_pelicula.Text = "";
             sinopsis_pelicula.Text = "";
             id_pelicula.Text = "";
+            tbPoster.Text = "";
 
 
         }
@@ -67,15 +69,18 @@ namespace TP_grupoA_Cine
             string ID = dataGridView1[0, e.RowIndex].Value.ToString();
             string nombre = dataGridView1[1, e.RowIndex].Value.ToString();
             string sinopsis = dataGridView1[2, e.RowIndex].Value.ToString();
-            string poster = dataGridView1[4, e.RowIndex].Value.ToString();
-            //Image poster = (Image)dataGridView1[3, e.RowIndex].Value;
             string duracion = dataGridView1[3, e.RowIndex].Value.ToString();
+            string poster = dataGridView1[4, e.RowIndex].Value.ToString();
+            string urlposter = dataGridView1[5, e.RowIndex].Value.ToString();
+            //Image poster = (Image)dataGridView1[4, e.RowIndex].Value;
+            Debug.WriteLine("");
             selectedPelicula = int.Parse(ID);
             id_pelicula.Text = ID;
             nombre_pelicula.Text = nombre;
             sinopsis_pelicula.Text = sinopsis;
             duracion_pelicula.Text = duracion;
-            tbPoster.Text = cine.mostrarPeliculas()[Convert.ToInt32(ID)].Poster.ToString();
+            //tbPoster.Text = cine.mostrarPeliculas()[selectedPelicula].Poster.ToString();
+            tbPoster.Text = urlposter;
         }
 
         //Modificar Pelicula
@@ -83,20 +88,20 @@ namespace TP_grupoA_Cine
         {
             if (selectedPelicula != -1)
             {
-                if (cine.modificarPelicula(selectedPelicula, nombre_pelicula.Text, sinopsis_pelicula.Text, int.Parse(duracion_pelicula.Text)))
+                if (cine.modificarPelicula(selectedPelicula, nombre_pelicula.Text, sinopsis_pelicula.Text, int.Parse(duracion_pelicula.Text), tbPoster.Text))
                 {
-                    MessageBox.Show("Pelicula Modificada con éxito");
+                    MessageBox.Show("Pelicula Modificada con éxito", "OK");
 
 
                 }
                 else
                 {
-                    MessageBox.Show("Error al modificar");
+                    MessageBox.Show("Error al modificar", "ERROR");
                 }
             }
             else
             {
-                MessageBox.Show("Debe seleccionar una pelicula");
+                MessageBox.Show("Debe seleccionar una pelicula", "ERROR");
             }
         }
 
@@ -106,11 +111,11 @@ namespace TP_grupoA_Cine
             if (selectedPelicula != -1)
             {
                 cine.bajaPelicula(selectedPelicula);
-                MessageBox.Show("Eliminado con éxito");
+                MessageBox.Show("Eliminado con éxito", "OK");
 
             }
             else
-                MessageBox.Show("Debe seleccionar una pelicula");
+                MessageBox.Show("Debe seleccionar una pelicula", "ERROR");
 
         }
 
@@ -118,12 +123,12 @@ namespace TP_grupoA_Cine
         private void btnaltapelicula_Click(object sender, EventArgs e)
         {
             if (duracion_pelicula.Text == "" || sinopsis_pelicula.Text == "" || duracion_pelicula.Text == null || sinopsis_pelicula.Text == null)
-                MessageBox.Show("Se deben completar los campos");
+                MessageBox.Show("Se deben completar los campos", "ERROR");
             else
                 if (cine.altaPelicula(nombre_pelicula.Text, sinopsis_pelicula.Text, Convert.ToInt32(duracion_pelicula.Text), tbPoster.Text))
-                MessageBox.Show("La pelicula se agrego con éxito");
+                MessageBox.Show("La pelicula se agrego con éxito", "OK");
             else
-                MessageBox.Show("Error al agregar la pelicula");
+                MessageBox.Show("Error al agregar la pelicula", "ERROR");
 
         }
 

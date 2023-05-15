@@ -32,9 +32,7 @@
             panel2 = new Panel();
             btnRegistrarse = new Button();
             label5 = new Label();
-            label9 = new Label();
             label6 = new Label();
-            cbEsAdmin = new ComboBox();
             label7 = new Label();
             label2 = new Label();
             label4 = new Label();
@@ -65,9 +63,7 @@
             panel2.BackColor = Color.FromArgb(192, 192, 255);
             panel2.Controls.Add(btnRegistrarse);
             panel2.Controls.Add(label5);
-            panel2.Controls.Add(label9);
             panel2.Controls.Add(label6);
-            panel2.Controls.Add(cbEsAdmin);
             panel2.Controls.Add(label7);
             panel2.Controls.Add(label2);
             panel2.Controls.Add(label4);
@@ -89,7 +85,7 @@
             // 
             btnRegistrarse.BackColor = SystemColors.Info;
             btnRegistrarse.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            btnRegistrarse.Location = new Point(177, 321);
+            btnRegistrarse.Location = new Point(176, 331);
             btnRegistrarse.Name = "btnRegistrarse";
             btnRegistrarse.Size = new Size(175, 38);
             btnRegistrarse.TabIndex = 4;
@@ -107,16 +103,6 @@
             label5.TabIndex = 6;
             label5.Text = "Fecha Nacimiento";
             // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label9.Location = new Point(61, 248);
-            label9.Name = "label9";
-            label9.Size = new Size(148, 20);
-            label9.TabIndex = 3;
-            label9.Text = "¿Es Administrador?";
-            // 
             // label6
             // 
             label6.AutoSize = true;
@@ -126,16 +112,6 @@
             label6.Size = new Size(53, 20);
             label6.TabIndex = 3;
             label6.Text = "E-Mail";
-            // 
-            // cbEsAdmin
-            // 
-            cbEsAdmin.FormattingEnabled = true;
-            cbEsAdmin.Items.AddRange(new object[] { "SI", "NO" });
-            cbEsAdmin.Location = new Point(263, 245);
-            cbEsAdmin.Name = "cbEsAdmin";
-            cbEsAdmin.Size = new Size(89, 23);
-            cbEsAdmin.TabIndex = 1;
-            cbEsAdmin.SelectedIndexChanged += cbEsAdmin_SelectedIndexChanged;
             // 
             // label7
             // 
@@ -269,14 +245,12 @@
         private TextBox tbDNI;
         private TextBox tbNombre;
         private Label label6;
-        private Label label9;
         private Label label8;
         private Label label7;
         private Label label4;
         private Label label3;
         private Label label2;
         private Label label1;
-        private ComboBox cbEsAdmin;
         private TextBox tbApellido;
         private Button btnRegistrarse;
         private MonthCalendar monthCalendar1;

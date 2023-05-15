@@ -42,25 +42,25 @@ namespace TP_grupoA_Cine
                     switch (cine.intentos(mail))
                     {
                         case 0:
-                            MessageBox.Show("Por favor ingresar un usuario correcto");
+                            MessageBox.Show("Por favor ingresar un usuario correcto", "ERROR");
                             break;
                         case 1:
-                            MessageBox.Show("1er intento, contraseña incorrecta");
+                            MessageBox.Show("1er intento, contraseña incorrecta", "CUIDADO");
                             break;
                         case 2:
-                            MessageBox.Show("2do intento, contraseña incorrecta");
+                            MessageBox.Show("2do intento, contraseña incorrecta", "CUIDADO");
                             break;
                         case 3:
-                            MessageBox.Show("3er intento, contraseña incorrecta");
+                            MessageBox.Show("3er intento, contraseña incorrecta", "CUIDADO");
                             break;
                         default:
-                            MessageBox.Show("Usted a sido bloqueado, debera contactar al administrador");
+                            MessageBox.Show("Usted a sido bloqueado, debera contactar al administrador", "BLOQUEADO");
                             break;
                     }
 
             }
             else
-                MessageBox.Show("Debe ingresar un mail y contraseña!");
+                MessageBox.Show("Debe ingresar un mail y contraseña!", "ERROR");
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

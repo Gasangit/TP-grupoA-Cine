@@ -63,7 +63,7 @@ namespace TP_grupoA_Cine
             else //HAY QUE VALIDAR QUE LA CANTIDAD SEA IGUAL O MENOR A LA COMPRADA
             {
                 cine.devolverEntrada(cine.usuarioActual().ID, Convert.ToInt32(funcion_seleccionada.Text), Convert.ToInt32(cantidadentradas.Value));
-                MessageBox.Show("Se ha reintegrado su crédito" + cine.usuarioActual().Credito, "Entrada Devuelta");
+                MessageBox.Show("Se ha reintegrado su crédito" + cine.usuarioActual().Credito, "DEVOLUCION EXITOSA");
                 refreshData();
             }
 

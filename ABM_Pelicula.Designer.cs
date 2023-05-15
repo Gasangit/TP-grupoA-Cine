@@ -51,6 +51,7 @@
             sinopsispelicula = new DataGridViewTextBoxColumn();
             duracionpelicula = new DataGridViewTextBoxColumn();
             posterp = new DataGridViewImageColumn();
+            urlPoster = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -155,7 +156,7 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idpelicula, nombrepelicula, sinopsispelicula, duracionpelicula, posterp });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idpelicula, nombrepelicula, sinopsispelicula, duracionpelicula, posterp, urlPoster });
             dataGridView1.Location = new Point(144, 242);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 50;
@@ -253,7 +254,6 @@
             idpelicula.HeaderText = "id";
             idpelicula.Name = "idpelicula";
             idpelicula.ReadOnly = true;
-            idpelicula.Visible = false;
             // 
             // nombrepelicula
             // 
@@ -283,6 +283,14 @@
             posterp.ImageLayout = DataGridViewImageCellLayout.Zoom;
             posterp.Name = "posterp";
             posterp.ReadOnly = true;
+            // 
+            // urlPoster
+            // 
+            urlPoster.Frozen = true;
+            urlPoster.HeaderText = "URL Poster";
+            urlPoster.Name = "urlPoster";
+            urlPoster.ReadOnly = true;
+            urlPoster.Visible = false;
             // 
             // ABM_Pelicula
             // 
@@ -332,5 +340,6 @@
         private DataGridViewTextBoxColumn sinopsispelicula;
         private DataGridViewTextBoxColumn duracionpelicula;
         private DataGridViewImageColumn posterp;
+        private DataGridViewTextBoxColumn urlPoster;
     }
 }

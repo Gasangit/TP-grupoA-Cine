@@ -32,6 +32,10 @@ namespace TP_grupoA_Cine
 
         private Cine() {
             DB = new ControladorDB();
+            usuarios = DB.llenarListaUsuarios();
+            salas = DB.llenarListaSala();
+            peliculas = DB.llenarListaPelicula();
+            funciones = DB.llenarListaFuncion();
         }
 
         public static Cine Instancia
@@ -45,7 +49,7 @@ namespace TP_grupoA_Cine
         // USUARIO --------------------------------------------------------------------------------------------
         public bool altaUsuario(int dni, string nombre,
                                    string apellido, string mail, string password,
-                                   DateTime fechaNacimiento, bool esAdmin)
+                                   DateTime fechaNacimiento, bool esAdmin, bool bloqueado)
         {
 
             //comprobación para que no me agreguen usuarios con DNI duplicado
@@ -55,15 +59,24 @@ namespace TP_grupoA_Cine
                 if (u.DNI == dni)
                     esValido = false;
             }
+
+            if (dni.ToString().Length != 8 && dni.ToString().Length != 7) 
+               
+            {
+                MessageBox.Show("Difiere la cantidad de digitos en el DNI. Deben ser 8 o 7 digitos"); 
+            
+            }
+
+                
             if (esValido)
             {
                 int NewUser;
-                NewUser = DB.altaUsuarioDB(dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin);
+                NewUser = DB.altaUsuarioDB(dni, nombre, apellido, mail, password, fechaNacimiento , esAdmin, bloqueado);
                 if (NewUser != -1)
                 {
                     //Ahora sí lo agrego en la lista
                     //la clase Usuario tiene que tener un constructor para el ALTA
-                    Usuario nuevo = new Usuario(dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin);
+                    Usuario nuevo = new Usuario(NewUser, dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin, false, 0.0);
                     //el ID se puede generar automaticamente con un atributo estatico en la clase Usuario
                     usuarios.Add(nuevo);
                     Debug.WriteLine($">>> (Cine - altaUsuario()) Se CREÓ el USUARIO {nuevo.Nombre}" +
@@ -109,16 +122,16 @@ namespace TP_grupoA_Cine
             }
         }
 
-        public bool modificarUsuario(int idUsuario, int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento, bool esAdmin, bool bloqueado)
+        public bool modificarUsuario(int id, int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento, bool esAdmin, bool bloqueado)
         {
             //primero me aseguro que lo pueda agregar a la base
-            if (DB.modificarUsuarioDB(idUsuario, dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin, bloqueado) == 1)
+            if (DB.modificarUsuarioDB(id, dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin, bloqueado) == 1)
             {
                 try
                 {
                     //Ahora sí lo MODIFICO en la lista
                     for (int i = 0; i < usuarios.Count; i++)
-                        if (usuarios[i].ID == idUsuario)
+                        if (usuarios[i].ID == id)
                         {
                             usuarios[i].Nombre = nombre;
                             usuarios[i].Apellido = apellido;
@@ -130,8 +143,9 @@ namespace TP_grupoA_Cine
                         }
                     return true;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Debug.WriteLine(">>>Cine : modificarUsuario : " + ex);
                     return false;
                 }
             }
@@ -204,116 +218,178 @@ namespace TP_grupoA_Cine
         {
             //tiene que haber un contructor en sala especial para crearla. El ID se puede generar
             //automaticamente con un atributo estatico en la clase Sala.
-            Sala sala = new Sala(ubicacion, capacidad);
-            salas.Add(sala);
-
-            Debug.WriteLine($">>> (Cine - altaSala()) Se CREÓ la SALA ubicada en {sala.Ubicacion}" +
-                                $" con capacidad para {sala.Capacidad} espectadores");
-            return true;
+            int NewSala;
+            NewSala = DB.altaSalaDB(ubicacion, capacidad);
+            if (NewSala != -1)
+            {
+               
+                Sala nuevo = new Sala(NewSala, ubicacion, capacidad);
+                
+                salas.Add(nuevo);
+                Debug.WriteLine($">>> (Cine - altaSala()) Se CREÓ la SALA ubicada en {nuevo.Ubicacion}" +
+                                $" con capacidad para {nuevo.Capacidad} espectadores");
+                return true;
+            }
+            else
+            {
+                //algo salió mal con la query porque no generó un id válido
+                return false;
+            }
         }
         
-        public void bajaSala(int idSala)
+        public bool bajaSala(int idSala)
         {
-            try 
+            //primero me aseguro que lo pueda agregar a la base
+            if (DB.eliminarSalaDB(idSala) == 1)
             {
-                Sala sala = (Sala)obtenerObjetoDeLista(idSala, "sala");
-                salas.Remove(sala);
-                Debug.WriteLine($">>> Se ELIMINÓ la SALA ubicada en {sala.Ubicacion}" +
-                                    $" con capacidad para {sala.Capacidad} espectadores");
-                sala = null;
+                try
+                {
+                    //Ahora sí lo elimino en la lista
+                    foreach (Sala s in salas)
+                        if (s.ID == idSala)
+                        {
+                            salas.Remove(s);
+                            Debug.WriteLine($">>> Se ELIMINÓ la SALA ubicada en {s.Ubicacion}" +
+                                 $" con capacidad para {s.Capacidad} espectadores");
+                            return true;
+                        }
+                    return false;
+                }
+                catch (Exception)
+                {
+                    Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
+                    return false;
+                }
             }
-            catch (Exception ex) 
+            else
             {
-                Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
+                //algo salió mal con la query porque no generó 1 registro
+                return false;
             }
+
         }        
 
         public bool modificacionSala(int ID, string ubicacion, int capacidad)
         {
-            try 
+            if (DB.modificarSalaDB(ID, ubicacion, capacidad) == 1)
             {
-                Sala sala = (Sala)obtenerObjetoDeLista(ID, "sala");
-
-                sala.Ubicacion = ubicacion;
-                sala.Capacidad = capacidad;
-                
+                try
+                {
+                    //Ahora sí lo MODIFICO en la lista
+                    for (int i = 0; i < salas.Count; i++)
+                        if (salas[i].ID == ID)
+                        {
+                            salas[i].Ubicacion = ubicacion;
+                            salas[i].Capacidad = capacidad;                    
+                        }
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(">>>Cine : modificarSala : " + ex);
+                    return false;
+                }
             }
-            catch (Exception ex)
+            else
             {
+                //algo salió mal con la query porque no generó 1 registro
                 Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
+                return false;
             }
-
-            return true;
         }
 
         // FUNCION --------------------------------------------------------------------------------------------
          public bool altaFuncion(int idSala, int idPelicula, DateTime fecha, double costo)
          {
-            Sala miSala = null;
-
-            foreach (Sala sala in this.salas)
-            {
-                if (idSala == sala.ID) 
-                {
-                    miSala = sala;
-                    break;                
-                }
-            }
-
-            Pelicula miPelicula = null;
-
-            foreach(Pelicula pelicula in this.peliculas)
-            {
-                if (idPelicula == pelicula.ID) 
-                {
-
-                    miPelicula = pelicula;
-                    break;
-                
-                }
-            }
+            Sala miSala = (Sala) obtenerObjetoDeLista(idSala, "sala");
+            Pelicula miPelicula = (Pelicula) obtenerObjetoDeLista(idPelicula, "pelicula");
 
             if (miPelicula == null || miSala == null)
             {
-
+                Debug.WriteLine(">>>Cine -- altaFuncion : no se encontró alguno de los objetos SALA, PELICULA o ambos");
                 return false;
 
             }
             else
             {
-
-                Funcion funcion = new Funcion(miSala, miPelicula, fecha, 0, costo); //se pasa cero pero no habría que ingresar Cantidad de clientes
-                miPelicula.MisFunciones.Add(funcion);
-                miSala.MisFunciones.Add(funcion);
-                funciones.Add(new Funcion(miSala, miPelicula, fecha, 0, costo));
-                Debug.WriteLine($">>> (Cine - altaFuncion()) Se CREÓ la FUNCION en la sala {funcion.MiSala.ID}" +
-                                 $" para la película {funcion.MiPelicula.Nombre} en la fecha {funcion.Fecha} con un costo de {funcion.Costo}");
-                return true;
-            }            
+                int idNuevaFuncion = DB.altaFuncionDB(idSala, idPelicula, fecha, costo);
+                if (idNuevaFuncion != -1)
+                {
+                    Funcion funcion = new Funcion(idNuevaFuncion, miSala, miPelicula, fecha, costo); //se pasa cero pero no habría que ingresar Cantidad de clientes
+                    miPelicula.MisFunciones.Add(funcion);
+                    miSala.MisFunciones.Add(funcion);
+                    funciones.Add(new Funcion(idNuevaFuncion, miSala, miPelicula, fecha, costo));
+                    Debug.WriteLine($">>> (Cine - altaFuncion()) Se CREÓ la FUNCION en la sala {funcion.MiSala.ID}" +
+                                     $" para la película {funcion.MiPelicula.Nombre} en la fecha {funcion.Fecha} con un costo de {funcion.Costo}");
+                    return true;
+                }
+                else
+                {
+                    Debug.WriteLine("Cine -- altaFuncion : no se a podido CREAR la FUNCION. No se ingresó a la base de datos");
+                    return false;
+                } 
+            }    
          }
 
         public bool modificarFuncion(int ID,int idSala,int idPelicula, DateTime fecha, double costo)//
         {
             try 
             {
-                Sala unaSala = (Sala)obtenerObjetoDeLista(idSala, "sala");
-                Pelicula unaPelicula = (Pelicula)obtenerObjetoDeLista(idPelicula, "pelicula");
-                Funcion funcion = (Funcion)obtenerObjetoDeLista(ID, "funcion");
+                Sala unaSala = (Sala) obtenerObjetoDeLista(idSala, "sala");
+                Pelicula unaPelicula = (Pelicula) obtenerObjetoDeLista(idPelicula, "pelicula");
+                Funcion funcion = (Funcion) obtenerObjetoDeLista(ID, "funcion");
 
-                funcion.MiSala = unaSala;
-                funcion.MiPelicula = unaPelicula;
-                funcion.Fecha = fecha;
-                funcion.Costo = costo;
+                if (DB.modificarFuncionesDB(ID, idSala, idPelicula, fecha, costo) == 1)
+                {
+                    funcion.MiSala = unaSala;
+                    funcion.MiPelicula = unaPelicula;
+                    funcion.Fecha = fecha;
+                    funcion.Costo = costo;
+
+                    return true;
+                }
+                else 
+                {
+                    Debug.WriteLine(">>>Cine -- modificarFuncion : no se a podido MODIFICAR la FUNCION");
+                    return false;
+                }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
+                Debug.WriteLine($"Clase {this.GetType().Name} modificarFuncion >>> OBJETO o ID no encontrado.");
+                return false;
             }
-
-            return true;
         }
 
-        public void bajaFuncion(int idFuncion)
+        public bool bajaFuncion(int ID)
+        {
+            //primero me aseguro que lo pueda agregar a la base
+            if (DB.eliminarFuncionesDB(ID) == 1)
+            {
+                try
+                {
+                    //Ahora sí lo elimino en la lista
+                    foreach (Funcion f in funciones)
+                        if (f.ID == ID)
+                        {
+                            funciones.Remove(f);
+                            return true;
+                        }
+                    return false;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                //algo salió mal con la query porque no generó 1 registro
+                return false;
+            }
+        }
+
+       /* public void bajaFuncion(int idFuncion)
         {
             try
             {
@@ -326,9 +402,32 @@ namespace TP_grupoA_Cine
             {
                 Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
             }
-        }
+        }*/
         // PELICULA -------------------------------------------------------------------------------------------
+
+
+
         public bool altaPelicula(string nombre, string sinopsis, int duracion, string poster)
+        {
+                int idNuevaPelicula;
+                idNuevaPelicula = DB.altaPeliculaDB(nombre, sinopsis, duracion, poster);
+                if (idNuevaPelicula != -1)
+                {
+                    //Ahora sí lo agrego en la lista
+                    //la clase Pelicula tiene que tener un constructor para el ALTA
+                    Pelicula nuevo = new Pelicula(idNuevaPelicula, nombre, sinopsis, duracion, poster);
+                    //el ID se puede generar automaticamente con un atributo estatico en la clase Pelicula
+                    peliculas.Add(nuevo);
+                   
+                    return true;
+                }
+                else
+                {
+                    //algo salió mal con la query porque no generó un id válido
+                    return false;
+                }
+        }
+      /*  public bool altaPelicula(string nombre, string sinopsis, int duracion, string poster)
         {
 
             Pelicula pelicula = new Pelicula(nombre, sinopsis, duracion, poster);
@@ -336,28 +435,86 @@ namespace TP_grupoA_Cine
 
             Debug.WriteLine($">>> (Cine - altaPelicula()) Se creó la PELÍCULA {pelicula.Nombre} con ID {pelicula.ID}");
             return true;
-        }
+        }*/
 
         
-        public bool modificarPelicula(int ID, string nombre, string sinopsis, int duracion)
+        public bool modificarPelicula(int id, string Nombre, string Sinopsis, int Duracion, string Poster)
         {
-            try
-            {
-                Pelicula pelicula = (Pelicula)obtenerObjetoDeLista(ID, "pelicula");
 
-                pelicula.Nombre = nombre;
-                pelicula.Sinopsis = sinopsis;
-                pelicula.Duracion = duracion;
-            }
-            catch (Exception ex)
+            if (DB.modificarPeliculaDB(id, Nombre, Sinopsis, Duracion, Poster) == 1)
             {
+                try
+                {
+                    //Ahora sí lo MODIFICO en la lista
+                    for (int i = 0; i < peliculas.Count; i++)
+                        if (peliculas[i].ID == id)
+                        {
+                            peliculas[i].Nombre = Nombre;
+                            peliculas[i].Sinopsis = Sinopsis;
+                            peliculas[i].Duracion = Duracion;
+                            peliculas[i].Poster = Poster;
+                        }
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(">>>Cine : modificarPelicula : " + ex);
+                    return false;
+                }
+            }
+            else
+            {
+                //algo salió mal con la query porque no generó 1 registro
                 Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
+                return false;
             }
 
-            return true;
+
+            //try
+            //{
+            //    pelicula pelicula = (pelicula)obtenerobjetodelista(id, "pelicula");
+
+            //    pelicula.nombre = nombre;
+            //    pelicula.sinopsis = sinopsis;
+            //    pelicula.duracion = duracion;
+            //}
+            //catch (exception ex)
+            //{
+            //    debug.writeline($"clase {this.gettype().name} >>> objeto o id no encontrado.");
+            //}
+
+            //return true;
         }
 
-        public void bajaPelicula(int idPelicula)
+        public bool bajaPelicula(int id)
+        {
+            //primero me aseguro que lo pueda agregar a la base
+            if (DB.eliminarPeliculaDB(id) == 1)
+            {
+                try
+                {
+                    //Ahora sí lo elimino en la lista
+                    foreach (Pelicula p in peliculas)
+                        if (p.ID == id)
+                        {
+                            peliculas.Remove(p);
+                            return true;
+                        }
+                    return false;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                //algo salió mal con la query porque no generó 1 registro
+                return false;
+            }
+        }
+
+       /* public void bajaPelicula(int idPelicula)
         {
             try 
             {
@@ -370,7 +527,7 @@ namespace TP_grupoA_Cine
             {
                 Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
             }
-        }
+        }*/
 
         // TRANSACCIONES --------------------------------------------------------------------------------------
 
@@ -398,24 +555,24 @@ namespace TP_grupoA_Cine
                 Funcion funcion = (Funcion)obtenerObjetoDeLista(idFuncion, "funcion");
 
                 double importe = funcion.Costo * cantidad;
-                int entradasDispoibles = funcion.MiSala.Capacidad - funcion.CantClientes;
+              ///  int entradasDispoibles = funcion.MiSala.Capacidad - funcion.CantClientes;
 
                 if (importe > usuario.Credito)
                 {
                     Debug.WriteLine($">>> (Cine - comprarEntrada()) CRÉDITO insuficiente para comprar la/s {cantidad} entrada/s");
                     mensaje = $"CRÉDITO INSUFICIENTE : tiene {usuario.Credito} de crédito no puede comprar {cantidad} entradas a ${importe}";
                 }
-                else if (entradasDispoibles < cantidad)
-                {
-                    Debug.WriteLine($">>> (Cine - comprarEntrada()) No pueden venderse {cantidad} entradas quedan disponibles {entradasDispoibles}");
-                    mensaje = $"SIN BUTACAS DISPONIBLES : la sala esta completa (capacidad {funcion.MiSala.Capacidad})";
-                }
+              //  else if (entradasDispoibles < cantidad)
+              //  {
+              //      Debug.WriteLine($">>> (Cine - comprarEntrada()) No pueden venderse {cantidad} entradas quedan disponibles {entradasDispoibles}");
+              ///      mensaje = $"SIN BUTACAS DISPONIBLES : la sala esta completa (capacidad {funcion.MiSala.Capacidad})";
+              //  }
                 else
                 {
                     usuario.Credito -= importe;
                     usuario.MisFunciones.Add(funcion);
 
-                    funcion.CantClientes += cantidad;
+                //    funcion.CantClientes += cantidad;
                     funcion.Clientes.Add(usuario);
 
                     Debug.WriteLine($">>> >>> (Cine - comprarEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" +
@@ -456,7 +613,7 @@ namespace TP_grupoA_Cine
                 double importe = funcion.Costo * cantidad;// el IMPORTE a devolver por las entradas es el
                                                           // COSTO de la FUNCION por la CANTIDAD de entradas
                 usuario.Credito += importe;         //se reintegra SALDO al CLIENTE
-                funcion.CantClientes -= cantidad;   //se descuentan las ENTRADAS devueltas
+            //    funcion.CantClientes -= cantidad;   //se descuentan las ENTRADAS devueltas
                                                     //de la CANTIDAD DE CLIENTE en al FUNCION
                 funcion.Clientes.Remove(usuario);
                 usuario.MisFunciones.Remove(funcion);
@@ -610,7 +767,7 @@ namespace TP_grupoA_Cine
                 for (int i = 0; i < salas.Count; i++)
                 {
                     if (salas[i].ID == ID)
-                    {
+                    {                        
                         objeto = salas[i];
                         idOk = true;
                         break;

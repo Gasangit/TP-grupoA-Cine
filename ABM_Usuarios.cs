@@ -60,6 +60,7 @@ namespace TP_grupoA_Cine
             string adminUser = dataGridView1[7, e.RowIndex].Value.ToString();
             string bloqUser = dataGridView1[8, e.RowIndex].Value.ToString();
 
+
             selectedUser = int.Parse(ID);
             nombreusuario.Text = nombreUser;
             apellidousuario.Text = apellidoUser;
@@ -68,7 +69,7 @@ namespace TP_grupoA_Cine
             passwordusuario.Text = passUser;
             nacimientousuario.Text = fecNacUser;
             esadmin.Text = adminUser;
-            usuariobloqueado.Text = bloqUser;            
+            usuariobloqueado.Text = bloqUser;
         }
 
 
@@ -79,27 +80,34 @@ namespace TP_grupoA_Cine
 
         private void btnalta_usuario_Click(object sender, EventArgs e)
         {
-            bool esAdmin = false;
-            if (esadmin.Text.ToLower() == "si") esAdmin = true;
+
+            bool esAdmin;
+            bool bloqueado;
+
+            if (esadmin.Text.ToLower() == "no") { esAdmin = false; }
+            else { esAdmin = true; }
+
+            if (usuariobloqueado.Text.ToLower() == "no") { bloqueado = false; }
+            else { bloqueado = true; }
+
+            //  if (esadmin.Text.ToLower() == "si") esAdmin = true;
 
             if (mailusuario.Text == "" || dniusuario.Text == "" || mailusuario.Text == null || dniusuario.Text == null ||
                 nombreusuario.Text == "" || apellidousuario.Text == "" || nombreusuario.Text == null || apellidousuario.Text == null ||
                 passwordusuario.Text == "" || nacimientousuario.Text == "" || passwordusuario.Text == null || nacimientousuario.Text == null)
             {
-                MessageBox.Show("Debe completar los datos para agregar");
-
+                MessageBox.Show("Debe completar los datos para agregar", "ERROR");
             }
 
             else
             {
-                if (cine.altaUsuario(int.Parse(dniusuario.Text), nombreusuario.Text, apellidousuario.Text, mailusuario.Text, passwordusuario.Text, DateTime.Parse(nacimientousuario.Text), esAdmin))
+                if (cine.altaUsuario(int.Parse(dniusuario.Text), nombreusuario.Text, apellidousuario.Text, mailusuario.Text, passwordusuario.Text, DateTime.Parse(nacimientousuario.Text), esAdmin, bloqueado))
                 {
-                    MessageBox.Show("Agregado con éxito");
-
+                    MessageBox.Show("Agregado con éxito", "OK");
                 }
                 else
                 {
-                    MessageBox.Show("Problemas al agregar");
+                    MessageBox.Show("Problemas al agregar", "ERROR");
 
                 }
             }
@@ -107,20 +115,26 @@ namespace TP_grupoA_Cine
 
         private void btnmodificar_usuario_Click(object sender, EventArgs e)
         {
-            bool esAdmin = false, bloqueado = false;
-            if (esadmin.Text.ToLower() == "si") esAdmin = true;
-            if (usuariobloqueado.Text.ToLower() == "si") bloqueado = true;
+            bool esAdmin;
+            bool bloqueado;
+
+            if (esadmin.Text.ToLower() != "true") { esAdmin = false; }
+            else { esAdmin = true; }
+
+            if (usuariobloqueado.Text.ToLower() != "true") { bloqueado = false; }
+            else { bloqueado = true; }
+
 
             if (selectedUser != -1)
             {
                 if (cine.modificarUsuario(selectedUser, int.Parse(dniusuario.Text), nombreusuario.Text, apellidousuario.Text, mailusuario.Text, passwordusuario.Text, DateTime.Parse(nacimientousuario.Text), esAdmin, bloqueado))
-                    MessageBox.Show("usuario modificado con éxito");
+                    MessageBox.Show("Usuario modificado con éxito", "OK");
                 else
-                    MessageBox.Show("error al modificar");
+                    MessageBox.Show("Error al modificar","ERROR!!");
             }
             else
             {
-                MessageBox.Show("debe seleccionar un usuario");
+                MessageBox.Show("Debe seleccionar un usuario", "ERROR");
             }
 
         }
@@ -130,11 +144,11 @@ namespace TP_grupoA_Cine
             if (selectedUser != -1)
             {
                 cine.eliminarUsuario(selectedUser);
-                MessageBox.Show("Usuario Eliminado con éxito");
+                MessageBox.Show("Usuario Eliminado con éxito", "OK");
             }
             else
             {
-                MessageBox.Show("Debe seleccionar un usuario");
+                MessageBox.Show("Debe seleccionar un usuario", "ERROR");
             }
         }
 

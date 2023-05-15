@@ -53,7 +53,9 @@
             costo = new DataGridViewTextBoxColumn();
             cantidadEspectadores = new DataGridViewTextBoxColumn();
             idfuncion = new DataGridViewTextBoxColumn();
+            nombreSala = new DataGridViewTextBoxColumn();
             salafuncion = new DataGridViewTextBoxColumn();
+            nombrePelicula = new DataGridViewTextBoxColumn();
             peliculafuncion = new DataGridViewTextBoxColumn();
             fechafuncion = new DataGridViewTextBoxColumn();
             costofuncion = new DataGridViewTextBoxColumn();
@@ -246,7 +248,7 @@
             // 
             dataGridView1.BackgroundColor = SystemColors.InactiveCaption;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idfuncion, salafuncion, peliculafuncion, fechafuncion, costofuncion });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idfuncion, nombreSala, salafuncion, nombrePelicula, peliculafuncion, fechafuncion, costofuncion });
             dataGridView1.Location = new Point(77, 189);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
@@ -299,17 +301,31 @@
             idfuncion.ReadOnly = true;
             idfuncion.Visible = false;
             // 
+            // nombreSala
+            // 
+            nombreSala.Frozen = true;
+            nombreSala.HeaderText = "Nombre Sala";
+            nombreSala.Name = "nombreSala";
+            nombreSala.ReadOnly = true;
+            // 
             // salafuncion
             // 
             salafuncion.Frozen = true;
-            salafuncion.HeaderText = "Sala";
+            salafuncion.HeaderText = "ID Sala";
             salafuncion.Name = "salafuncion";
             salafuncion.ReadOnly = true;
+            // 
+            // nombrePelicula
+            // 
+            nombrePelicula.Frozen = true;
+            nombrePelicula.HeaderText = "Nombre Pelicula";
+            nombrePelicula.Name = "nombrePelicula";
+            nombrePelicula.ReadOnly = true;
             // 
             // peliculafuncion
             // 
             peliculafuncion.Frozen = true;
-            peliculafuncion.HeaderText = "Pelicula";
+            peliculafuncion.HeaderText = "ID Pelicula";
             peliculafuncion.Name = "peliculafuncion";
             peliculafuncion.ReadOnly = true;
             // 
@@ -368,7 +384,9 @@
         private Button btnmostrar_funcion;
         private Button btnvolver_funcion;
         private DataGridViewTextBoxColumn idfuncion;
+        private DataGridViewTextBoxColumn nombreSala;
         private DataGridViewTextBoxColumn salafuncion;
+        private DataGridViewTextBoxColumn nombrePelicula;
         private DataGridViewTextBoxColumn peliculafuncion;
         private DataGridViewTextBoxColumn fechafuncion;
         private DataGridViewTextBoxColumn costofuncion;

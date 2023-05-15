@@ -18,30 +18,26 @@ namespace TP_grupoA_Cine
         public Pelicula MiPelicula { set; get; } = new Pelicula();
         public List<Usuario> Clientes { set; get; } = new List<Usuario>();
         public DateTime Fecha { set; get; } = new DateTime();
-        public int CantClientes { set; get; } = 0;
+        //public int CantClientes { set; get; } = 0;
         public double Costo { set; get; } = 0.0;
-        private static int idFuncion { set; get; }
+        //private static int idFuncion { set; get; }
 
         public Funcion() { }
 
 
         public Funcion(DateTime Fecha, double Costo)
-        {
-          //  this.ID = ++idFuncion;
+        {      
             this.Fecha = Fecha;
             this.Costo = Costo;
-
         }
 
-       public Funcion(Sala MiSala, Pelicula MiPelicula, DateTime Fecha, int CantClientes, double Costo) 
+       public Funcion(int ID, Sala MiSala, Pelicula MiPelicula, DateTime Fecha, double Costo) 
         {
-            ID = ++idFuncion;
+            this.ID = ID; 
             this.MiSala = MiSala;
             this.MiPelicula = MiPelicula;  
-            this.Fecha = Fecha;
-            this.CantClientes = CantClientes;
+            this.Fecha = Fecha;            
             this.Costo = Costo;
-
         }
 
 
@@ -50,7 +46,7 @@ namespace TP_grupoA_Cine
 
             return new string[]
             {
-                ID.ToString(),MiPelicula.Nombre.ToString(),MiSala.Ubicacion.ToString(), Fecha.ToString(), Costo.ToString() //CantClientes.ToString() // Muestra cantidad de clientes que ya compraron la funcion
+                ID.ToString(),MiSala.Ubicacion.ToString(),MiSala.ID.ToString(),MiPelicula.Nombre.ToString(),MiPelicula.ID.ToString(), Fecha.ToString(), Costo.ToString() //CantClientes.ToString() // Muestra cantidad de clientes que ya compraron la funcion
             };
         }
 
@@ -59,7 +55,7 @@ namespace TP_grupoA_Cine
 
             return new string[]
             {
-                ID.ToString(),Fecha.ToString(),MiPelicula.Nombre.ToString(),MiSala.Ubicacion.ToString(),"", Costo.ToString() //CantClientes.ToString() // Muestra cantidad de clientes que ya compraron la funcion
+                ID.ToString(),Fecha.ToString(),MiSala.Ubicacion.ToString(),MiPelicula.Nombre.ToString(),"", Costo.ToString() //CantClientes.ToString() // Muestra cantidad de clientes que ya compraron la funcion
             };
         }
 
