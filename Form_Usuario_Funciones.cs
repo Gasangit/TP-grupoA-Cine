@@ -16,6 +16,9 @@ namespace TP_grupoA_Cine
         public TransfDelegado TransfEvento_UsuarioFuncion_Volver_UsuarioActual;
         private Cine cine;
         private int selectedUserFuncion;
+        private string compra;
+        private string monto;
+        private string funcion;
 
         public Form_Usuario_Funciones()
         {
@@ -34,8 +37,19 @@ namespace TP_grupoA_Cine
         private void refreshData()
         {
             dataGridView1.Rows.Clear();
-            foreach (Funcion funcion in cine.usuarioActual().MisFunciones)
-                dataGridView1.Rows.Add(funcion.ToStringFunciones());
+            /*  foreach (List<string> UsuarioFuncion in cine.obtenerFuncionesUsuario())
+                  dataGridView1.Rows.Add(UsuarioFuncion.ToArray());
+            */
+            foreach (UsuarioFuncion uf in cine.mostrarUsuarioFuncion())
+            {
+                foreach (Funcion f in cine.mostrarFunciones()) 
+                {                    
+                  if (uf.idFuncion == f.ID && uf.idUsuario == cine.usuarioActual().ID)
+                  {
+                            dataGridView1.Rows.Add(uf.idCompra.ToString(), uf.idUsuario.ToString(), uf.idFuncion.ToString(), uf.cantidadCompra.ToString(), f.Fecha.ToString(), f.MiPelicula.Nombre.ToString(), f.MiSala.Ubicacion.ToString(), (f.Costo*uf.cantidadCompra).ToString() );
+                  }                                      
+                }                                        
+            }                
         }
 
 
@@ -47,29 +61,48 @@ namespace TP_grupoA_Cine
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e) //Selecciona una funcion del gird para devolver entrada
         {
-            string idFuncion = dataGridView1[0, e.RowIndex].Value.ToString();
 
-            funcion_seleccionada.Text = idFuncion;
+            string idCompra = dataGridView1[0, e.RowIndex].Value.ToString(); 
+            funcion = dataGridView1[2, e.RowIndex].Value.ToString();
+            compra = dataGridView1[3, e.RowIndex].Value.ToString();
+            monto = dataGridView1[7, e.RowIndex].Value.ToString();
+            funcion_seleccionada.Text = idCompra;
 
         }
-
+        
         private void button1_Click(object sender, EventArgs e) //Boton para devolver entradas
         {
+            refreshData();
+            selectedUserFuncion = -1;
+
             if (funcion_seleccionada.Text == "" || funcion_seleccionada.Text == null)
             {
                 MessageBox.Show("Seleccione una funcion", "ERROR");
 
             }
-            else //HAY QUE VALIDAR QUE LA CANTIDAD SEA IGUAL O MENOR A LA COMPRADA
+            else if(cantidadentradas.Value == 0 || cantidadentradas.Value == null)
             {
-                cine.devolverEntrada(cine.usuarioActual().ID, Convert.ToInt32(funcion_seleccionada.Text), Convert.ToInt32(cantidadentradas.Value));
-                MessageBox.Show("Se ha reintegrado su crédito" + cine.usuarioActual().Credito, "DEVOLUCION EXITOSA");
-                refreshData();
+                MessageBox.Show("Debe indicar cantidad a devolver", "ERROR");
             }
-
-
+            else
+            {
+                if (cantidadentradas.Value <= Convert.ToInt32(compra))
+                {
+                    if (cantidadentradas.Value == Convert.ToInt32(compra))
+                    {
+                        cine.eliminarEntrada(Convert.ToInt32(funcion_seleccionada.Text), cine.usuarioActual().ID, Convert.ToInt32(funcion), Convert.ToInt32(compra), Convert.ToDouble(monto));
+                        MessageBox.Show("Se ha reintegrado su crédito" + cine.usuarioActual().Credito, "DEVOLUCION EXITOSA");
+                        refreshData();
+                    }
+                    else if (cantidadentradas.Value < Convert.ToInt32(compra)) { }
+                        cine.devolverEntrada(Convert.ToInt32(funcion_seleccionada.Text), cine.usuarioActual().ID, Convert.ToInt32(funcion), Convert.ToInt32(compra), Convert.ToDouble(monto));
+                        MessageBox.Show("Se ha reintegrado su crédito" + cine.usuarioActual().Credito, "DEVOLUCION EXITOSA");
+                        refreshData();
+                }
+                }
+            }
         }
 
         public delegate void TransfDelegado();
     }
-}
+

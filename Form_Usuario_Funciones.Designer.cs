@@ -30,11 +30,13 @@
         {
             label1 = new Label();
             dataGridView1 = new DataGridView();
+            idCompra = new DataGridViewTextBoxColumn();
+            idUsuario = new DataGridViewTextBoxColumn();
             idFuncion = new DataGridViewTextBoxColumn();
+            cantidad = new DataGridViewTextBoxColumn();
             fechaFuncion = new DataGridViewTextBoxColumn();
             pelicula = new DataGridViewTextBoxColumn();
             sala = new DataGridViewTextBoxColumn();
-            cantidad = new DataGridViewTextBoxColumn();
             costoCompra = new DataGridViewTextBoxColumn();
             btnvolver = new Button();
             btnmostrarFunciones = new Button();
@@ -60,13 +62,27 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idFuncion, fechaFuncion, pelicula, sala, cantidad, costoCompra });
-            dataGridView1.Location = new Point(88, 137);
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idCompra, idUsuario, idFuncion, cantidad, fechaFuncion, pelicula, sala, costoCompra });
+            dataGridView1.Location = new Point(56, 137);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(768, 241);
+            dataGridView1.Size = new Size(862, 241);
             dataGridView1.TabIndex = 4;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            // 
+            // idCompra
+            // 
+            idCompra.Frozen = true;
+            idCompra.HeaderText = "Nro. Transaccion";
+            idCompra.Name = "idCompra";
+            idCompra.ReadOnly = true;
+            // 
+            // idUsuario
+            // 
+            idUsuario.Frozen = true;
+            idUsuario.HeaderText = "ID Usuario";
+            idUsuario.Name = "idUsuario";
+            idUsuario.ReadOnly = true;
             // 
             // idFuncion
             // 
@@ -74,6 +90,13 @@
             idFuncion.HeaderText = "ID Funcion";
             idFuncion.Name = "idFuncion";
             idFuncion.ReadOnly = true;
+            // 
+            // cantidad
+            // 
+            cantidad.Frozen = true;
+            cantidad.HeaderText = "Cantidad Entradas";
+            cantidad.Name = "cantidad";
+            cantidad.ReadOnly = true;
             // 
             // fechaFuncion
             // 
@@ -95,13 +118,6 @@
             sala.HeaderText = "Sala";
             sala.Name = "sala";
             sala.ReadOnly = true;
-            // 
-            // cantidad
-            // 
-            cantidad.Frozen = true;
-            cantidad.HeaderText = "Cantidad Entradas";
-            cantidad.Name = "cantidad";
-            cantidad.ReadOnly = true;
             // 
             // costoCompra
             // 
@@ -146,9 +162,9 @@
             label9.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
             label9.Location = new Point(88, 407);
             label9.Name = "label9";
-            label9.Size = new Size(170, 20);
+            label9.Size = new Size(169, 20);
             label9.TabIndex = 90;
-            label9.Text = "Funcion Seleccionada:";
+            label9.Text = "Compra Seleccionada:";
             // 
             // button1
             // 
@@ -211,16 +227,18 @@
         private DataGridView dataGridView1;
         private Button btnvolver;
         private Button btnmostrarFunciones;
-        private DataGridViewTextBoxColumn idFuncion;
-        private DataGridViewTextBoxColumn fechaFuncion;
-        private DataGridViewTextBoxColumn pelicula;
-        private DataGridViewTextBoxColumn sala;
-        private DataGridViewTextBoxColumn cantidad;
-        private DataGridViewTextBoxColumn costoCompra;
         private TextBox funcion_seleccionada;
         private Label label9;
         private Button button1;
         private Label label2;
         private NumericUpDown cantidadentradas;
+        private DataGridViewTextBoxColumn idCompra;
+        private DataGridViewTextBoxColumn idUsuario;
+        private DataGridViewTextBoxColumn idFuncion;
+        private DataGridViewTextBoxColumn cantidad;
+        private DataGridViewTextBoxColumn fechaFuncion;
+        private DataGridViewTextBoxColumn pelicula;
+        private DataGridViewTextBoxColumn sala;
+        private DataGridViewTextBoxColumn costoCompra;
     }
 }

@@ -19,6 +19,7 @@ namespace TP_grupoA_Cine
         private List<Sala> salas = new List<Sala>();
         private List<Pelicula> peliculas = new List<Pelicula>();
         private Usuario UsuarioActual = new Usuario();
+        private List<UsuarioFuncion> usFun = new List<UsuarioFuncion>();
         private ControladorDB DB;
 
 
@@ -611,9 +612,19 @@ namespace TP_grupoA_Cine
             return true;// Prueba
         }
 
+        //Mostrar mis funciones
+        //public List<List<string>> obtenerFuncionesUsuario()
+        //{
+        //    List<List<string>> salida = new List<List<string>>();
+        //    foreach (UsuarioFuncion f in usFun)
+        //        salida.Add(new List<string>() { f., f.Fecha.ToString(), f.MiSala.Ubicacion.ToString(), f.MiPelicula.Nombre.ToString(),f.Costo.ToString(),  });
+        //    return salida;
+        //}
 
-        public void devolverEntrada(int idUsuario,int idFuncion, int cantidad) //se agreaga idFuncion (no esta en UML)
+
+     /*   public void devolverEntrada(int idUsuario,int idFuncion, int cantidad) //se agreaga idFuncion (no esta en UML)
         {
+
             try 
             {
                 //la cantidad de entrada que compra el cliente para un funcion no queda
@@ -622,15 +633,54 @@ namespace TP_grupoA_Cine
                 Funcion funcion = usuario.MisFunciones[idFuncion]; //en el UML no esta pero el método
                                                                    //tendría que tener un ID de Funcion
 
-                double importe = funcion.Costo * cantidad;// el IMPORTE a devolver por las entradas es el
+               double importe = funcion.Costo * cantidad;// el IMPORTE a devolver por las entradas es el
                                                           // COSTO de la FUNCION por la CANTIDAD de entradas
-                usuario.Credito += importe;         //se reintegra SALDO al CLIENTE
-            //    funcion.CantClientes -= cantidad;   //se descuentan las ENTRADAS devueltas
+               usuario.Credito += importe;         //se reintegra SALDO al CLIENTE
+               funcion.CantClientes -= cantidad;   //se descuentan las ENTRADAS devueltas
                                                     //de la CANTIDAD DE CLIENTE en al FUNCION
                 funcion.Clientes.Remove(usuario);
                 usuario.MisFunciones.Remove(funcion);
                 Debug.WriteLine($">>> VENTA : \n  Cantidad Entradas: {cantidad}" +
-                                    $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
+                                  $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
+            }
+
+
+        }*/
+
+
+        public void devolverEntrada(int idCompra, int idUsuario,int idFuncion, int cantidad, double monto) //se agreaga idFuncion (no esta en UML)
+        {
+
+            string mensaje = "";
+
+            try
+            {
+                if (DB.UpdateDevolverEntradaDB(idCompra, idUsuario, idFuncion, cantidad, monto) == 1)
+                {
+
+                    Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
+                    Funcion funcion = usuario.MisFunciones[idFuncion];
+
+                    monto = funcion.Costo * cantidad;
+
+                    usuario.Credito += monto;
+                    usuario.MisFunciones.Remove(funcion);
+
+                    funcion.Clientes.Remove(usuario);
+
+                    funcion.CantClientes -= cantidad;
+
+                    usuario.MisFunciones.Remove(funcion);
+
+                    Debug.WriteLine($">>> >>> (Cine - comprarEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" +
+                                        $"\n Importe : {monto}\nPrecio entrada : {funcion.Costo}");
+
+                    mensaje = $"COMPRA REALIZADA : compró {cantidad} entradas a {funcion.Costo} por un importe total de {monto}";
+                }
             }
             catch (Exception ex)
             {
@@ -638,6 +688,43 @@ namespace TP_grupoA_Cine
             }
 
         }
+
+            public void eliminarEntrada(int idCompra, int idUsuario, int idFuncion, int cantidad, double monto) //se agreaga idFuncion (no esta en UML)
+            {
+                
+                if (DB.DeleteDevolverEntradaDB(idCompra, idUsuario, monto) == 1)
+                {
+                    try
+                { 
+                    Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
+                    Funcion funcion = usuario.MisFunciones[idFuncion];
+                    //Ahora sí lo elimino en la lista
+
+                    monto = funcion.Costo * cantidad;
+
+                    usuario.Credito += monto;         //se reintegra SALDO al CLIENTE
+                    funcion.CantClientes -= cantidad;   //se descuentan las ENTRADAS devueltas
+
+                                                                    //de la CANTIDAD DE CLIENTE en al FUNCION
+                    funcion.Clientes.Remove(usuario);
+                    usuario.MisFunciones.Remove(funcion);
+
+
+                  }
+                    catch (Exception ex)
+                {
+                    Debug.WriteLine($"Clase {this.GetType().Name} Mensaje de error : " + ex);
+
+                }
+                }
+                else
+                {
+                    //algo salió mal con la query porque no generó 1 registro
+                    Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
+                   
+                }
+            }
+        
 
         // SESION --------------------------------------------------------------------------------------------
 
@@ -723,8 +810,23 @@ namespace TP_grupoA_Cine
             usuarios = DB.llenarListaUsuarios();
             return usuarios.ToList();
         }
+        public List<UsuarioFuncion> mostrarUsuarioFuncion() 
+        {
+            usFun = DB.inicializarUsuarioFuncion();
+            //foreach (UsuarioFuncion uf in usFun)
+            //{
+            //    foreach (Funcion f in funciones)                
+            //    {
+            //        if (uf.idFuncion == f.ID) 
+            //        {
+            //            f.MiPelicula.Add(uf);
+            //        }                        
+            //    }
+            //}
+            return usFun.ToList();
+        }
 
-        
+
         public List<Funcion> buscarFuncion(DateTime fecha = new DateTime(), string ubicacion = "",
                                             double costo = -1, string pelicula = "")
         {

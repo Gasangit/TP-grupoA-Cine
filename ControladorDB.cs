@@ -704,7 +704,8 @@ namespace TP_grupoA_Cine
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        usuarioFuncion.Add(new UsuarioFuncion(reader.GetInt32(0), reader.GetInt32(1)));
+                        usuarioFuncion.Add(new UsuarioFuncion(reader.GetInt32(0),reader.GetInt32(1), reader.GetInt32(2), reader.GetInt32(3)));
+                        //TABLA-> 0 idCompra 1 idUsuario 2 idFuncion 3 cantidadCompra
                     }
                     reader.Close();
                 }
@@ -726,6 +727,7 @@ namespace TP_grupoA_Cine
             int resultadoQueryUsuarioFuncion;
             int resultadoQueryUsuario;
             int resultadoActualizacion = 0;
+            int idCompra;
 
             string queryUsuarioFuncion = "INSERT INTO [dbo].[Usuario_Funcion] ([idUsuario],[idFuncion],[cantidadCompra]) VALUES (@idUsuario, @idFuncion, @cantidad);";
             string queryUsuario = "UPDATE [dbo].[Usuarios] SET [credito] = ([credito] - @importe) WHERE [idUsuario] = @idUsuario";
@@ -758,10 +760,18 @@ namespace TP_grupoA_Cine
                     connection.Open();
                     //esta consulta NO espera un resultado para leer, es del tipo NON Query
                     resultadoQueryUsuarioFuncion = commandUsuarioFuncion.ExecuteNonQuery();
+                    //Query para Obtener el ID que la base nos entrego
+                    string ConsultaID = "SELECT MAX([idCompra]) FROM [dbo].[Usuario_Funcion];";
+                    commandUsuarioFuncion = new SqlCommand(ConsultaID, connection);
+                    SqlDataReader reader = commandUsuarioFuncion.ExecuteReader();
+                    reader.Read();
+                    idCompra = reader.GetInt32(0);
+                    reader.Close();
 
                     if (resultadoQueryUsuarioFuncion == 1)
                     {
                         resultadoQueryUsuario = commandUsuario.ExecuteNonQuery();
+                       
 
                         if (resultadoQueryUsuario == 1)
                         {
@@ -777,10 +787,144 @@ namespace TP_grupoA_Cine
                     Debug.WriteLine(ex.Message);
                     return -1;
                 }
-                return resultadoActualizacion;
+                return idCompra;
             }
         }
         #endregion
+
+        #region Devolver Entrada
+
+        public int UpdateDevolverEntradaDB(int idCompra, int idUsuario, int idFuncion, int cantidad, double monto)
+        {
+            int resultadoQueryUpdateDevolverEntrada;
+            int resultadoQueryCredito;
+            int resultadoActualizacion;
+
+            //Query si devuelve parcialmente entradas
+            string queryDevolverEntradaUpdate = "UPDATE [dbo].[Usuario_Funcion] SET [cantidadCompra] = ([cantidadCompra - @cantidad]) WHERE [idCompra] = @idCompra";
+            //Query donde le devuelve el credito
+            string queryDevolverCredito = "UPDATE [dbo].[Usuarios] SET [credito] = ([credito] + @monto) WHERE [idUsuario] = @idUsuario";
+            
+            using (SqlConnection connection =
+               new SqlConnection(connectionString))
+            {
+                SqlCommand commandUpdateDevol = new SqlCommand(queryDevolverEntradaUpdate, connection);
+
+                commandUpdateDevol.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.Int));
+                commandUpdateDevol.Parameters.Add(new SqlParameter("@idCompra", SqlDbType.Int));
+                commandUpdateDevol.Parameters.Add(new SqlParameter("@cantidad", SqlDbType.Int));
+
+                commandUpdateDevol.Parameters["@idCompra"].Value = idCompra;
+                commandUpdateDevol.Parameters["@cantidad"].Value = cantidad;
+
+                //--------------------------------------------------------------------------
+
+                SqlCommand commandUsuarioCred = new SqlCommand(queryDevolverCredito, connection);
+
+
+                commandUsuarioCred.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.Int));
+                commandUsuarioCred.Parameters.Add(new SqlParameter("@monto", SqlDbType.Float));
+
+                commandUsuarioCred.Parameters["@idUsuario"].Value = idUsuario;
+                commandUsuarioCred.Parameters["@monto"].Value = monto;
+               // commandUsuarioCred.Parameters["@monto"].Value = cantidad * monto; // Ver como llega 
+
+                try
+                {
+                    connection.Open();
+                    //Query Devol de entrada
+                    resultadoQueryUpdateDevolverEntrada = commandUpdateDevol.ExecuteNonQuery();
+
+                    //Si devolvio bien ejecuto devolucion del credito
+                    if(resultadoQueryUpdateDevolverEntrada == 1)
+                    {
+                        resultadoQueryCredito = commandUsuarioCred.ExecuteNonQuery();
+
+                        if(resultadoQueryCredito == 1)
+                        {
+                            resultadoActualizacion = 1;
+                        }
+                        else
+                        {
+                            resultadoActualizacion = -1;
+                        }
+                    } else
+                    {
+                        resultadoActualizacion = -1;
+                    }
+                    
+
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    return -1;
+                }
+                return idCompra;
+            }
+        }
+
+        public int DeleteDevolverEntradaDB(int idCompra, int idUsuario, double monto)
+        {
+            int resultadoQueryDeleteEntrada;
+            int resultadoQueryCredito;
+            int resultadoDelete;
+
+            //Query si devuelve todas las entradas
+            string queryDevolverEntradaDelete = "DELETE [dbo].[Usuario_Funcion] WHERE [idCompra] = @idCompra";
+            //Query donde le devuelve el credito
+            string queryDevolverCredito = "UPDATE [dbo].[Usuarios] SET [credito] = ([credito] + @monto) WHERE [idUsuario] = @idUsuario";
+
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand commandDeleteDevol = new SqlCommand(queryDevolverEntradaDelete, connection);
+                commandDeleteDevol.Parameters.Add(new SqlParameter("@idCompra", SqlDbType.Int));
+                commandDeleteDevol.Parameters["@idCompra"].Value = idCompra;
+                //--------------------------------------------------------------------------
+
+                SqlCommand commandUsuarioCred = new SqlCommand(queryDevolverCredito, connection);
+                commandUsuarioCred.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.Int));
+                commandUsuarioCred.Parameters.Add(new SqlParameter("@monto", SqlDbType.Float));
+
+                commandUsuarioCred.Parameters["@idUsuario"].Value = idUsuario;
+                commandUsuarioCred.Parameters["@monto"].Value = monto;
+                try
+                {
+                    connection.Open();
+                    //Query Devol de entrada
+                    resultadoQueryDeleteEntrada = commandDeleteDevol.ExecuteNonQuery();
+
+                    //Si devolvio bien ejecuto devolucion del credito
+                    if (resultadoQueryDeleteEntrada == 1)
+                    {
+                        resultadoQueryCredito = commandUsuarioCred.ExecuteNonQuery();
+                           
+                        if (resultadoQueryCredito == 1)
+                        {
+                            resultadoDelete = 1;
+                        }
+                        else
+                        {
+                            resultadoDelete = -1;
+                        }
+                    }
+                    else
+                    {
+                        resultadoDelete = -1;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    return 0;
+                }
+            }
+            return resultadoDelete;
+        }
         #endregion
+
+        #endregion Final de Usuario Funcion
     }
 }
