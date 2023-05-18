@@ -674,12 +674,11 @@ namespace TP_grupoA_Cine
 
                     funcion.CantClientes -= cantidad;
 
-                    usuario.MisFunciones.Remove(funcion);
+                    usuario.MisFunciones.Remove(funcion);//ya se removio más arriba ???
 
-                    Debug.WriteLine($">>> >>> (Cine - comprarEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" +
-                                        $"\n Importe : {monto}\nPrecio entrada : {funcion.Costo}");
+                    Debug.WriteLine($">>> (Cine - devolderEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" + $"\n Importe : {monto}\nPrecio entrada : {funcion.Costo}");
 
-                    mensaje = $"COMPRA REALIZADA : compró {cantidad} entradas a {funcion.Costo} por un importe total de {monto}";
+                    mensaje = $"DEVOLUCIÓN REALIZADA : se reintegraron {cantidad} por un valor de ${funcion.Costo} cada una y un importe total de {monto}";
                 }
             }
             catch (Exception ex)
@@ -691,37 +690,33 @@ namespace TP_grupoA_Cine
 
             public void eliminarEntrada(int idCompra, int idUsuario, int idFuncion, int cantidad, double monto) //se agreaga idFuncion (no esta en UML)
             {
-                
                 if (DB.DeleteDevolverEntradaDB(idCompra, idUsuario, monto) == 1)
                 {
                     try
-                { 
-                    Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
-                    Funcion funcion = usuario.MisFunciones[idFuncion];
-                    //Ahora sí lo elimino en la lista
+                    { 
+                        Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
+                        Funcion funcion = usuario.MisFunciones[idFuncion];
+                        //Ahora sí lo elimino en la lista
 
-                    monto = funcion.Costo * cantidad;
+                        monto = funcion.Costo * cantidad;
 
-                    usuario.Credito += monto;         //se reintegra SALDO al CLIENTE
-                    funcion.CantClientes -= cantidad;   //se descuentan las ENTRADAS devueltas
+                        usuario.Credito += monto;         //se reintegra SALDO al CLIENTE
+                        funcion.CantClientes -= cantidad;   //se descuentan las ENTRADAS devueltas
 
-                                                                    //de la CANTIDAD DE CLIENTE en al FUNCION
-                    funcion.Clientes.Remove(usuario);
-                    usuario.MisFunciones.Remove(funcion);
+                                                            //de la CANTIDAD DE CLIENTE en al FUNCION
+                        funcion.Clientes.Remove(usuario);
+                        usuario.MisFunciones.Remove(funcion);
 
-
-                  }
-                    catch (Exception ex)
-                {
-                    Debug.WriteLine($"Clase {this.GetType().Name} Mensaje de error : " + ex);
-
-                }
+                    }
+                        catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Clase {this.GetType().Name} Mensaje de error : " + ex);
+                    }
                 }
                 else
                 {
                     //algo salió mal con la query porque no generó 1 registro
                     Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
-                   
                 }
             }
         

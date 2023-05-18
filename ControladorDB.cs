@@ -860,7 +860,7 @@ namespace TP_grupoA_Cine
                     Debug.WriteLine(ex.Message);
                     return -1;
                 }
-                return idCompra;
+                return resultadoActualizacion;
             }
         }
 
@@ -913,12 +913,11 @@ namespace TP_grupoA_Cine
                     {
                         resultadoDelete = -1;
                     }
-
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
-                    return 0;
+                    return -1;
                 }
             }
             return resultadoDelete;
