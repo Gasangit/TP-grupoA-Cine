@@ -759,9 +759,9 @@ namespace TP_grupoA_Cine
                     connection.Open();
                     //esta consulta NO espera un resultado para leer, es del tipo NON Query
                     resultadoQueryUsuarioFuncion = commandUsuarioFuncion.ExecuteNonQuery();                  
-                    SqlDataReader reader = commandUsuarioFuncion.ExecuteReader();
-                    reader.Read();                    
-                    reader.Close();
+                    //SqlDataReader reader = commandUsuarioFuncion.ExecuteReader();
+                    //reader.Read();                    
+                   // reader.Close();
 
                     if (resultadoQueryUsuarioFuncion == 1)
                     {
@@ -826,10 +826,7 @@ namespace TP_grupoA_Cine
                     connection.Open();
                     //esta consulta NO espera un resultado para leer, es del tipo NON Query
                     resultadoQueryUsuarioFuncionUpdate = commandUsuarioFuncion.ExecuteNonQuery();
-                    //Query para Obtener el ID que la base nos entrego
-                    SqlDataReader reader = commandUsuarioFuncion.ExecuteReader();
-                    reader.Read();
-                    reader.Close();
+
 
                     if (resultadoQueryUsuarioFuncionUpdate == 1)
                     {
@@ -857,6 +854,7 @@ namespace TP_grupoA_Cine
 
         #region Devolver Entrada
 
+        #region Devolvucion Parcial
         public int UpdateDevolverEntradaDB(int idUsuario, int idFuncion, int cantidad, double monto)
         {
             int resultadoQueryUpdateDevolverEntrada;
@@ -926,7 +924,9 @@ namespace TP_grupoA_Cine
                 return resultadoActualizacion;
             }
         }
+        #endregion
 
+        #region Devolucion Total
         public int DeleteDevolverEntradaDB(int idUsuario, int idFuncion , double monto, int cantidad)
         {
             int resultadoQueryDeleteEntrada;
@@ -936,7 +936,7 @@ namespace TP_grupoA_Cine
             //Query si devuelve todas las entradas
             string queryDevolverEntradaDelete = "DELETE [dbo].[Usuario_Funcion] WHERE [idUsuario] = @idUsuario AND [idFuncion] = @idFuncion";
             //Query donde le devuelve el credito
-            string queryDevolverCredito = "UPDATE [dbo].[Usuarios] SET [credito] = ([credito] + @monto) WHERE [idUsuario] = @idUsuario AND [idFuncion] = @idFuncion";
+            string queryDevolverCredito = "UPDATE [dbo].[Usuarios] SET [credito] = ([credito] + @monto) WHERE [idUsuario] = @idUsuario";
 
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
@@ -991,6 +991,8 @@ namespace TP_grupoA_Cine
             }
             return resultadoDelete;
         }
+        #endregion
+
         #endregion
 
         #endregion Final de Usuario Funcion
