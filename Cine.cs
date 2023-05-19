@@ -28,15 +28,38 @@ namespace TP_grupoA_Cine
 
             return this.UsuarioActual;
         }
+
+        public void refreshUsuarioActual(Usuario usuario)
+        {
+
+            this.UsuarioActual = usuario;
+        }
+        
         // SINGLETON -------------------------------------------------------------------------------------------
         private readonly static Cine _instancia = new Cine();
 
-        private Cine() {
+        private Cine()
+        {
             DB = new ControladorDB();
             usuarios = DB.llenarListaUsuarios();
             salas = DB.llenarListaSala();
             peliculas = DB.llenarListaPelicula();
             funciones = DB.llenarListaFuncion();
+            usFun = DB.inicializarUsuarioFuncion();
+           // mostrarUsuarioFuncion();
+
+            foreach (UsuarioFuncion uf in usFun)
+            {
+                 foreach (Funcion funcion in funciones)
+                 {
+                       foreach (Usuario us in usuarios)
+                         if (uf.idUsuario == us.ID && uf.idFuncion == funcion.ID)
+                         {
+                             us.MisFunciones.Add(funcion);
+                             funcion.Clientes.Add(us);
+                         }
+                  }
+            }
         }
 
         public static Cine Instancia
@@ -387,24 +410,8 @@ namespace TP_grupoA_Cine
                 return false;
             }
         }
-
-       /* public void bajaFuncion(int idFuncion)
-        {
-            try
-            {
-                Funcion funcion = (Funcion)obtenerObjetoDeLista(idFuncion, "funcion");
-                funciones.Remove(funcion);
-                Debug.WriteLine($">>> (Cine - bajafuncion()) Se dió de baja la FUNCIÓN con ID {funcion.ID}");
-                funcion = null;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
-            }
-        }*/
+       
         // PELICULA -------------------------------------------------------------------------------------------
-
-
 
         public bool altaPelicula(string nombre, string sinopsis, int duracion, string poster)
         {
@@ -426,16 +433,6 @@ namespace TP_grupoA_Cine
                     return false;
                 }
         }
-      /*  public bool altaPelicula(string nombre, string sinopsis, int duracion, string poster)
-        {
-
-            Pelicula pelicula = new Pelicula(nombre, sinopsis, duracion, poster);
-            peliculas.Add(pelicula);
-
-            Debug.WriteLine($">>> (Cine - altaPelicula()) Se creó la PELÍCULA {pelicula.Nombre} con ID {pelicula.ID}");
-            return true;
-        }*/
-
         
         public bool modificarPelicula(int id, string Nombre, string Sinopsis, int Duracion, string Poster)
         {
@@ -467,22 +464,6 @@ namespace TP_grupoA_Cine
                 Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
                 return false;
             }
-
-
-            //try
-            //{
-            //    pelicula pelicula = (pelicula)obtenerobjetodelista(id, "pelicula");
-
-            //    pelicula.nombre = nombre;
-            //    pelicula.sinopsis = sinopsis;
-            //    pelicula.duracion = duracion;
-            //}
-            //catch (exception ex)
-            //{
-            //    debug.writeline($"clase {this.gettype().name} >>> objeto o id no encontrado.");
-            //}
-
-            //return true;
         }
 
         public bool bajaPelicula(int id)
@@ -511,22 +492,7 @@ namespace TP_grupoA_Cine
                 //algo salió mal con la query porque no generó 1 registro
                 return false;
             }
-        }
-
-       /* public void bajaPelicula(int idPelicula)
-        {
-            try 
-            {
-                Pelicula pelicula = (Pelicula)obtenerObjetoDeLista(idPelicula, "pelicula");
-                peliculas.Remove(pelicula);
-                Debug.WriteLine($">>> (Cine - bajaPelicula()) Se dió de baja la PELÍCULA {pelicula.Nombre} con ID {pelicula.ID}");
-                pelicula = null;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
-            }
-        }*/
+        }      
 
         // TRANSACCIONES --------------------------------------------------------------------------------------
 
@@ -560,6 +526,8 @@ namespace TP_grupoA_Cine
             {
                 Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
                 Funcion funcion = (Funcion)obtenerObjetoDeLista(idFuncion, "funcion");
+                Debug.WriteLine($">>> Cine - comprarEntrada() : ID USUARIO : " + usuario.ID + " APELLIDO USUARIO : " + usuario.Apellido);
+                Debug.WriteLine($">>> Cine - comprarEntrada() : ID FUNCION : " + funcion.ID + " PELICULA FUNCION : " + funcion.MiPelicula.Nombre);
 
                 double importe = funcion.Costo * cantidad;
                 int entradasDispoibles = funcion.MiSala.Capacidad - funcion.CantClientes;
@@ -576,6 +544,7 @@ namespace TP_grupoA_Cine
                 }
                 else
                 {
+                    //If para definir si es un update (compro una entrada adicional) o es una nueva entrada. UsuarioFuncion agregar o update de la lista.
                     if (DB.comprarEntradaDB(idUsuario, idFuncion, cantidad, funcion.Costo) == 1)
                     {
                         usuario.Credito -= importe;
@@ -584,6 +553,9 @@ namespace TP_grupoA_Cine
                         funcion.Clientes.Add(usuario);
 
                         funcion.CantClientes += cantidad;
+
+                        UsuarioFuncion objetoUsuarioFuncion = new UsuarioFuncion(usuario.ID, funcion.ID, cantidad);
+                        usFun.Add(objetoUsuarioFuncion);
 
                         Debug.WriteLine($">>> >>> (Cine - comprarEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" +
                                             $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
@@ -605,56 +577,12 @@ namespace TP_grupoA_Cine
         {
             Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
             Funcion funcion = (Funcion)obtenerObjetoDeLista(idFuncion, "funcion");
-
-            // Funcion funcion = usuario.MisFunciones[idFuncion];
-
-            // double importe = funcion.Costo * cantidad;
+           
             return true;// Prueba
         }
 
-        //Mostrar mis funciones
-        //public List<List<string>> obtenerFuncionesUsuario()
-        //{
-        //    List<List<string>> salida = new List<List<string>>();
-        //    foreach (UsuarioFuncion f in usFun)
-        //        salida.Add(new List<string>() { f., f.Fecha.ToString(), f.MiSala.Ubicacion.ToString(), f.MiPelicula.Nombre.ToString(),f.Costo.ToString(),  });
-        //    return salida;
-        //}
-
-
-     /*   public void devolverEntrada(int idUsuario,int idFuncion, int cantidad) //se agreaga idFuncion (no esta en UML)
+        public string devolverEntrada(int idCompra, int idUsuario,int idFuncion, int cantidad, double monto) //se agreaga idFuncion (no esta en UML)
         {
-
-            try 
-            {
-                //la cantidad de entrada que compra el cliente para un funcion no queda
-                //guardada en ningun lugar. Puede comprar 2 y pedir que le devuelvan 4.
-                Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
-                Funcion funcion = usuario.MisFunciones[idFuncion]; //en el UML no esta pero el método
-                                                                   //tendría que tener un ID de Funcion
-
-               double importe = funcion.Costo * cantidad;// el IMPORTE a devolver por las entradas es el
-                                                          // COSTO de la FUNCION por la CANTIDAD de entradas
-               usuario.Credito += importe;         //se reintegra SALDO al CLIENTE
-               funcion.CantClientes -= cantidad;   //se descuentan las ENTRADAS devueltas
-                                                    //de la CANTIDAD DE CLIENTE en al FUNCION
-                funcion.Clientes.Remove(usuario);
-                usuario.MisFunciones.Remove(funcion);
-                Debug.WriteLine($">>> VENTA : \n  Cantidad Entradas: {cantidad}" +
-                                  $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
-            }
-
-
-        }*/
-
-
-        public void devolverEntrada(int idCompra, int idUsuario,int idFuncion, int cantidad, double monto) //se agreaga idFuncion (no esta en UML)
-        {
-
             string mensaje = "";
 
             try
@@ -671,10 +599,9 @@ namespace TP_grupoA_Cine
                     usuario.MisFunciones.Remove(funcion);
 
                     funcion.Clientes.Remove(usuario);
-
                     funcion.CantClientes -= cantidad;
 
-                    usuario.MisFunciones.Remove(funcion);//ya se removio más arriba ???
+                    refreshUsuarioActual(usuario);
 
                     Debug.WriteLine($">>> (Cine - devolderEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" + $"\n Importe : {monto}\nPrecio entrada : {funcion.Costo}");
 
@@ -686,26 +613,44 @@ namespace TP_grupoA_Cine
                 Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
             }
 
+            return mensaje;
         }
 
-            public void eliminarEntrada(int idCompra, int idUsuario, int idFuncion, int cantidad, double monto) //se agreaga idFuncion (no esta en UML)
+            public string eliminarEntrada(int idCompra, int idUsuario, int idFuncion, int cantidad, double monto) //se agreaga idFuncion (no esta en UML)
             {
-                if (DB.DeleteDevolverEntradaDB(idCompra, idUsuario, monto) == 1)
+                string mensaje = "";
+
+                if (DB.DeleteDevolverEntradaDB(idCompra, idUsuario, monto, cantidad) == 1)
                 {
                     try
                     { 
                         Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
-                        Funcion funcion = usuario.MisFunciones[idFuncion];
+                        Funcion funcion = new Funcion();
+                        
+                        foreach (Funcion unaFuncion in usuario.MisFunciones)
+                        {
+                            if (unaFuncion.ID == idFuncion)
+                            {
+                                funcion = unaFuncion;
+                            }
+                        }
+
                         //Ahora sí lo elimino en la lista
+                        Debug.WriteLine($">>> Cine - eliminarEntrada() : ID USUARIO : " + usuario.ID + " APELLIDO USUARIO : " + usuario.Apellido);
+                        Debug.WriteLine($">>> Cine - eliminarEntrada() : ID FUNCION : " + funcion.ID + " PELICULA FUNCION : " + funcion.MiPelicula.Nombre);
 
                         monto = funcion.Costo * cantidad;
 
-                        usuario.Credito += monto;         //se reintegra SALDO al CLIENTE
-                        funcion.CantClientes -= cantidad;   //se descuentan las ENTRADAS devueltas
+                            usuario.Credito += monto;         //se reintegra SALDO al CLIENTE
+                            funcion.CantClientes -= cantidad;   //se descuentan las ENTRADAS devueltas
 
-                                                            //de la CANTIDAD DE CLIENTE en al FUNCION
-                        funcion.Clientes.Remove(usuario);
-                        usuario.MisFunciones.Remove(funcion);
+                                                                //de la CANTIDAD DE CLIENTE en al FUNCION
+                            funcion.Clientes.Remove(usuario);
+                            usuario.MisFunciones.Remove(funcion);
+
+                            refreshUsuarioActual(usuario); 
+
+                        mensaje = $"Se a devuelto la totalidad de su dinero por la devolución de entradas (Entradas : {cantidad} Dinero devuelto : {monto})";
 
                     }
                         catch (Exception ex)
@@ -715,18 +660,20 @@ namespace TP_grupoA_Cine
                 }
                 else
                 {
+                    mensaje = $"No se a podido realizar la devolución";
                     //algo salió mal con la query porque no generó 1 registro
                     Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
                 }
-            }
-        
+
+                return mensaje;
+            }        
 
         // SESION --------------------------------------------------------------------------------------------
 
         //se ingresa como ARGUMENTOS mail y password desde FORM
         public bool iniciarSesion(string mail, string password)
         {
-            usuarios = DB.llenarListaUsuarios();
+            //usuarios = DB.llenarListaUsuarios();
 
             string comprobar = "";
             for (int i = 0; i < this.usuarios.Count(); i++)
@@ -787,7 +734,11 @@ namespace TP_grupoA_Cine
             devolver la lista original y que la misma no sea modificada.    */
         public List<Funcion> mostrarFunciones() 
         {
-            funciones = DB.llenarListaFuncion();
+           funciones = DB.llenarListaFuncion();
+            //foreach (Funcion funcion in funciones)
+            //{
+            //    Debug.WriteLine($"\n----------\n{funcion.ID}\n{funcion.MiPelicula.Nombre}");
+            //}
             return funciones.ToList();
         }
         public List<Sala> mostrarSalas()
@@ -808,16 +759,29 @@ namespace TP_grupoA_Cine
         public List<UsuarioFuncion> mostrarUsuarioFuncion() 
         {
             usFun = DB.inicializarUsuarioFuncion();
-            //foreach (UsuarioFuncion uf in usFun)
-            //{
-            //    foreach (Funcion f in funciones)                
-            //    {
-            //        if (uf.idFuncion == f.ID) 
-            //        {
-            //            f.MiPelicula.Add(uf);
-            //        }                        
-            //    }
-            //}
+            foreach (UsuarioFuncion usuarioFuncion in usFun)
+            {
+
+                    foreach (Funcion funcion in funciones)
+                    {
+                        foreach (Usuario us in usuarios)
+                            if (usuarioFuncion.idUsuario == us.ID && usuarioFuncion.idFuncion == funcion.ID)
+                            {
+                                try
+                                {
+                                    int idFuncion = usuarioFuncion.idFuncion;
+                                    int idUsuario = usuarioFuncion.idUsuario;
+                                    Debug.WriteLine($"\n -- Cine mostrarUsuarioFuncion() -- " +
+                                        $"FUNCION ID : {funciones[idFuncion].ID} PELICULA : {funciones[idFuncion].MiPelicula.Nombre}");
+                                    Debug.WriteLine($"\nUSUARIO ID : {usuarios[idUsuario].ID} NOMBRE : {usuarios[idUsuario].Apellido}");
+                                }
+                                catch (Exception ex)
+                                {
+                                    Debug.WriteLine($"Cine mostrarUsuarioFuncion() ERROR!!! : {ex}");
+                                }
+                            }
+                    }
+            }
             return usFun.ToList();
         }
 
@@ -919,65 +883,6 @@ namespace TP_grupoA_Cine
             }
 
             return objeto;
-        }
-
-        private bool darDeBajaObjeto(int ID, string lista)
-        {
-            string mensaje = (" <<< No se generó el mensaje >>> ");
-            bool resultado = false;
-
-            if (lista.ToLower() == "usuarios")
-            {
-                for (int i = 0; i < this.usuarios.Count(); i++)
-                {
-                    if (this.usuarios[i].ID == ID)
-                    {
-                        mensaje = $" el USUARIO {this.usuarios[i].Nombre}" + $"{this.usuarios[i].Apellido} con ID {this.usuarios[i].ID}";
-                        resultado = true;
-                        usuarios.Remove(this.usuarios[i]);
-                    }
-                }
-            }
-            else if (lista.ToLower() == "funciones")
-            {
-                for (int i = 0; i < this.funciones.Count(); i++)
-                {
-                    if (this.funciones[i].ID == ID)
-                    {
-                        mensaje = $" la FUNCION con ID {this.funciones[i].ID}";
-                        resultado = true;
-                        funciones.Remove(this.funciones[i]);
-                    }
-                }
-            }
-            else if (lista.ToLower() == "salas")
-            {
-                for (int i = 0; i < this.salas.Count(); i++)
-                {
-                    if (salas[i].ID == ID)
-                    {
-                        mensaje = $" la SALA con ID {this.salas[i].ID}";
-                        resultado = true;
-                        salas.Remove(this.salas[i]);
-                    }
-                }
-            }
-            else if (lista.ToLower() == "peliculas")
-            {
-                for (int i = 0; i < this.peliculas.Count(); i++)
-                {
-                    if (this.peliculas[i].ID == ID)
-                    {
-                        mensaje = $" la PELICULA con ID {this.peliculas[i].ID}";
-                        resultado = true;
-                        peliculas.Remove(this.peliculas[i]);
-                    }
-                }
-            }
-            else { Console.WriteLine(">> No se pudo realizar la BAJA. Verificar ID y NOMBRE DE LISTA"); }
-
-            Console.WriteLine($"Se dió de BAJA {mensaje}");
-            return resultado;
-        }
+        }       
     }
 }

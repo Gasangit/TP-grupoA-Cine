@@ -787,7 +787,7 @@ namespace TP_grupoA_Cine
                     Debug.WriteLine(ex.Message);
                     return -1;
                 }
-                return idCompra;
+                return resultadoActualizacion;
             }
         }
         #endregion
@@ -801,7 +801,7 @@ namespace TP_grupoA_Cine
             int resultadoActualizacion;
 
             //Query si devuelve parcialmente entradas
-            string queryDevolverEntradaUpdate = "UPDATE [dbo].[Usuario_Funcion] SET [cantidadCompra] = ([cantidadCompra - @cantidad]) WHERE [idCompra] = @idCompra";
+            string queryDevolverEntradaUpdate = "UPDATE [dbo].[Usuario_Funcion] SET [cantidadCompra] = ([cantidadCompra] - @cantidad) WHERE [idCompra] = @idCompra";
             //Query donde le devuelve el credito
             string queryDevolverCredito = "UPDATE [dbo].[Usuarios] SET [credito] = ([credito] + @monto) WHERE [idUsuario] = @idUsuario";
             
@@ -864,7 +864,7 @@ namespace TP_grupoA_Cine
             }
         }
 
-        public int DeleteDevolverEntradaDB(int idCompra, int idUsuario, double monto)
+        public int DeleteDevolverEntradaDB(int idCompra, int idUsuario, double monto, int cantidad)
         {
             int resultadoQueryDeleteEntrada;
             int resultadoQueryCredito;
@@ -880,7 +880,9 @@ namespace TP_grupoA_Cine
             {
                 SqlCommand commandDeleteDevol = new SqlCommand(queryDevolverEntradaDelete, connection);
                 commandDeleteDevol.Parameters.Add(new SqlParameter("@idCompra", SqlDbType.Int));
+                commandDeleteDevol.Parameters.Add(new SqlParameter("@cantidad", SqlDbType.Int));
                 commandDeleteDevol.Parameters["@idCompra"].Value = idCompra;
+                commandDeleteDevol.Parameters["@cantidad"].Value = cantidad;
                 //--------------------------------------------------------------------------
 
                 SqlCommand commandUsuarioCred = new SqlCommand(queryDevolverCredito, connection);
@@ -888,6 +890,7 @@ namespace TP_grupoA_Cine
                 commandUsuarioCred.Parameters.Add(new SqlParameter("@monto", SqlDbType.Float));
 
                 commandUsuarioCred.Parameters["@idUsuario"].Value = idUsuario;
+                //commandUsuarioCred.Parameters["@monto"].Value = monto;
                 commandUsuarioCred.Parameters["@monto"].Value = monto;
                 try
                 {

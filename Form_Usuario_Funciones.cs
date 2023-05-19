@@ -42,14 +42,14 @@ namespace TP_grupoA_Cine
             */
             foreach (UsuarioFuncion uf in cine.mostrarUsuarioFuncion())
             {
-                foreach (Funcion f in cine.mostrarFunciones()) 
-                {                    
-                  if (uf.idFuncion == f.ID && uf.idUsuario == cine.usuarioActual().ID)
-                  {
-                            dataGridView1.Rows.Add(uf.idCompra.ToString(), uf.idUsuario.ToString(), uf.idFuncion.ToString(), uf.cantidadCompra.ToString(), f.Fecha.ToString(), f.MiPelicula.Nombre.ToString(), f.MiSala.Ubicacion.ToString(), (f.Costo*uf.cantidadCompra).ToString() );
-                  }                                      
-                }                                        
-            }                
+                foreach (Funcion f in cine.mostrarFunciones())
+                {
+                    if (uf.idFuncion == f.ID && uf.idUsuario == cine.usuarioActual().ID)
+                    {
+                        dataGridView1.Rows.Add(uf.idCompra.ToString(), uf.idUsuario.ToString(), uf.idFuncion.ToString(), uf.cantidadCompra.ToString(), f.Fecha.ToString(), f.MiPelicula.Nombre.ToString(), f.MiSala.Ubicacion.ToString(), (f.Costo * uf.cantidadCompra).ToString());
+                    }
+                }
+            }
         }
 
 
@@ -62,25 +62,28 @@ namespace TP_grupoA_Cine
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e) //Selecciona una funcion del gird para devolver entrada
         {
 
-            string idCompra = dataGridView1[0, e.RowIndex].Value.ToString(); 
+            string idCompra = dataGridView1[0, e.RowIndex].Value.ToString();
             funcion = dataGridView1[2, e.RowIndex].Value.ToString();
             compra = dataGridView1[3, e.RowIndex].Value.ToString();
             monto = dataGridView1[7, e.RowIndex].Value.ToString();
             funcion_seleccionada.Text = idCompra;
 
         }
-        
+
         private void button1_Click(object sender, EventArgs e) //Boton para devolver entradas
         {
-            refreshData();
-            selectedUserFuncion = -1;
+            // refreshData();
+            // selectedUserFuncion = -1;
+            string mensaje = "";
+
+            //Logica de devolucion pasar a CINE
 
             if (funcion_seleccionada.Text == "" || funcion_seleccionada.Text == null)
             {
                 MessageBox.Show("Seleccione una funcion", "ERROR");
 
             }
-            else if(cantidadentradas.Value == 0 || cantidadentradas.Value == null)
+            else if (cantidadentradas.Value == 0 || cantidadentradas.Value == null)
             {
                 MessageBox.Show("Debe indicar cantidad a devolver", "ERROR");
             }
@@ -90,19 +93,26 @@ namespace TP_grupoA_Cine
                 {
                     if (cantidadentradas.Value == Convert.ToInt32(compra))
                     {
-                        cine.eliminarEntrada(Convert.ToInt32(funcion_seleccionada.Text), cine.usuarioActual().ID, Convert.ToInt32(funcion), Convert.ToInt32(compra), Convert.ToDouble(monto));
-                        MessageBox.Show("Se ha reintegrado su crédito" + cine.usuarioActual().Credito, "DEVOLUCION EXITOSA");
+                        mensaje = cine.eliminarEntrada(Convert.ToInt32(funcion_seleccionada.Text), cine.usuarioActual().ID, Convert.ToInt32(funcion), Convert.ToInt32(compra), Convert.ToDouble(monto));
+                        MessageBox.Show(mensaje);
                         refreshData();
                     }
-                    else if (cantidadentradas.Value < Convert.ToInt32(compra)) { }
-                        cine.devolverEntrada(Convert.ToInt32(funcion_seleccionada.Text), cine.usuarioActual().ID, Convert.ToInt32(funcion), Convert.ToInt32(compra), Convert.ToDouble(monto));
-                        MessageBox.Show("Se ha reintegrado su crédito" + cine.usuarioActual().Credito, "DEVOLUCION EXITOSA");
+                    else if (cantidadentradas.Value < Convert.ToInt32(compra))
+                    {
+                        mensaje = cine.devolverEntrada(Convert.ToInt32(funcion_seleccionada.Text), cine.usuarioActual().ID, Convert.ToInt32(funcion), Convert.ToInt32(compra), Convert.ToDouble(monto));
+                        MessageBox.Show(mensaje);
                         refreshData();
-                }
+                    }
+                    else
+                    {
+                        MessageBox.Show("No puede solicitar devolucion por una cantidad mayor al a comprada", "ERROR");
+                    }
+
                 }
             }
-        }
 
+        }
         public delegate void TransfDelegado();
     }
+}
 

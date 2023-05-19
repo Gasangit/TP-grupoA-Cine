@@ -38,6 +38,7 @@ namespace TP_grupoA_Cine
             this.MiPelicula = MiPelicula;  
             this.Fecha = Fecha;            
             this.Costo = Costo;
+
         }
 
 
