@@ -704,8 +704,8 @@ namespace TP_grupoA_Cine
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        usuarioFuncion.Add(new UsuarioFuncion(reader.GetInt32(0),reader.GetInt32(1), reader.GetInt32(2), reader.GetInt32(3)));
-                        //TABLA-> 0 idCompra 1 idUsuario 2 idFuncion 3 cantidadCompra
+                        usuarioFuncion.Add(new UsuarioFuncion(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2)));
+                        //TABLA-> 0 idUsuario 1 idFuncion 2 cantidadCompra
                     }
                     reader.Close();
                 }
@@ -720,14 +720,13 @@ namespace TP_grupoA_Cine
             return usuarioFuncion;
         }
 
-        #region Comprar Entrada
+        #region Comprar Entrada Nueva
         public int comprarEntradaDB(int idUsuario, int idFuncion, int cantidad, double precioFuncion)
         {
             //Confirmamos que podamos agregar el registro a la base de datos
             int resultadoQueryUsuarioFuncion;
             int resultadoQueryUsuario;
-            int resultadoActualizacion = 0;
-            int idCompra;
+            int resultadoActualizacion = 0;            
 
             string queryUsuarioFuncion = "INSERT INTO [dbo].[Usuario_Funcion] ([idUsuario],[idFuncion],[cantidadCompra]) VALUES (@idUsuario, @idFuncion, @cantidad);";
             string queryUsuario = "UPDATE [dbo].[Usuarios] SET [credito] = ([credito] - @importe) WHERE [idUsuario] = @idUsuario";
@@ -759,13 +758,9 @@ namespace TP_grupoA_Cine
                 {
                     connection.Open();
                     //esta consulta NO espera un resultado para leer, es del tipo NON Query
-                    resultadoQueryUsuarioFuncion = commandUsuarioFuncion.ExecuteNonQuery();
-                    //Query para Obtener el ID que la base nos entrego
-                    string ConsultaID = "SELECT MAX([idCompra]) FROM [dbo].[Usuario_Funcion];";
-                    commandUsuarioFuncion = new SqlCommand(ConsultaID, connection);
+                    resultadoQueryUsuarioFuncion = commandUsuarioFuncion.ExecuteNonQuery();                  
                     SqlDataReader reader = commandUsuarioFuncion.ExecuteReader();
-                    reader.Read();
-                    idCompra = reader.GetInt32(0);
+                    reader.Read();                    
                     reader.Close();
 
                     if (resultadoQueryUsuarioFuncion == 1)
@@ -787,21 +782,89 @@ namespace TP_grupoA_Cine
                     Debug.WriteLine(ex.Message);
                     return -1;
                 }
-                return idCompra;
+                return resultadoActualizacion;
+            }
+        }
+        #endregion
+
+        #region Comprar Entrada Actualizacion
+        public int comprarEntradaUpdateDB(int idUsuario, int idFuncion, int cantidad, double precioFuncion)
+        {
+            //Confirmamos que podamos agregar el registro a la base de datos
+            int resultadoQueryUsuarioFuncionUpdate;
+            int resultadoQueryUsuarioUpdate;
+            int resultadoActualizacion = 0;            
+
+            string queryUsuarioFuncion = "UPDATE [dbo].[Usuario_Funcion] SET  [cantidadCompra] = ([cantidadCompra] + @cantidad) WHERE [idUsuario] = @idUsuario AND [idFuncion] = @idFuncion;";
+            string queryUsuario = "UPDATE [dbo].[Usuarios] SET [credito] = ([credito] - @importe) WHERE [idUsuario] = @idUsuario";
+
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand commandUsuarioFuncion = new SqlCommand(queryUsuarioFuncion, connection);
+                commandUsuarioFuncion.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.Int));
+                commandUsuarioFuncion.Parameters.Add(new SqlParameter("@idFuncion", SqlDbType.Int));
+                commandUsuarioFuncion.Parameters.Add(new SqlParameter("@cantidad", SqlDbType.Int));
+
+                commandUsuarioFuncion.Parameters["@idUsuario"].Value = idUsuario;
+                commandUsuarioFuncion.Parameters["@idFuncion"].Value = idFuncion;
+                commandUsuarioFuncion.Parameters["@cantidad"].Value = cantidad;
+
+                //--------------------------------------------------------------------------
+
+                SqlCommand commandUsuario = new SqlCommand(queryUsuario, connection);
+
+
+                commandUsuario.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.Int));
+                commandUsuario.Parameters.Add(new SqlParameter("@importe", SqlDbType.Float));
+
+                commandUsuario.Parameters["@idUsuario"].Value = idUsuario;
+                commandUsuario.Parameters["@importe"].Value = cantidad * precioFuncion;
+
+                try
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    resultadoQueryUsuarioFuncionUpdate = commandUsuarioFuncion.ExecuteNonQuery();
+                    //Query para Obtener el ID que la base nos entrego
+                    SqlDataReader reader = commandUsuarioFuncion.ExecuteReader();
+                    reader.Read();
+                    reader.Close();
+
+                    if (resultadoQueryUsuarioFuncionUpdate == 1)
+                    {
+                        resultadoQueryUsuarioUpdate = commandUsuario.ExecuteNonQuery();
+
+
+                        if (resultadoQueryUsuarioUpdate == 1)
+                        {
+                            resultadoActualizacion = 1;
+                        }
+                        else { resultadoActualizacion = -1; }
+                    }
+                    else { resultadoActualizacion = -1; }
+
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    return -1;
+                }
+                return resultadoActualizacion;
             }
         }
         #endregion
 
         #region Devolver Entrada
 
-        public int UpdateDevolverEntradaDB(int idCompra, int idUsuario, int idFuncion, int cantidad, double monto)
+        public int UpdateDevolverEntradaDB(int idUsuario, int idFuncion, int cantidad, double monto)
         {
             int resultadoQueryUpdateDevolverEntrada;
             int resultadoQueryCredito;
             int resultadoActualizacion;
 
             //Query si devuelve parcialmente entradas
-            string queryDevolverEntradaUpdate = "UPDATE [dbo].[Usuario_Funcion] SET [cantidadCompra] = ([cantidadCompra - @cantidad]) WHERE [idCompra] = @idCompra";
+            string queryDevolverEntradaUpdate = "UPDATE [dbo].[Usuario_Funcion] SET [cantidadCompra] = ([cantidadCompra] - @cantidad) WHERE [idUsuario] = @idUsuario AND [idFuncion] = @idFuncion" ;
             //Query donde le devuelve el credito
             string queryDevolverCredito = "UPDATE [dbo].[Usuarios] SET [credito] = ([credito] + @monto) WHERE [idUsuario] = @idUsuario";
             
@@ -811,23 +874,23 @@ namespace TP_grupoA_Cine
                 SqlCommand commandUpdateDevol = new SqlCommand(queryDevolverEntradaUpdate, connection);
 
                 commandUpdateDevol.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.Int));
-                commandUpdateDevol.Parameters.Add(new SqlParameter("@idCompra", SqlDbType.Int));
+                commandUpdateDevol.Parameters.Add(new SqlParameter("@idFuncion", SqlDbType.Int));
                 commandUpdateDevol.Parameters.Add(new SqlParameter("@cantidad", SqlDbType.Int));
 
-                commandUpdateDevol.Parameters["@idCompra"].Value = idCompra;
+                
+                commandUpdateDevol.Parameters["@idUsuario"].Value = idUsuario;
+                commandUpdateDevol.Parameters["@idFuncion"].Value = idFuncion;
                 commandUpdateDevol.Parameters["@cantidad"].Value = cantidad;
 
                 //--------------------------------------------------------------------------
 
                 SqlCommand commandUsuarioCred = new SqlCommand(queryDevolverCredito, connection);
 
-
                 commandUsuarioCred.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.Int));
                 commandUsuarioCred.Parameters.Add(new SqlParameter("@monto", SqlDbType.Float));
 
                 commandUsuarioCred.Parameters["@idUsuario"].Value = idUsuario;
-                commandUsuarioCred.Parameters["@monto"].Value = monto;
-               // commandUsuarioCred.Parameters["@monto"].Value = cantidad * monto; // Ver como llega 
+                commandUsuarioCred.Parameters["@monto"].Value = monto;               
 
                 try
                 {
@@ -864,30 +927,36 @@ namespace TP_grupoA_Cine
             }
         }
 
-        public int DeleteDevolverEntradaDB(int idCompra, int idUsuario, double monto)
+        public int DeleteDevolverEntradaDB(int idUsuario, int idFuncion , double monto, int cantidad)
         {
             int resultadoQueryDeleteEntrada;
             int resultadoQueryCredito;
             int resultadoDelete;
 
             //Query si devuelve todas las entradas
-            string queryDevolverEntradaDelete = "DELETE [dbo].[Usuario_Funcion] WHERE [idCompra] = @idCompra";
+            string queryDevolverEntradaDelete = "DELETE [dbo].[Usuario_Funcion] WHERE [idUsuario] = @idUsuario AND [idFuncion] = @idFuncion";
             //Query donde le devuelve el credito
-            string queryDevolverCredito = "UPDATE [dbo].[Usuarios] SET [credito] = ([credito] + @monto) WHERE [idUsuario] = @idUsuario";
+            string queryDevolverCredito = "UPDATE [dbo].[Usuarios] SET [credito] = ([credito] + @monto) WHERE [idUsuario] = @idUsuario AND [idFuncion] = @idFuncion";
 
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
             {
                 SqlCommand commandDeleteDevol = new SqlCommand(queryDevolverEntradaDelete, connection);
-                commandDeleteDevol.Parameters.Add(new SqlParameter("@idCompra", SqlDbType.Int));
-                commandDeleteDevol.Parameters["@idCompra"].Value = idCompra;
+                commandDeleteDevol.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.Int));
+                commandDeleteDevol.Parameters.Add(new SqlParameter("@idFuncion", SqlDbType.Int));
+                commandDeleteDevol.Parameters.Add(new SqlParameter("@cantidad", SqlDbType.Int));
+                commandDeleteDevol.Parameters["@idUsuario"].Value = idUsuario;
+                commandDeleteDevol.Parameters["@idFuncion"].Value = idFuncion;
+                commandDeleteDevol.Parameters["@cantidad"].Value = cantidad;
                 //--------------------------------------------------------------------------
 
                 SqlCommand commandUsuarioCred = new SqlCommand(queryDevolverCredito, connection);
                 commandUsuarioCred.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.Int));
+                commandUsuarioCred.Parameters.Add(new SqlParameter("@idFuncion", SqlDbType.Int));
                 commandUsuarioCred.Parameters.Add(new SqlParameter("@monto", SqlDbType.Float));
 
                 commandUsuarioCred.Parameters["@idUsuario"].Value = idUsuario;
+                commandUsuarioCred.Parameters["@idFuncion"].Value = idFuncion;
                 commandUsuarioCred.Parameters["@monto"].Value = monto;
                 try
                 {
