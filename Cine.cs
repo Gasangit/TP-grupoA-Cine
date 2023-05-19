@@ -526,13 +526,7 @@ namespace TP_grupoA_Cine
             {
                 Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
                 Funcion funcion = (Funcion)obtenerObjetoDeLista(idFuncion, "funcion");
-<<<<<<< HEAD
-                
-=======
-                Debug.WriteLine($">>> Cine - comprarEntrada() : ID USUARIO : " + usuario.ID + " APELLIDO USUARIO : " + usuario.Apellido);
-                Debug.WriteLine($">>> Cine - comprarEntrada() : ID FUNCION : " + funcion.ID + " PELICULA FUNCION : " + funcion.MiPelicula.Nombre);
 
->>>>>>> e7b87ac3ca09d69eea75d1e73c1940c823fbd76f
                 double importe = funcion.Costo * cantidad;
                 int entradasDispoibles = funcion.MiSala.Capacidad - funcion.CantClientes;
 
