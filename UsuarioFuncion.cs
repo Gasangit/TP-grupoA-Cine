@@ -15,15 +15,12 @@ namespace TP_grupoA_Cine
         public int idFuncion { get; set; }
         public int cantidadCompra { get; set; }
 
-        public UsuarioFuncion(int idCompra, int idUsuario, int idFuncion, int cantidadCompra)
+        public UsuarioFuncion(int idUsuario, int idFuncion, int cantidadCompra)
         { 
             this.idUsuario = idUsuario;
             this.idFuncion = idFuncion;
             this.cantidadCompra = cantidadCompra;
         }
-
-
-
 
         public string[] ToString()
         {
