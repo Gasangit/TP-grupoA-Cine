@@ -560,7 +560,7 @@ namespace TP_grupoA_Cine
             {
                 Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
                 Funcion funcion = (Funcion)obtenerObjetoDeLista(idFuncion, "funcion");
-
+                
                 double importe = funcion.Costo * cantidad;
                 int entradasDispoibles = funcion.MiSala.Capacidad - funcion.CantClientes;
 
