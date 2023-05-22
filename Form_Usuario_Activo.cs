@@ -98,16 +98,25 @@ namespace TP_grupoA_Cine
         private void btnCargar_Click(object sender, EventArgs e) //Boton para cargar credito
         {
             //Sumar credito del monto ingresado en montoCarga (TextBox)
-            int credito = Convert.ToInt32(montoCarga.Text);
-            if(credito > 0)
+            if(montoCarga.Text != null && montoCarga.Text != "")
             {
-                cine.cargarCredito(cine.usuarioActual().ID, credito);
-                MessageBox.Show("SALDO ACTUAL: " + cine.usuarioActual().Credito, "CARGA EXITOSA");
-                refreshData();
-            } else
+                int credito = Convert.ToInt32(montoCarga.Text);
+                if (credito > 0)
+                {
+                    cine.cargarCredito(cine.usuarioActual().ID, credito);
+                    MessageBox.Show("SALDO ACTUAL: " + cine.usuarioActual().Credito, "CARGA EXITOSA");
+                    refreshData();
+                }
+                else
+                {
+                    MessageBox.Show("Ingrese un monto a cargar mayor a 0", "ERROR");
+                }
+            }
+            else
             {
                 MessageBox.Show("Ingrese un monto a cargar", "ERROR");
             }
+            
             
         }
     }

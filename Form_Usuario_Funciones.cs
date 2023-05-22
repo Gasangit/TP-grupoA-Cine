@@ -16,6 +16,7 @@ namespace TP_grupoA_Cine
         public TransfDelegado TransfEvento_UsuarioFuncion_Volver_UsuarioActual;
         private Cine cine;
         private int selectedUserFuncion;
+        private string idUsuarioCompra;
         private string cantCompra;
         private string monto;
         private string funcion;
@@ -40,16 +41,14 @@ namespace TP_grupoA_Cine
 
             foreach (UsuarioFuncion uf in cine.mostrarUsuarioFuncion())
             {
-                foreach (Usuario us in cine.mostrarUsuarios())
+                foreach (Funcion f in cine.mostrarFunciones())
                 {
-                    foreach (Funcion f in cine.mostrarFunciones())
+                    if (uf.idFuncion == f.ID && uf.idUsuario == cine.usuarioActual().ID)
                     {
-                        if (uf.idUsuario == cine.usuarioActual().ID && uf.idFuncion == f.ID) //traemos el usuarioactual o el ID de usuario????
-                        {
-                            dataGridView1.Rows.Add(uf.idUsuario.ToString(), uf.idFuncion.ToString(), uf.cantidadCompra.ToString(), f.Fecha.ToString(), f.MiPelicula.Nombre.ToString(), f.MiSala.Ubicacion.ToString(), (f.Costo * uf.cantidadCompra).ToString());
-                        }
+                        dataGridView1.Rows.Add(uf.idUsuario.ToString(), uf.idFuncion.ToString(), uf.cantidadCompra.ToString(), f.Fecha.ToString(), f.MiPelicula.Nombre.ToString(), f.MiSala.Ubicacion.ToString(), (f.Costo * uf.cantidadCompra).ToString());
                     }
                 }
+
             }
         }
 
@@ -62,6 +61,7 @@ namespace TP_grupoA_Cine
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e) //Selecciona una funcion del gird para devolver entrada
         {
 
+            idUsuarioCompra = dataGridView1[0, e.RowIndex].Value.ToString();
             funcion = dataGridView1[1, e.RowIndex].Value.ToString();
             cantCompra = dataGridView1[2, e.RowIndex].Value.ToString();
             monto = dataGridView1[6, e.RowIndex].Value.ToString();
@@ -72,12 +72,7 @@ namespace TP_grupoA_Cine
 
         private void button1_Click(object sender, EventArgs e) //Boton para devolver entradas
         {
-            // refreshData();
-            // selectedUserFuncion = -1;
-           // string mensaje = "";
-
-            //Logica de devolucion pasar a CINE
-
+            string mensaje = "";
 
 
             if (funcion_seleccionada.Text == "" || funcion_seleccionada.Text == null)
@@ -91,30 +86,12 @@ namespace TP_grupoA_Cine
             }
             else
             {
-                cine.devolverEntrada(cine.usuarioActual().ID, Convert.ToInt32(funcion), Convert.ToInt32(cantCompra), Convert.ToDouble(monto));
-
-                //if (cantidadentradas.Value <= Convert.ToInt32(compra))
-                //{
-                //    if (cantidadentradas.Value == Convert.ToInt32(compra))
-                //    {
-                //        mensaje = cine.eliminarEntrada(cine.usuarioActual().ID, Convert.ToInt32(funcion), Convert.ToInt32(compra), Convert.ToDouble(monto));
-                //        MessageBox.Show(mensaje);
-                //        refreshData();
-                //    }
-                //    else if (cantidadentradas.Value < Convert.ToInt32(compra))
-                //    {
-                //        mensaje = cine.devolverEntrada(cine.usuarioActual().ID, Convert.ToInt32(funcion), Convert.ToInt32(compra), Convert.ToDouble(monto));
-                //        MessageBox.Show(mensaje);
-                //        refreshData();
-                //    }
-                //    else
-                //    {
-                //        MessageBox.Show("No puede solicitar devolucion por una cantidad mayor al a comprada", "ERROR");
-                //    }
-
-                //}
-
+                mensaje = cine.devolverEntrada(Convert.ToInt32(idUsuarioCompra), Convert.ToInt32(funcion), Convert.ToInt32(cantidadentradas.Value));
+                
             }
+
+            MessageBox.Show(mensaje);
+            refreshData();
 
         }
         public delegate void TransfDelegado();

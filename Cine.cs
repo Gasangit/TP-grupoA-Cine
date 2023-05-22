@@ -521,7 +521,7 @@ namespace TP_grupoA_Cine
         public string comprarEntrada(int idUsuario, int idFuncion, int cantidad)
         {
             string mensaje = "";
-            Debug.WriteLine(cantidad);
+            Debug.WriteLine("linea 524" + cantidad);
             try
             {
                 Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
@@ -529,6 +529,7 @@ namespace TP_grupoA_Cine
 
                 double importe = funcion.Costo * cantidad;
                 int entradasDispoibles = funcion.MiSala.Capacidad - funcion.CantClientes;
+                Debug.WriteLine("linea 534" + cantidad);
 
                 if (importe > usuario.Credito)
                 {
@@ -542,30 +543,32 @@ namespace TP_grupoA_Cine
                 }
                 else
                 {
-                    //If para definir si es un update (compro una entrada adicional) o es una nueva entrada. UsuarioFuncion agregar o update de la lista.
-                    //Comprar nueva: comprarEntradaDB(int idUsuario, int idFuncion, int cantidad, double precioFuncion)
-                    //Compra adicional: comprarEntradaUpdateDB(int idUsuario, int idFuncion, int cantidad, double precioFuncion)
-
-                    UsuarioFuncion unUsFun = (UsuarioFuncion)obtenerObjetoDeLista(idUsuario, idFuncion);
-
-                    if (unUsFun.idUsuario == idUsuario && unUsFun.idFuncion == idFuncion) //VALIDA SI EL USUARIO YA TIENE COMPRADAS FUNCIONES
+                    try 
                     {
-                        //COMPRA MAS FUNCIONES DE LAS QUE YA COMPRO ANTERIORMENTE
-                        if (DB.comprarEntradaUpdateDB(idUsuario, idFuncion, cantidad, funcion.Costo) == 1)
+                        UsuarioFuncion unUsFun = (UsuarioFuncion)obtenerObjetoDeLista(idUsuario, idFuncion);
+                        Debug.WriteLine("linea 553 " + cantidad);
+
+                        if (unUsFun != null) //VALIDA SI EL USUARIO YA TIENE COMPRADAS FUNCIONES
                         {
-                            usuario.Credito -= importe;
-                            funcion.CantClientes += cantidad;
+                            //COMPRA MAS FUNCIONES DE LAS QUE YA COMPRO ANTERIORMENTE
+                            if (DB.comprarEntradaUpdateDB(idUsuario, idFuncion, cantidad, importe) == 1)
+                            {
+                                usuario.Credito -= importe;
+                                funcion.CantClientes += cantidad;
 
-                            UsuarioFuncion objetoUsuarioFuncion = new UsuarioFuncion(usuario.ID, funcion.ID, cantidad);
-                            
-                            Debug.WriteLine($">>> >>> (Cine - comprarEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" +
-                                                $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
+                                UsuarioFuncion objetoUsuarioFuncion = new UsuarioFuncion(usuario.ID, funcion.ID, cantidad);
 
-                            mensaje = $"COMPRA REALIZADA : compró {cantidad} entradas a {funcion.Costo} por un importe total de {importe}";
+                                Debug.WriteLine($">>> >>> (Cine - comprarEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" +
+                                                    $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
+
+                                mensaje = $"COMPRA REALIZADA : compró {cantidad} entradas a {funcion.Costo} por un importe total de {importe}";
+                            }
                         }
                     }
-                    else
+                    
+                    catch(Exception ex)
                     {
+                        Debug.WriteLine(">>>Cine - comprarEntrada() : este usuario no tiene entradas compradas para esta FUNCIÓN");
                         //COMPRA DE 0
                         if (DB.comprarEntradaDB(idUsuario, idFuncion, cantidad, funcion.Costo) == 1)
                         {
@@ -607,28 +610,41 @@ namespace TP_grupoA_Cine
             return true;// Prueba
         }
 
-        public string devolverEntrada(int idUsuario, int idFuncion, int cantidad, double monto) //se agreaga idFuncion (no esta en UML)
+        public string devolverEntrada(int idUsuario, int idFuncion, int cantidad) //se agreaga idFuncion (no esta en UML)
         {
+            Debug.WriteLine(">>> Cine - devolverEntrada() : ingreso al método devolverEntrada()");
             string mensaje = "";
-
+            
             // foreach de usuario funcion para buscar la compra del cliente
             // se compara la cantidad comprada por el cliente (en la tabla usuarioFuncion)
             // si es igual a l cantidad que devuelve el cliente eS DELETE si no UPDATE
 
             try
             {
+                Debug.WriteLine(">>> Cine - devolverEntrada() : ingreso a primer TRY");
                 UsuarioFuncion unUsFun = (UsuarioFuncion)obtenerObjetoDeLista(idUsuario, idFuncion);
+                Funcion miFuncion = (Funcion)obtenerObjetoDeLista(idFuncion, "funcion");
+                Debug.WriteLine(">>> Cine - devolverEntrada() : ID USUARIO " + idUsuario + " ID FUNCION " + idFuncion);
 
-                //agregar if para la devolucion de entradas
+                double monto = miFuncion.Costo * cantidad;
 
-                if (unUsFun.cantidadCompra < cantidad) { }
-
-                if (unUsFun.cantidadCompra == cantidad)
+                if (unUsFun.cantidadCompra < cantidad)
+                {
+                    Debug.WriteLine($"Cine -- devolverEntrada() : Se esta intentando devolver una cantidad de entradas MAYOR a la que se compró.");
+                    mensaje = "Cine -- devolverEntrada() : Se esta intentando devolver una cantidad de entradas MAYOR a la que se compró.";
+                }
+                else if (DateTime.Compare(miFuncion.Fecha, DateTime.UtcNow) < 0 )
+                {
+                    mensaje = $"No puede devolver una entrada anterior a la fecha actual {DateTime.UtcNow.ToString("MM-dd-yyyy")}";
+                }
+                else if (unUsFun.cantidadCompra == cantidad)
                 {
                     if (DB.DeleteDevolverEntradaDB(idUsuario, idFuncion, monto, cantidad) == 1)
                     {
+                        Debug.WriteLine(">>> Cine - devolverEntrada() : ingreso a DELETE");
                         try
                         {
+                            Debug.WriteLine(">>> Cine - devolverEntrada() : ingreso a TRY del DELETE");
                             Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
                             Funcion funcion = new Funcion();
 
@@ -644,7 +660,6 @@ namespace TP_grupoA_Cine
                             Debug.WriteLine($">>> Cine - eliminarEntrada() : ID USUARIO : " + usuario.ID + " APELLIDO USUARIO : " + usuario.Apellido);
                             Debug.WriteLine($">>> Cine - eliminarEntrada() : ID FUNCION : " + funcion.ID + " PELICULA FUNCION : " + funcion.MiPelicula.Nombre);
 
-                            monto = funcion.Costo * cantidad;
 
                             usuario.Credito += monto;         //se reintegra SALDO al CLIENTE
                             funcion.CantClientes -= cantidad;   //se descuentan las ENTRADAS devueltas
@@ -681,8 +696,6 @@ namespace TP_grupoA_Cine
                         Usuario usuario = (Usuario)obtenerObjetoDeLista(idUsuario, "usuario");
                         Funcion funcion = usuario.MisFunciones[idFuncion];
 
-                        monto = funcion.Costo * cantidad;
-
                         usuario.Credito += monto;
                         usuario.MisFunciones.Remove(funcion);
 
@@ -693,7 +706,7 @@ namespace TP_grupoA_Cine
 
                         Debug.WriteLine($">>> (Cine - devolderEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" + $"\n Importe : {monto}\nPrecio entrada : {funcion.Costo}");
 
-                        mensaje = $"DEVOLUCIÓN REALIZADA : se reintegraron {cantidad} por un valor de ${funcion.Costo} cada una y un importe total de {monto}";
+                        mensaje = $"DEVOLUCIÓN REALIZADA : se reintegraron {cantidad} por un valor de ${miFuncion.Costo} cada una y un importe total de {monto}";
                     }
                 }
             }
@@ -773,11 +786,15 @@ namespace TP_grupoA_Cine
         public List<Funcion> mostrarFunciones() 
         {
            funciones = DB.llenarListaFuncion();
-            //foreach (Funcion funcion in funciones)
-            //{
-            //    Debug.WriteLine($"\n----------\n{funcion.ID}\n{funcion.MiPelicula.Nombre}");
-            //}
-            return funciones.ToList();
+            List<Funcion> filtroFunciones = new List<Funcion>();
+            foreach (Funcion funcion in funciones)
+            {
+                if (DateTime.Compare(funcion.Fecha.Date, DateTime.UtcNow.Date) >= 0)//Valida que solo se muestren funciones de HOY en adelante.
+                {
+                    filtroFunciones.Add(funcion);
+                }
+            }
+            return filtroFunciones.ToList();
         }
         public List<Sala> mostrarSalas()
         {
@@ -799,26 +816,25 @@ namespace TP_grupoA_Cine
             usFun = DB.inicializarUsuarioFuncion();
             foreach (UsuarioFuncion usuarioFuncion in usFun)
             {
-
-                    foreach (Funcion funcion in funciones)
-                    {
-                        foreach (Usuario us in usuarios)
-                            if (usuarioFuncion.idUsuario == us.ID && usuarioFuncion.idFuncion == funcion.ID)
+                foreach (Funcion funcion in funciones)
+                {
+                    foreach (Usuario us in usuarios)
+                        if (usuarioFuncion.idUsuario == us.ID && usuarioFuncion.idFuncion == funcion.ID)
+                        {
+                            try
                             {
-                                try
-                                {
-                                    int idFuncion = usuarioFuncion.idFuncion;
-                                    int idUsuario = usuarioFuncion.idUsuario;
-                                    Debug.WriteLine($"\n -- Cine mostrarUsuarioFuncion() -- " +
-                                        $"FUNCION ID : {funciones[idFuncion].ID} PELICULA : {funciones[idFuncion].MiPelicula.Nombre}");
-                                    Debug.WriteLine($"\nUSUARIO ID : {usuarios[idUsuario].ID} NOMBRE : {usuarios[idUsuario].Apellido}");
-                                }
-                                catch (Exception ex)
-                                {
-                                    Debug.WriteLine($"Cine mostrarUsuarioFuncion() ERROR!!! : {ex}");
-                                }
+                                int idFuncion = usuarioFuncion.idFuncion;
+                                int idUsuario = usuarioFuncion.idUsuario;
+                                Debug.WriteLine($"\n -- Cine mostrarUsuarioFuncion() -- " +
+                                    $"FUNCION ID : {funciones[idFuncion].ID} PELICULA : {funciones[idFuncion].MiPelicula.Nombre}");
+                                Debug.WriteLine($"\nUSUARIO ID : {usuarios[idUsuario].ID} NOMBRE : {usuarios[idUsuario].Apellido}");
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine($"Cine mostrarUsuarioFuncion() ERROR!!! : {ex}");
                             }
                     }
+                }
             }
             return usFun.ToList();
         }
