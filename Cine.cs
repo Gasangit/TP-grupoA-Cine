@@ -785,7 +785,6 @@ namespace TP_grupoA_Cine
             devolver la lista original y que la misma no sea modificada.    */
         public List<Funcion> mostrarFunciones() 
         {
-           funciones = DB.llenarListaFuncion();
             List<Funcion> filtroFunciones = new List<Funcion>();
             foreach (Funcion funcion in funciones)
             {
@@ -798,17 +797,14 @@ namespace TP_grupoA_Cine
         }
         public List<Sala> mostrarSalas()
         {
-            salas = DB.llenarListaSala();
             return salas.ToList();
         }
         public List<Pelicula> mostrarPeliculas()
         {
-            peliculas = DB.llenarListaPelicula();
             return peliculas.ToList();
         }
         public List<Usuario> mostrarUsuarios()
         {
-            usuarios = DB.llenarListaUsuarios();
             return usuarios.ToList();
         }
         public List<UsuarioFuncion> mostrarUsuarioFuncion() 
@@ -867,7 +863,7 @@ namespace TP_grupoA_Cine
                     listaDeFunciones.Add(funciones[i]);
                 }
             }            
-            return listaDeFunciones.ToList();
+            return listaDeFunciones;
         }
 
         public object obtenerObjetoDeLista(int ID, string tipoObjeto)
