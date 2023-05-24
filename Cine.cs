@@ -52,14 +52,34 @@ namespace TP_grupoA_Cine
             {
                 foreach (Funcion funcion in funciones)
                 {
+                    //Agregamos a la lista de usuarios y funciones el usuario y la funcion
                     foreach (Usuario us in usuarios)
-                        if (uf.idUsuario == us.ID && uf.idFuncion == funcion.ID)
+                    {
+                        if (uf.IdObjetoUsuario.ID == us.ID && uf.IdObjetoFuncion.ID == funcion.ID)
                         {
                             us.MisFunciones.Add(funcion);
                             funcion.Clientes.Add(us);
                         }
+                    }
+                    //Agregamos a las peliculas las funciones
+                    foreach (Pelicula pelicula in peliculas)
+                    {
+                        if (funcion.MiPelicula.ID == pelicula.ID)
+                        {
+                            pelicula.MisFunciones.Add(funcion);
+                        }
+                    }
+                    //Agregamos a las salas las funciones
+                    foreach (Sala sala in salas)
+                    {
+                        if (funcion.MiSala.ID == sala.ID)
+                        {
+                            sala.MisFunciones.Add(funcion);
+                        }
+                    }
                 }
             }
+
         }
 
         public static Cine Instancia
@@ -338,8 +358,10 @@ namespace TP_grupoA_Cine
                 if (idNuevaFuncion != -1)
                 {
                     Funcion funcion = new Funcion(idNuevaFuncion, miSala, miPelicula, fecha, costo); //se pasa cero pero no habría que ingresar Cantidad de clientes
+                    
                     miPelicula.MisFunciones.Add(funcion);
                     miSala.MisFunciones.Add(funcion);
+                    
                     funciones.Add(new Funcion(idNuevaFuncion, miSala, miPelicula, fecha, costo));
                     Debug.WriteLine($">>> (Cine - altaFuncion()) Se CREÓ la FUNCION en la sala {funcion.MiSala.ID}" +
                                      $" para la película {funcion.MiPelicula.Nombre} en la fecha {funcion.Fecha} con un costo de {funcion.Costo}");
@@ -556,7 +578,7 @@ namespace TP_grupoA_Cine
                                 usuario.Credito -= importe;
                                 funcion.CantClientes += cantidad;
 
-                                UsuarioFuncion objetoUsuarioFuncion = new UsuarioFuncion(usuario.ID, funcion.ID, cantidad);
+                                unUsFun.cantidadCompra += cantidad;
 
                                 Debug.WriteLine($">>> >>> (Cine - comprarEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" +
                                                     $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
@@ -564,33 +586,36 @@ namespace TP_grupoA_Cine
                                 mensaje = $"COMPRA REALIZADA : compró {cantidad} entradas a {funcion.Costo} por un importe total de {importe}";
                             }
                         }
-                    }
-                    
-                    catch(Exception ex)
-                    {
-                        Debug.WriteLine(">>>Cine - comprarEntrada() : este usuario no tiene entradas compradas para esta FUNCIÓN");
-                        //COMPRA DE 0
-                        if (DB.comprarEntradaDB(idUsuario, idFuncion, cantidad, funcion.Costo) == 1)
-                        {
-                            usuario.Credito -= importe;
-                            usuario.MisFunciones.Add(funcion);
-
-                            funcion.Clientes.Add(usuario);
-                            funcion.CantClientes += cantidad;
-
-                            UsuarioFuncion objetoUsuarioFuncion = new UsuarioFuncion(usuario.ID, funcion.ID, cantidad);
-                            usFun.Add(objetoUsuarioFuncion);
-
-                            Debug.WriteLine($">>> >>> (Cine - comprarEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" +
-                                                $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
-
-                            mensaje = $"COMPRA REALIZADA : compró {cantidad} entradas a {funcion.Costo} por un importe total de {importe}";
-                        }
                         else
                         {
-                            Debug.WriteLine($"No se a podido ingresar la compra (ID USUARIO : {idUsuario} ID FUNDION : {idFuncion})");
-                            mensaje = "No se a podido ingresar la compra";
+                            Debug.WriteLine(">>>Cine - comprarEntrada() : este usuario no tiene entradas compradas para esta FUNCIÓN");
+                            //COMPRA DE 0
+                            if (DB.comprarEntradaDB(idUsuario, idFuncion, cantidad, funcion.Costo) == 1)
+                            {
+                                usuario.Credito -= importe;
+                                usuario.MisFunciones.Add(funcion);
+
+                                funcion.Clientes.Add(usuario);
+                                funcion.CantClientes += cantidad;
+
+                                UsuarioFuncion objetoUsuarioFuncion = new UsuarioFuncion(usuario, funcion, cantidad);
+                                usFun.Add(objetoUsuarioFuncion);
+
+                                Debug.WriteLine($">>> >>> (Cine - comprarEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" +
+                                                    $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
+
+                                mensaje = $"COMPRA REALIZADA : compró {cantidad} entradas a {funcion.Costo} por un importe total de {importe}";
+                            }
+                            else
+                            {
+                                Debug.WriteLine($"No se a podido ingresar la compra (ID USUARIO : {idUsuario} ID FUNDION : {idFuncion})");
+                                mensaje = "No se a podido ingresar la compra";
+                            }
                         }
+                    }
+                    catch(Exception ex)
+                    {
+                        Debug.WriteLine($"Cine -- comprarEntrada() : {ex}");
                     }
                 }
             }
@@ -815,12 +840,12 @@ namespace TP_grupoA_Cine
                 foreach (Funcion funcion in funciones)
                 {
                     foreach (Usuario us in usuarios)
-                        if (usuarioFuncion.idUsuario == us.ID && usuarioFuncion.idFuncion == funcion.ID)
+                        if (usuarioFuncion.IdObjetoUsuario.ID == us.ID && usuarioFuncion.IdObjetoFuncion.ID == funcion.ID)
                         {
                             try
                             {
-                                int idFuncion = usuarioFuncion.idFuncion;
-                                int idUsuario = usuarioFuncion.idUsuario;
+                                int idFuncion = usuarioFuncion.IdObjetoFuncion.ID;
+                                int idUsuario = usuarioFuncion.IdObjetoUsuario.ID;
                                 Debug.WriteLine($"\n -- Cine mostrarUsuarioFuncion() -- " +
                                     $"FUNCION ID : {funciones[idFuncion].ID} PELICULA : {funciones[idFuncion].MiPelicula.Nombre}");
                                 Debug.WriteLine($"\nUSUARIO ID : {usuarios[idUsuario].ID} NOMBRE : {usuarios[idUsuario].Apellido}");
@@ -942,7 +967,7 @@ namespace TP_grupoA_Cine
             bool idOk = false;
             for (int i = 0; i < usFun.Count; i++)
             {
-                if (usFun[i].idUsuario == idUsuario && usFun[i].idFuncion == idFuncion)
+                if (usFun[i].IdObjetoUsuario.ID == idUsuario && usFun[i].IdObjetoFuncion.ID == idFuncion)
                 {
                     objeto = usFun[i];
                     idOk = true;

@@ -10,23 +10,27 @@ namespace TP_grupoA_Cine
     {
         //Esta clase se crea ya que la relacion Usaurio-Funcion es MANY to MANY y se utiliza tabla intermedia
         
-        
-        public int idUsuario { get; set; }
-        public int idFuncion { get; set; }
+        public Usuario IdObjetoUsuario { get; set; } = new Usuario();
+        public Funcion IdObjetoFuncion { get; set; } = new Funcion();
+
+        //public int idUsuario { get; set; }
+        //public int idFuncion { get; set; }
         public int cantidadCompra { get; set; }
 
-        public UsuarioFuncion(int idUsuario, int idFuncion, int cantidadCompra)
+        public UsuarioFuncion(Usuario IdObjetoUsuario, Funcion IdObjetoFuncion, int cantidadCompra)
         { 
-            this.idUsuario = idUsuario;
-            this.idFuncion = idFuncion;
+            this.IdObjetoUsuario = IdObjetoUsuario;
+            this.IdObjetoFuncion = IdObjetoFuncion;
             this.cantidadCompra = cantidadCompra;
+            this.idUsuario = IdObjetoUsuario.ID;
+            this.idFuncion = IdObjetoFuncion.ID;
         }
 
         public string[] ToString()
         {
             return new string[]
             {
-                idUsuario.ToString(), idFuncion.ToString(), cantidadCompra.ToString() 
+                IdObjetoUsuario.ID.ToString(), IdObjetoFuncion.ID.ToString(), cantidadCompra.ToString() 
             };        
         }
     }
