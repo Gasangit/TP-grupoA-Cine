@@ -50,6 +50,8 @@ namespace TP_grupoA_Cine
                 mcNacimiento.SelectionStart = u.FechaNacimiento;
                 mcNacimiento.SelectionEnd = u.FechaNacimiento;
                 tbContrasenia.Text = u.Password;
+
+
             }
         }
 
@@ -84,11 +86,13 @@ namespace TP_grupoA_Cine
 
                 if (selectedUserActive != -1)// Modifica al usuario
                 {
-                    if (cine.modificacionUsuarioActual(selectedUserActive, tbEmail.Text, tbContrasenia.Text, tbNombre.Text, tbApellido.Text, Convert.ToInt32(tbDNI.Text), fechaNacimiento))
-
+                    if (cine.modificarUsuario(selectedUserActive, Convert.ToInt32(tbDNI.Text), tbNombre.Text, tbApellido.Text, tbEmail.Text, tbContrasenia.Text, fechaNacimiento, cine.usuarioActual().EsAdmin, cine.usuarioActual().Bloqueado))
+                        {
                         MessageBox.Show("Modificado con éxito", "OK");
-                    else
+                    }
+                    else {
                         MessageBox.Show("Error al modificar", "ERROR");
+                    }
                 }
             }
             else

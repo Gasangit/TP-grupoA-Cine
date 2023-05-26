@@ -65,7 +65,7 @@ namespace TP_grupoA_Cine
             {
                 if (funcion.MiSala.ID == Convert.ToInt32(idSala))
                 {
-                    dataGridView3.Rows.Add(funcion.ToString());
+                    dataGridView3.Rows.Add(funcion.ToStringFunciones());
                 }
 
             }
@@ -84,7 +84,7 @@ namespace TP_grupoA_Cine
             {
                 if (funcion.MiPelicula.ID == Convert.ToInt32(idPelicula))
                 {
-                    dataGridView3.Rows.Add(funcion.ToString());
+                    dataGridView3.Rows.Add(funcion.ToStringFunciones());
                 }
 
             }

@@ -98,16 +98,21 @@ namespace TP_grupoA_Cine
             {
                 MessageBox.Show("Debe completar los datos para agregar", "ERROR");
             }
+            else if (dniusuario.Text.Length != 8 && dniusuario.Text.Length != 7)
 
+            {
+                MessageBox.Show("Difiere la cantidad de digitos en el DNI. Deben ser 8 o 7 digitos");
+            }
             else
             {
                 if (cine.altaUsuario(int.Parse(dniusuario.Text), nombreusuario.Text, apellidousuario.Text, mailusuario.Text, passwordusuario.Text, DateTime.Parse(nacimientousuario.Text), esAdmin, bloqueado))
                 {
+
                     MessageBox.Show("Agregado con éxito", "OK");
                 }
                 else
                 {
-                    MessageBox.Show("Problemas al agregar", "ERROR");
+                    MessageBox.Show("Problemas al agregar o DNI ya existente", "ERROR");
 
                 }
             }

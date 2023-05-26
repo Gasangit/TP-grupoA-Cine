@@ -41,7 +41,7 @@ namespace TP_grupoA_Cine
             DateTime fechaNacimiento = new DateTime(anio, mes, dia);
             //DateTime fechaNacimiento = new DateTime(dia, mes, anio); //este casteo hay que cambiarlo. Tenemos que fomar un fecha.
             string password = tbContraseña.Text;
-            bool esAdmin = false;
+            bool esAdmin = false; //Un usuario que se registra por defecto NO es admin. 
             bool bloqueado = false;
 
             //if (cbEsAdmin.Text.ToLower() == "si") esAdmin = true;
@@ -50,10 +50,22 @@ namespace TP_grupoA_Cine
             {
                 //Registro Usuario
 
-                cine.altaUsuario(dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin, bloqueado); //Dni tira error por el textbox no permite string --acordarse que el DNI el profe lo pidiò como INT--
+                if (tbDNI.Text.Length != 8 && tbDNI.Text.Length != 7)
 
-                MessageBox.Show("Registrado con éxito", "REGISTRO EXITOSO");
-
+                {
+                    MessageBox.Show("Difiere la cantidad de digitos en el DNI. Deben ser 8 o 7 digitos");
+                }
+                else
+                {
+                    if (cine.altaUsuario(dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin, bloqueado))
+                    {
+                        MessageBox.Show("Registrado con éxito", "REGISTRO EXITOSO");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Problemas al agregar o DNI ya existente", "ERROR");
+                    }
+                }
             }
             else
             {

@@ -12,8 +12,7 @@ namespace TP_grupoA_Cine
     class ControladorDB
     {
         private string connectionString;
-        Cine cine = Cine.Instancia;
-
+        
         public ControladorDB()
         {
             //Cargo la cadena de conexión desde el archivo de properties
@@ -180,50 +179,14 @@ namespace TP_grupoA_Cine
         }
         #endregion
 
-        #region Modificar Usuario Actual
-        public int modificarUsuarioActualDB(int id, int Dni, string Nombre, string Apellido, string Mail, string Password, DateTime FechaDeNacimiento)
-        {
-            string connectionString = Properties.Resources.ConnectionStr;
-            string queryString = "UPDATE [dbo].[Usuarios] SET dniUsuario = @dni, nombreUsuario=@nombre, apellidoUsuario = @apellido, mailUsuario=@mail,passwordUsuario=@password, fechaNacimiento = @fechaNac WHERE idUsuario=@idusuario;";
-            using (SqlConnection connection =
-                new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(queryString, connection);
-                command.Parameters.Add(new SqlParameter("@idusuario", SqlDbType.Int));
-                command.Parameters.Add(new SqlParameter("@dni", SqlDbType.Int));
-                command.Parameters.Add(new SqlParameter("@nombre", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@apellido", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@mail", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@password", SqlDbType.NVarChar));
-                command.Parameters.Add(new SqlParameter("@fechaNac", SqlDbType.Date));
-                command.Parameters["@idusuario"].Value = id;
-                command.Parameters["@dni"].Value = Dni;
-                command.Parameters["@nombre"].Value = Nombre;
-                command.Parameters["@apellido"].Value = Apellido;
-                command.Parameters["@mail"].Value = Mail;
-                command.Parameters["@password"].Value = Password;
-                command.Parameters["@fechaNac"].Value = FechaDeNacimiento;
-                try
-                {
-                    connection.Open();
-                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
-                    return command.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                    return 0;
-                }
-            }
-        }
-        #endregion
+        
 
         #region cargar credito
         public int cargarCreditoDB(int idUsuario, double importe) 
         {
 
             string connectionString = Properties.Resources.ConnectionStr;
-            string queryString = "UPDATE [dbo].[Usuarios] SET credito = credito + @credito WHERE idUsuario = @idUsuario ;";
+            string queryString = "UPDATE [dbo].[Usuarios] SET credito = @credito WHERE idUsuario = @idUsuario ;";
 
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
@@ -398,14 +361,13 @@ namespace TP_grupoA_Cine
         public List<Funcion> llenarListaFuncion()
         {
             List<Funcion> misFunciones = new List<Funcion>();
-            List<Sala> salas = llenarListaSala();
-            List<Pelicula> peliculas = llenarListaPelicula();
-
+           
             string consulta = "SELECT * FROM Funciones";
 
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
             {
+               
                 SqlCommand command = new SqlCommand(consulta, connection);
                 try
                 {
@@ -413,33 +375,12 @@ namespace TP_grupoA_Cine
                     SqlDataReader reader = command.ExecuteReader();
                     Funcion fun;
 
-                    Cine cine = Cine.Instancia;
-                    Sala miSala = new Sala();
-                    Pelicula miPelicula = new Pelicula();
-
                     while (reader.Read())
-                    {
-                        int idSala = reader.GetInt32(3);
-                        int idPelicula = reader.GetInt32(4);
-
-                        foreach (Sala sala in salas)
-                        {
-                            if(sala.ID == idSala)
-                            {
-                                miSala = sala;
-                            }
-                        }
-
-                        foreach (Pelicula pelicula in peliculas)
-                        {
-                            if (pelicula.ID == idPelicula)
-                            {
-                                miPelicula = pelicula;
-                            }
-                        }
-
-                        fun = new Funcion(reader.GetInt32(0), miSala, miPelicula, reader.GetDateTime(1), reader.GetDouble(2));
+                    {               
+                        fun = new Funcion(reader.GetInt32(0), reader.GetInt32(3), reader.GetInt32(4), reader.GetDateTime(1), reader.GetDouble(2));
                         misFunciones.Add(fun);
+
+                        Debug.WriteLine($">>>ControladorDB -- llenarListaFunciones() : ID : {fun.ID} SALA : {fun.idSala} PELICULA : {fun.idPelicula}  COSTO : {fun.Costo}");
                     }
 
                     reader.Close();

@@ -30,6 +30,12 @@
         {
             btnmostrar_funciones = new Button();
             dataGridView1 = new DataGridView();
+            id = new DataGridViewTextBoxColumn();
+            pelicula = new DataGridViewTextBoxColumn();
+            sala = new DataGridViewTextBoxColumn();
+            fecha = new DataGridViewTextBoxColumn();
+            costo = new DataGridViewTextBoxColumn();
+            poster = new DataGridViewImageColumn();
             label5 = new Label();
             panel1 = new Panel();
             label8 = new Label();
@@ -53,12 +59,6 @@
             panel2 = new Panel();
             btnmodificarusuario = new Button();
             btnvolver_cartelera = new Button();
-            id = new DataGridViewTextBoxColumn();
-            pelicula = new DataGridViewTextBoxColumn();
-            sala = new DataGridViewTextBoxColumn();
-            fecha = new DataGridViewTextBoxColumn();
-            costo = new DataGridViewTextBoxColumn();
-            poster = new DataGridViewImageColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)cantidadentradas).BeginInit();
@@ -86,6 +86,52 @@
             dataGridView1.Size = new Size(565, 162);
             dataGridView1.TabIndex = 61;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            // 
+            // id
+            // 
+            id.Frozen = true;
+            id.HeaderText = "ID";
+            id.Name = "id";
+            id.ReadOnly = true;
+            id.Visible = false;
+            // 
+            // pelicula
+            // 
+            pelicula.Frozen = true;
+            pelicula.HeaderText = "Pelicula";
+            pelicula.Name = "pelicula";
+            pelicula.ReadOnly = true;
+            // 
+            // sala
+            // 
+            sala.Frozen = true;
+            sala.HeaderText = "Sala";
+            sala.Name = "sala";
+            sala.ReadOnly = true;
+            // 
+            // fecha
+            // 
+            fecha.Frozen = true;
+            fecha.HeaderText = "Fecha";
+            fecha.Name = "fecha";
+            fecha.ReadOnly = true;
+            // 
+            // costo
+            // 
+            costo.Frozen = true;
+            costo.HeaderText = "Costo";
+            costo.Name = "costo";
+            costo.ReadOnly = true;
+            // 
+            // poster
+            // 
+            poster.Frozen = true;
+            poster.HeaderText = "Poster";
+            poster.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            poster.Name = "poster";
+            poster.ReadOnly = true;
+            poster.Resizable = DataGridViewTriState.True;
+            poster.SortMode = DataGridViewColumnSortMode.Automatic;
             // 
             // label5
             // 
@@ -228,6 +274,7 @@
             // 
             monthCalendar1.Location = new Point(36, 159);
             monthCalendar1.Name = "monthCalendar1";
+            monthCalendar1.ShowTodayCircle = false;
             monthCalendar1.TabIndex = 74;
             // 
             // label2
@@ -346,52 +393,6 @@
             btnvolver_cartelera.Text = "VOLVER";
             btnvolver_cartelera.UseVisualStyleBackColor = true;
             btnvolver_cartelera.Click += btnvolver_cartelera_Click;
-            // 
-            // id
-            // 
-            id.Frozen = true;
-            id.HeaderText = "ID";
-            id.Name = "id";
-            id.ReadOnly = true;
-            id.Visible = false;
-            // 
-            // pelicula
-            // 
-            pelicula.Frozen = true;
-            pelicula.HeaderText = "Pelicula";
-            pelicula.Name = "pelicula";
-            pelicula.ReadOnly = true;
-            // 
-            // sala
-            // 
-            sala.Frozen = true;
-            sala.HeaderText = "Sala";
-            sala.Name = "sala";
-            sala.ReadOnly = true;
-            // 
-            // fecha
-            // 
-            fecha.Frozen = true;
-            fecha.HeaderText = "Fecha";
-            fecha.Name = "fecha";
-            fecha.ReadOnly = true;
-            // 
-            // costo
-            // 
-            costo.Frozen = true;
-            costo.HeaderText = "Costo";
-            costo.Name = "costo";
-            costo.ReadOnly = true;
-            // 
-            // poster
-            // 
-            poster.Frozen = true;
-            poster.HeaderText = "Poster";
-            poster.ImageLayout = DataGridViewImageCellLayout.Zoom;
-            poster.Name = "poster";
-            poster.ReadOnly = true;
-            poster.Resizable = DataGridViewTriState.True;
-            poster.SortMode = DataGridViewColumnSortMode.Automatic;
             // 
             // Form_Cartelera
             // 

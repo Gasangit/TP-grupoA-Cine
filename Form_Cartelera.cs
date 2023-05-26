@@ -68,11 +68,17 @@ namespace TP_grupoA_Cine
         private void refreshData()
         {
             dataGridView1.Rows.Clear();
+            //Almacenamos los datos del calendario
+            int dia = Convert.ToInt32(monthCalendar1.SelectionStart.Day.ToString());
+            int mes = Convert.ToInt32(monthCalendar1.SelectionStart.Month.ToString());
+            int anio = Convert.ToInt32(monthCalendar1.SelectionStart.Year.ToString());
+            DateTime fechaFuncion = new DateTime(anio, mes, dia);
+            //if (DateTime.Compare(funcion.Fecha.Date, DateTime.UtcNow.Date) >= 0)//Valida que solo se muestren funciones de HOY en adelante.   
 
             foreach (Funcion funcion in cine.mostrarFunciones())
             {
-                if (Convert.ToString(cbPelicula.SelectedItem) == "" && Convert.ToString(cbCosto.SelectedItem) == "" &&
-                    Convert.ToString(cbUbicacion.SelectedItem) == "")
+                    if (Convert.ToString(cbPelicula.SelectedItem) == "" && Convert.ToString(cbCosto.SelectedItem) == "" &&
+                Convert.ToString(cbUbicacion.SelectedItem) == "" && fechaFuncion.ToString() == "")
                 {
                     string url = funcion.MiPelicula.Poster.ToString();
                     WebClient wc = new WebClient();
@@ -86,7 +92,7 @@ namespace TP_grupoA_Cine
                 else
                     if (Convert.ToString(cbPelicula.SelectedItem) == funcion.MiPelicula.Nombre.ToString() &&
                         Convert.ToString(cbUbicacion.SelectedItem) == "" &&
-                        Convert.ToString(cbCosto.SelectedItem) == "")
+                        Convert.ToString(cbCosto.SelectedItem) == "" && fechaFuncion.ToString() == "")
                 {
                     string url = funcion.MiPelicula.Poster.ToString();
                     WebClient wc = new WebClient();
@@ -100,7 +106,7 @@ namespace TP_grupoA_Cine
                 else
                       if (Convert.ToString(cbPelicula.SelectedItem) == funcion.MiPelicula.Nombre.ToString() &&
                         Convert.ToString(cbUbicacion.SelectedItem) == funcion.MiSala.Ubicacion.ToString() &&
-                        Convert.ToString(cbCosto.SelectedItem) == "")
+                        Convert.ToString(cbCosto.SelectedItem) == "" && fechaFuncion.ToString() == "")
                 {
                     string url = funcion.MiPelicula.Poster.ToString();
                     WebClient wc = new WebClient();
@@ -115,21 +121,22 @@ namespace TP_grupoA_Cine
                 else
                     if (Convert.ToString(cbPelicula.SelectedItem) == funcion.MiPelicula.Nombre.ToString() &&
                         Convert.ToString(cbUbicacion.SelectedItem) == "" &&
-                        Convert.ToString(cbCosto.SelectedItem) == funcion.Costo.ToString())
+                        Convert.ToString(cbCosto.SelectedItem) == funcion.Costo.ToString() && fechaFuncion.ToString() == "")
                 {
                     string url = funcion.MiPelicula.Poster.ToString();
                     WebClient wc = new WebClient();
                     byte[] bytes = wc.DownloadData(url);
                     MemoryStream ms = new MemoryStream(bytes);
 
-                    dataGridView1.Rows.Add(funcion.ToString());
+                    dataGridView1.Rows.Add(funcion.ID.ToString(), funcion.MiPelicula.Nombre.ToString(), funcion.MiSala.Ubicacion.ToString(),
+                                            funcion.Fecha.ToString(), funcion.Costo.ToString(), Image.FromStream(ms));
                     funcion_seleccionada.Text = "";
 
                 }
                 else
                     if (Convert.ToString(cbPelicula.SelectedItem) == "" &&
                         Convert.ToString(cbUbicacion.SelectedItem) == funcion.MiSala.Ubicacion.ToString() &&
-                        Convert.ToString(cbCosto.SelectedItem) == funcion.Costo.ToString())
+                        Convert.ToString(cbCosto.SelectedItem) == funcion.Costo.ToString() && fechaFuncion.ToString() == "")
                 {
                     string url = funcion.MiPelicula.Poster.ToString();
                     WebClient wc = new WebClient();
@@ -143,20 +150,142 @@ namespace TP_grupoA_Cine
                 else
                     if (Convert.ToString(cbPelicula.SelectedItem) == "" &&
                         Convert.ToString(cbUbicacion.SelectedItem) == funcion.MiSala.Ubicacion.ToString() &&
-                        Convert.ToString(cbCosto.SelectedItem) == "")
+                        Convert.ToString(cbCosto.SelectedItem) == ""  && fechaFuncion.ToString() == "")
                 {
                     string url = funcion.MiPelicula.Poster.ToString();
                     WebClient wc = new WebClient();
                     byte[] bytes = wc.DownloadData(url);
                     MemoryStream ms = new MemoryStream(bytes);
 
-                    dataGridView1.Rows.Add(funcion.ToString());
+                    dataGridView1.Rows.Add(funcion.ID.ToString(), funcion.MiPelicula.Nombre.ToString(), funcion.MiSala.Ubicacion.ToString(),
+                                            funcion.Fecha.ToString(), funcion.Costo.ToString(), Image.FromStream(ms));
                     funcion_seleccionada.Text = "";
                 }
                 else
                     if (Convert.ToString(cbPelicula.SelectedItem) == "" &&
                         Convert.ToString(cbUbicacion.SelectedItem) == "" &&
-                        Convert.ToString(cbCosto.SelectedItem) == funcion.Costo.ToString())
+                        Convert.ToString(cbCosto.SelectedItem) == funcion.Costo.ToString() && 
+                        fechaFuncion.ToString() == "")
+                {
+                    string url = funcion.MiPelicula.Poster.ToString();
+                    WebClient wc = new WebClient();
+                    byte[] bytes = wc.DownloadData(url);
+                    MemoryStream ms = new MemoryStream(bytes);
+
+                    dataGridView1.Rows.Add(funcion.ID.ToString(), funcion.MiPelicula.Nombre.ToString(), funcion.MiSala.Ubicacion.ToString(),
+                                            funcion.Fecha.ToString(), funcion.Costo.ToString(), Image.FromStream(ms));
+                    funcion_seleccionada.Text = "";
+                }
+                else
+                    if (Convert.ToString(cbPelicula.SelectedItem) == "" &&
+                        Convert.ToString(cbUbicacion.SelectedItem) == "" &&
+                        Convert.ToString(cbCosto.SelectedItem) == "" &&
+                        fechaFuncion.Date == funcion.Fecha.Date)
+                {
+                    string url = funcion.MiPelicula.Poster.ToString();
+                    WebClient wc = new WebClient();
+                    byte[] bytes = wc.DownloadData(url);
+                    MemoryStream ms = new MemoryStream(bytes);
+
+                    dataGridView1.Rows.Add(funcion.ID.ToString(), funcion.MiPelicula.Nombre.ToString(), funcion.MiSala.Ubicacion.ToString(),
+                                            funcion.Fecha.ToString(), funcion.Costo.ToString(), Image.FromStream(ms));
+                    funcion_seleccionada.Text = "";
+                }
+                else
+                    if (Convert.ToString(cbPelicula.SelectedItem) == funcion.MiPelicula.Nombre.ToString() &&
+                        Convert.ToString(cbUbicacion.SelectedItem) == "" &&
+                        Convert.ToString(cbCosto.SelectedItem) == "" &&
+                        fechaFuncion.Date == funcion.Fecha.Date)
+                {
+                    string url = funcion.MiPelicula.Poster.ToString();
+                    WebClient wc = new WebClient();
+                    byte[] bytes = wc.DownloadData(url);
+                    MemoryStream ms = new MemoryStream(bytes);
+
+                    dataGridView1.Rows.Add(funcion.ID.ToString(), funcion.MiPelicula.Nombre.ToString(), funcion.MiSala.Ubicacion.ToString(),
+                                            funcion.Fecha.ToString(), funcion.Costo.ToString(), Image.FromStream(ms));
+                    funcion_seleccionada.Text = "";
+                }
+                else
+                    if (Convert.ToString(cbPelicula.SelectedItem) == "" &&
+                        Convert.ToString(cbUbicacion.SelectedItem) == funcion.MiSala.Ubicacion.ToString() &&
+                        Convert.ToString(cbCosto.SelectedItem) == "" &&
+                        fechaFuncion.Date == funcion.Fecha.Date)
+                {
+                    string url = funcion.MiPelicula.Poster.ToString();
+                    WebClient wc = new WebClient();
+                    byte[] bytes = wc.DownloadData(url);
+                    MemoryStream ms = new MemoryStream(bytes);
+
+                    dataGridView1.Rows.Add(funcion.ID.ToString(), funcion.MiPelicula.Nombre.ToString(), funcion.MiSala.Ubicacion.ToString(),
+                                            funcion.Fecha.ToString(), funcion.Costo.ToString(), Image.FromStream(ms));
+                    funcion_seleccionada.Text = "";
+                }
+                else
+                    if (Convert.ToString(cbPelicula.SelectedItem) == "" &&
+                        Convert.ToString(cbUbicacion.SelectedItem) == "" &&
+                        Convert.ToString(cbCosto.SelectedItem) == funcion.Costo.ToString() &&
+                        fechaFuncion.Date == funcion.Fecha.Date)
+                {
+                    string url = funcion.MiPelicula.Poster.ToString();
+                    WebClient wc = new WebClient();
+                    byte[] bytes = wc.DownloadData(url);
+                    MemoryStream ms = new MemoryStream(bytes);
+
+                    dataGridView1.Rows.Add(funcion.ID.ToString(), funcion.MiPelicula.Nombre.ToString(), funcion.MiSala.Ubicacion.ToString(),
+                                            funcion.Fecha.ToString(), funcion.Costo.ToString(), Image.FromStream(ms));
+                    funcion_seleccionada.Text = "";
+                }
+                else
+                    if (Convert.ToString(cbPelicula.SelectedItem) == "" &&
+                        Convert.ToString(cbUbicacion.SelectedItem) == funcion.MiSala.Ubicacion.ToString() &&
+                        Convert.ToString(cbCosto.SelectedItem) == funcion.Costo.ToString() &&
+                        fechaFuncion.Date == funcion.Fecha.Date)
+                {
+                    string url = funcion.MiPelicula.Poster.ToString();
+                    WebClient wc = new WebClient();
+                    byte[] bytes = wc.DownloadData(url);
+                    MemoryStream ms = new MemoryStream(bytes);
+
+                    dataGridView1.Rows.Add(funcion.ID.ToString(), funcion.MiPelicula.Nombre.ToString(), funcion.MiSala.Ubicacion.ToString(),
+                                            funcion.Fecha.ToString(), funcion.Costo.ToString(), Image.FromStream(ms));
+                    funcion_seleccionada.Text = "";
+                }
+                else
+                    if (Convert.ToString(cbPelicula.SelectedItem) == funcion.MiPelicula.Nombre.ToString() &&
+                        Convert.ToString(cbUbicacion.SelectedItem) == "" &&
+                        Convert.ToString(cbCosto.SelectedItem) == funcion.Costo.ToString() &&
+                        fechaFuncion.Date == funcion.Fecha.Date)
+                {
+                    string url = funcion.MiPelicula.Poster.ToString();
+                    WebClient wc = new WebClient();
+                    byte[] bytes = wc.DownloadData(url);
+                    MemoryStream ms = new MemoryStream(bytes);
+
+                    dataGridView1.Rows.Add(funcion.ID.ToString(), funcion.MiPelicula.Nombre.ToString(), funcion.MiSala.Ubicacion.ToString(),
+                                            funcion.Fecha.ToString(), funcion.Costo.ToString(), Image.FromStream(ms));
+                    funcion_seleccionada.Text = "";
+                }
+                else
+                    if (Convert.ToString(cbPelicula.SelectedItem) == funcion.MiPelicula.Nombre.ToString() &&
+                        Convert.ToString(cbUbicacion.SelectedItem) == funcion.MiSala.Ubicacion.ToString() &&
+                        Convert.ToString(cbCosto.SelectedItem) == "" &&
+                        fechaFuncion.Date == funcion.Fecha.Date)
+                {
+                    string url = funcion.MiPelicula.Poster.ToString();
+                    WebClient wc = new WebClient();
+                    byte[] bytes = wc.DownloadData(url);
+                    MemoryStream ms = new MemoryStream(bytes);
+
+                    dataGridView1.Rows.Add(funcion.ID.ToString(), funcion.MiPelicula.Nombre.ToString(), funcion.MiSala.Ubicacion.ToString(),
+                                            funcion.Fecha.ToString(), funcion.Costo.ToString(), Image.FromStream(ms));
+                    funcion_seleccionada.Text = "";
+                }
+                else
+                    if (Convert.ToString(cbPelicula.SelectedItem) == funcion.MiPelicula.Nombre.ToString() &&
+                        Convert.ToString(cbUbicacion.SelectedItem) == funcion.MiSala.Ubicacion.ToString() &&
+                        Convert.ToString(cbCosto.SelectedItem) == funcion.Costo.ToString() &&
+                        fechaFuncion.Date == funcion.Fecha.Date)
                 {
                     string url = funcion.MiPelicula.Poster.ToString();
                     WebClient wc = new WebClient();

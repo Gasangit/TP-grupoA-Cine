@@ -39,16 +39,16 @@ namespace TP_grupoA_Cine
         {
             dataGridView1.Rows.Clear();
 
-            foreach (UsuarioFuncion uf in cine.mostrarUsuarioFuncion())
+            foreach (Funcion f in cine.mostrarMisFunciones())
             {
-                foreach (Funcion f in cine.mostrarFunciones())
+                foreach (UsuarioFuncion uf in cine.mostrarUsuarioFuncion()) 
                 {
-                    if (uf.idFuncion == f.ID && uf.idUsuario == cine.usuarioActual().ID)
+                    if (f.ID == uf.idFuncion && cine.usuarioActual().ID == uf.idUsuario)
                     {
-                        dataGridView1.Rows.Add(uf.idUsuario.ToString(), uf.idFuncion.ToString(), uf.cantidadCompra.ToString(), f.Fecha.ToString(), f.MiPelicula.Nombre.ToString(), f.MiSala.Ubicacion.ToString(), (f.Costo * uf.cantidadCompra).ToString());
+                        dataGridView1.Rows.Add(cine.usuarioActual().ID, f.ID.ToString(), uf.cantidadCompra.ToString(), f.Fecha.ToString(), f.MiPelicula.Nombre.ToString(), f.MiSala.Ubicacion.ToString(), (f.Costo * uf.cantidadCompra).ToString());
                     }
+                    
                 }
-
             }
         }
 

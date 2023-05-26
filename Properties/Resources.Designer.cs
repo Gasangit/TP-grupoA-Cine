@@ -61,7 +61,7 @@ namespace TP_grupoA_Cine.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Data Source=DESKTOP-KGGRT2Q\SQLEXPRESS01;Initial Catalog=tp_cine_grupoa_acn4av;Integrated Security=True;User ID=GASAN;Password=Apalaches4050.
+        ///   Busca una cadena traducida similar a Data Source=DESKTOP-LL2FGQ9\SQLEXPRESS;Initial Catalog=tp_cine_grupoa_acn4av;Integrated Security=True;.
         /// </summary>
         internal static string ConnectionStr {
             get {

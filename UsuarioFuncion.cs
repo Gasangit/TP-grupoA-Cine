@@ -10,27 +10,37 @@ namespace TP_grupoA_Cine
     {
         //Esta clase se crea ya que la relacion Usaurio-Funcion es MANY to MANY y se utiliza tabla intermedia
         
-        public Usuario IdObjetoUsuario { get; set; } = new Usuario();
-        public Funcion IdObjetoFuncion { get; set; } = new Funcion();
+        public Usuario MiUsuario { get; set; } = new Usuario();
+        public Funcion MiFuncion { get; set; } = new Funcion();
 
-        //public int idUsuario { get; set; }
-        //public int idFuncion { get; set; }
+        public int idUsuario { get; set; }
+        public int idFuncion { get; set; }
         public int cantidadCompra { get; set; }
 
-        public UsuarioFuncion(Usuario IdObjetoUsuario, Funcion IdObjetoFuncion, int cantidadCompra)
+
+
+
+        public UsuarioFuncion(Usuario MiUsuario, Funcion MiFuncion, int cantidadCompra)
         { 
-            this.IdObjetoUsuario = IdObjetoUsuario;
-            this.IdObjetoFuncion = IdObjetoFuncion;
+            this.MiUsuario = MiUsuario;
+            this.MiFuncion = MiFuncion;
             this.cantidadCompra = cantidadCompra;
-            this.idUsuario = IdObjetoUsuario.ID;
-            this.idFuncion = IdObjetoFuncion.ID;
+            idUsuario = MiUsuario.ID;
+            idFuncion = MiFuncion.ID;
+        }
+
+        public UsuarioFuncion(int idUsuario, int idFuncion, int cantidad)
+        {
+            this.idUsuario = idUsuario;
+            this.idFuncion = idFuncion;
+            this.cantidadCompra = cantidad;
         }
 
         public string[] ToString()
         {
             return new string[]
             {
-                IdObjetoUsuario.ID.ToString(), IdObjetoFuncion.ID.ToString(), cantidadCompra.ToString() 
+                MiUsuario.ID.ToString(), MiFuncion.ID.ToString(), cantidadCompra.ToString() 
             };        
         }
     }
