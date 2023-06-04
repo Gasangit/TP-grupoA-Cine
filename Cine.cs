@@ -637,7 +637,7 @@ namespace TP_grupoA_Cine
 
                 if (usr != null)
                 {
-                    if (usr.Bloqueado != false)// Aca se rompe el monitor
+                    if (usr.Bloqueado != false)// Consultar con where por el usuario bloqueado
                     {
                         if (usr.Password == password)
                         {
