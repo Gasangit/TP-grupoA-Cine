@@ -71,3 +71,6 @@ Proceso de devolución de entradas:
 Si la cantidad es MENOR, se actualiza la cantidad comprada en la base de datos (Tabla intermedia Usuario_Funcion).
 Si la cantidad es IGUAL, se realiza una delete a la base de datos en dicho registro.
 5- Al devolver se le reintegra crédito al cliente en base al costo de la funcion * cantidad seleccionada en devolución. Asi mismo se actualizan las listas correspondientes.
+
+
+//
