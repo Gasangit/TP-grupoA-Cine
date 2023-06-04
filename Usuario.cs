@@ -35,9 +35,8 @@ namespace TP_grupoA_Cine
             Password = password;
         }
 
-        public Usuario (int id, int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento, bool esAdmin, bool bloqueado, double credito)
+        public Usuario (int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento, bool esAdmin, bool bloqueado, double credito)
         {
-            ID = id; 
             Nombre = nombre;
             Apellido = apellido;
             DNI = dni;

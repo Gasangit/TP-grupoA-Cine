@@ -17,7 +17,7 @@ namespace TP_grupoA_Cine
         public int idFuncion { get; set; }
         public int cantidadCompra { get; set; }
 
-
+        public UsuarioFuncion() { }
 
 
         public UsuarioFuncion(Usuario MiUsuario, Funcion MiFuncion, int cantidadCompra)

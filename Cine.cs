@@ -8,6 +8,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace TP_grupoA_Cine
 {
@@ -30,89 +31,30 @@ namespace TP_grupoA_Cine
         // SINGLETON -------------------------------------------------------------------------------------------
         private readonly static Cine _instancia = new Cine();
 
+        private MyContext ContextCine;
+
         private Cine()
         {
-            DB = new ControladorDB();
-            usuarios = DB.llenarListaUsuarios();
-            salas = DB.llenarListaSala();
-            peliculas = DB.llenarListaPelicula();
-            funciones = DB.llenarListaFuncion();
-            usFun = DB.inicializarUsuarioFuncion();
-            // mostrarUsuarioFuncion();
-
-            listaFuncionesUsuario();
-            setSalaPeliculaToFuncion();
-            setUsFun();
-            setFuncionToPeliculaAndSala();
-            
+            inicializarAtributos();
         }
 
-        private void listaFuncionesUsuario()
+        private void inicializarAtributos()
         {
-            Debug.WriteLine(">>> Cine -- listaFuncionesUsuario() : ingreso a método");
-            foreach (UsuarioFuncion uf in usFun)
+            try
             {
-                foreach (Funcion funcion in funciones)
-                {
-                    //Agregamos a la lista de usuarios y funciones el usuario y la funcion
-                    foreach (Usuario us in usuarios)
-                    {
-                        if (uf.idUsuario == us.ID && uf.idFuncion == funcion.ID)
-                        {
-                            us.MisFunciones.Add(funcion);
-                            funcion.Clientes.Add(us);
-
-                            Debug.WriteLine($">>> Cine -- listaFuncionesUsuario() : ID usuario : {us.ID} ID funcion : {funcion.ID} CANTIDAD : {uf.cantidadCompra} FECHA : {funcion.Fecha} PELICULA : {funcion.MiPelicula} SALA : {funcion.MiSala} COSTO : {funcion.Costo}");
-                        }
-                    }   
-                }
+                ContextCine = new MyContext();
+                ContextCine.usuario.Include(u => u.MisFunciones).Load();
+                ContextCine.funcion.Include(f => f.Clientes).Load();
+                ContextCine.salas.Include(s => s.MisFunciones).Load();
+                ContextCine.peliculas.Include(p => p.MisFunciones).Load();
+                ContextCine.UF.Load();
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
         }
-
-        private void setSalaPeliculaToFuncion()
-        {
-            foreach (Funcion funcion in funciones)
-            {
-                funcion.MiSala = (Sala)obtenerObjetoDeLista(funcion.idSala, "sala");
-                funcion.MiPelicula = (Pelicula)obtenerObjetoDeLista(funcion.idPelicula, "pelicula");
-            }
-        }
-
-        private void setUsFun()
-        {
-            foreach (UsuarioFuncion usuarioFuncion in usFun)
-            {
-                usuarioFuncion.MiUsuario = (Usuario)obtenerObjetoDeLista(usuarioFuncion.idUsuario, "usuario");
-                usuarioFuncion.MiFuncion = (Funcion)obtenerObjetoDeLista(usuarioFuncion.idFuncion, "funcion");
-            }
-        }
-
-        private void setFuncionToPeliculaAndSala()
-        {
-            foreach (Pelicula pelicula in peliculas)
-            {
-                foreach (Funcion funcion in funciones)
-                {
-                    if (pelicula.ID == funcion.idPelicula)
-                    {
-                        pelicula.MisFunciones.Add(funcion);
-                    }
-                }
-            }
-
-            foreach (Sala sala in salas)
-            {
-                foreach (Funcion funcion in funciones)
-                {
-                    if (sala.ID == funcion.idSala)
-                    {
-                        sala.MisFunciones.Add(funcion);
-                    }
-                }
-
-            }
-        }
-
 
         //   --------------------------------------------------------------------------------------------
 
@@ -132,96 +74,73 @@ namespace TP_grupoA_Cine
 
             //comprobación para que no me agreguen usuarios con DNI duplicado
             bool esValido = true;
-            foreach (Usuario u in usuarios)
-            {
-                if (u.DNI == dni)   
-                    esValido = false;
-            }
 
-            if (esValido)
+            try
             {
-                int NewUser;
-                NewUser = DB.altaUsuarioDB(dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin, bloqueado);
-                if (NewUser != -1)
+                Usuario usr = ContextCine.usuario.Where(u => u.DNI == dni && u.Mail == mail).FirstOrDefault();
+
+                if (usr != null)
                 {
-                    //Ahora sí lo agrego en la lista
-                    //la clase Usuario tiene que tener un constructor para el ALTA
-                    Usuario nuevo = new Usuario(NewUser, dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin, false, 0.0);
-                    //el ID se puede generar automaticamente con un atributo estatico en la clase Usuario
-                    usuarios.Add(nuevo);
+                    esValido = false;
+                }
+                if (esValido)
+                {
+                    Usuario nuevo = new Usuario { DNI = dni, Nombre = nombre, Apellido = apellido, Mail = mail, Password = password, FechaNacimiento = fechaNacimiento, EsAdmin = esAdmin, Bloqueado = false };
+                    ContextCine.usuario.Add(nuevo);
+                    ContextCine.SaveChanges();
                     Debug.WriteLine($">>> (Cine - altaUsuario()) Se CREÓ el USUARIO {nuevo.Nombre}" +
                                        $" {nuevo.Apellido} con ID {nuevo.ID}");
                     return true;
                 }
                 else
                 {
-                    //algo salió mal con la query porque no generó un id válido
                     return false;
                 }
             }
-            else
+            catch (Exception e)
+            {
                 return false;
+            }
         }
 
         public bool eliminarUsuario(int Id)
         {
-            //primero me aseguro que lo pueda agregar a la base
-            if (DB.eliminarUsuarioDB(Id) == 1)
+            try
             {
-                try
-                {
-                    //Ahora sí lo elimino en la lista
-                    foreach (Usuario u in usuarios)
-                        if (u.ID == Id)
-                        {
-                            usuarios.Remove(u);
-                            return true;
-                        }
+                Usuario usr = ContextCine.usuario.Where(u => u.ID == Id).FirstOrDefault();
+                if (usr != null) {
+                    ContextCine.usuario.Remove(usr);
+                    ContextCine.SaveChanges();
+                    return true;
+                }
+                else {
                     return false;
                 }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                //algo salió mal con la query porque no generó 1 registro
+            } catch (Exception) {
                 return false;
             }
         }
 
-        public bool modificarUsuario(int id, int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento, bool esAdmin, bool bloqueado)
+        public bool modificarUsuario(int idUsuarioModif, int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento, bool esAdmin, bool bloqueado)
         {
-            
-            //primero me aseguro que lo pueda agregar a la base
-            if (DB.modificarUsuarioDB(id, dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin, bloqueado) == 1)
+
+            Usuario usr = ContextCine.usuario.Where(u => u.ID == idUsuarioModif).FirstOrDefault();
+            if (usr != null)
+
             {
-                try
-                {
-                    //Ahora sí lo MODIFICO en la lista
-                    for (int i = 0; i < usuarios.Count; i++)
-                        if (usuarios[i].ID == id)
-                        {
-                            usuarios[i].Nombre = nombre;
-                            usuarios[i].Apellido = apellido;
-                            usuarios[i].Mail = mail;
-                            usuarios[i].Password = password;
-                            usuarios[i].FechaNacimiento = fechaNacimiento;
-                            usuarios[i].EsAdmin = esAdmin;
-                            usuarios[i].Bloqueado = bloqueado;
-                        }
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(">>>Cine : modificarUsuario : " + ex);
-                    return false;
-                }
+                usr.Nombre = nombre;
+                usr.Apellido = apellido;
+                usr.Mail = mail;
+                usr.Password = password;
+                usr.FechaNacimiento = fechaNacimiento;
+                usr.EsAdmin = esAdmin;
+                usr.Bloqueado = bloqueado;
+                ContextCine.usuario.Update(usr);
+                ContextCine.SaveChanges();
+                return true;
             }
             else
             {
-                //algo salió mal con la query porque no generó 1 registro
                 return false;
             }
         }
@@ -329,10 +248,10 @@ namespace TP_grupoA_Cine
                 if (idNuevaFuncion != -1)
                 {
                     Funcion funcion = new Funcion(idNuevaFuncion, miSala, miPelicula, fecha, costo); //se pasa cero pero no habría que ingresar Cantidad de clientes
-                    
+
                     miPelicula.MisFunciones.Add(funcion);
                     miSala.MisFunciones.Add(funcion);
-                    
+
                     funciones.Add(new Funcion(idNuevaFuncion, miSala, miPelicula, fecha, costo));
                     Debug.WriteLine($">>> (Cine - altaFuncion()) Se CREÓ la FUNCION en la sala {funcion.MiSala.ID}" +
                                      $" para la película {funcion.MiPelicula.Nombre} en la fecha {funcion.Fecha} con un costo de {funcion.Costo}");
@@ -541,60 +460,60 @@ namespace TP_grupoA_Cine
 
                     foreach (UsuarioFuncion usuarioFuncion in usFun)
                     {
-                        if (usuarioFuncion.idUsuario == idUsuario  && usuarioFuncion.idFuncion == idFuncion)
+                        if (usuarioFuncion.idUsuario == idUsuario && usuarioFuncion.idFuncion == idFuncion)
                         {
                             usFunOk = true;
-                                
+
                         }
                     }
-                    
+
                     if (usFunOk == true) //VALIDA SI EL USUARIO YA TIENE COMPRADAS FUNCIONES
+                    {
+                        //COMPRA MAS FUNCIONES DE LAS QUE YA COMPRO ANTERIORMENTE
+                        if (DB.comprarEntradaUpdateDB(idUsuario, idFuncion, cantidad, importe) == 1)
                         {
-                            //COMPRA MAS FUNCIONES DE LAS QUE YA COMPRO ANTERIORMENTE
-                            if (DB.comprarEntradaUpdateDB(idUsuario, idFuncion, cantidad, importe) == 1)
-                            {
-                                UsuarioFuncion unUsFun = (UsuarioFuncion)obtenerObjetoDeLista(idUsuario, idFuncion);
+                            UsuarioFuncion unUsFun = (UsuarioFuncion)obtenerObjetoDeLista(idUsuario, idFuncion);
 
-                                usuario.Credito -= importe;
-                                funcion.CantClientes += cantidad;
+                            usuario.Credito -= importe;
+                            funcion.CantClientes += cantidad;
 
-                                unUsFun.cantidadCompra += cantidad;
+                            unUsFun.cantidadCompra += cantidad;
 
-                                Debug.WriteLine($">>> >>> (Cine - comprarEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" +
-                                                    $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
+                            Debug.WriteLine($">>> >>> (Cine - comprarEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" +
+                                                $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
 
-                                mensaje = $"COMPRA REALIZADA : compró {cantidad} entradas a {funcion.Costo} por un importe total de {importe}";
-                            }
+                            mensaje = $"COMPRA REALIZADA : compró {cantidad} entradas a {funcion.Costo} por un importe total de {importe}";
+                        }
+                    }
+                    else
+                    {
+                        Debug.WriteLine(">>>Cine - comprarEntrada() : este usuario no tiene entradas compradas para esta FUNCIÓN");
+                        //COMPRA DE 0
+                        if (DB.comprarEntradaDB(idUsuario, idFuncion, cantidad, funcion.Costo) == 1)
+                        {
+                            usuario.Credito -= importe;
+                            usuario.MisFunciones.Add(funcion);
+
+                            funcion.Clientes.Add(usuario);
+                            funcion.CantClientes += cantidad;
+
+                            UsuarioFuncion objetoUsuarioFuncion = new UsuarioFuncion(usuario, funcion, cantidad);
+                            usFun.Add(objetoUsuarioFuncion);
+
+                            Debug.WriteLine($">>> >>> (Cine - comprarEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" +
+                                                $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
+
+                            mensaje = $"COMPRA REALIZADA : compró {cantidad} entradas a {funcion.Costo} por un importe total de {importe}";
                         }
                         else
                         {
-                            Debug.WriteLine(">>>Cine - comprarEntrada() : este usuario no tiene entradas compradas para esta FUNCIÓN");
-                            //COMPRA DE 0
-                            if (DB.comprarEntradaDB(idUsuario, idFuncion, cantidad, funcion.Costo) == 1)
-                            {
-                                usuario.Credito -= importe;
-                                usuario.MisFunciones.Add(funcion);
-
-                                funcion.Clientes.Add(usuario);
-                                funcion.CantClientes += cantidad;
-
-                                UsuarioFuncion objetoUsuarioFuncion = new UsuarioFuncion(usuario, funcion, cantidad);
-                                usFun.Add(objetoUsuarioFuncion);
-
-                                Debug.WriteLine($">>> >>> (Cine - comprarEntrada()) VENTA : \n  Cantidad Entradas: {cantidad}" +
-                                                    $"\n Importe : {importe}\nPrecio entrada : {funcion.Costo}");
-
-                                mensaje = $"COMPRA REALIZADA : compró {cantidad} entradas a {funcion.Costo} por un importe total de {importe}";
-                            }
-                            else
-                            {
-                                Debug.WriteLine($"No se a podido ingresar la compra (ID USUARIO : {idUsuario} ID FUNDION : {idFuncion})");
-                                mensaje = "No se a podido ingresar la compra";
-                            }
+                            Debug.WriteLine($"No se a podido ingresar la compra (ID USUARIO : {idUsuario} ID FUNDION : {idFuncion})");
+                            mensaje = "No se a podido ingresar la compra";
                         }
+                    }
                 }
             }
-            
+
             catch (Exception ex)
             {
                 Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado." + ex);
@@ -615,7 +534,7 @@ namespace TP_grupoA_Cine
         {
             Debug.WriteLine(">>> Cine - devolverEntrada() : ingreso al método devolverEntrada()");
             string mensaje = "";
-            
+
             // foreach de usuario funcion para buscar la compra del cliente
             // se compara la cantidad comprada por el cliente (en la tabla usuarioFuncion)
             // si e s igual a l cantidad que devuelve el cliente eS DELETE si no UPDATE
@@ -634,7 +553,7 @@ namespace TP_grupoA_Cine
                     Debug.WriteLine($"Cine -- devolverEntrada() : Se esta intentando devolver una cantidad de entradas MAYOR a la que se compró.");
                     mensaje = "Cine -- devolverEntrada() : Se esta intentando devolver una cantidad de entradas MAYOR a la que se compró.";
                 }
-                else if (DateTime.Compare(miFuncion.Fecha, DateTime.UtcNow) < 0 )
+                else if (DateTime.Compare(miFuncion.Fecha, DateTime.UtcNow) < 0)
                 {
                     mensaje = $"No puede devolver una entrada anterior a la fecha actual {DateTime.UtcNow.ToString("MM-dd-yyyy")}";
                 }
@@ -710,52 +629,69 @@ namespace TP_grupoA_Cine
         //se ingresa como ARGUMENTOS mail y password desde FORM
         public bool iniciarSesion(string mail, string password)
         {
-            
-            string comprobar = "";
-            for (int i = 0; i < this.usuarios.Count(); i++)
+            try
             {
+                string comprobar = "";
+                Usuario usr = ContextCine.usuario.Where(u => u.Mail == mail).FirstOrDefault();
+                //Debug.WriteLine(">>> Cine -- iniciarSesion() : " + usr.Nombre);
 
-                //se comprueba MAIL
-                if (usuarios[i].Mail == mail)
-                {   //se comprueba PASSWORD
-                    if (usuarios[i].Password == password)
+                if (usr != null)
+                {
+                    if (usr.Bloqueado != false)// Aca se rompe el monitor
                     {
-                        if (usuarios[i].Bloqueado != true)
+                        if (usr.Password == password)
                         {
-                            this.UsuarioActual = usuarios[i];
+                            this.UsuarioActual = usr;
                             comprobar = "ok";
-                            usuarios[i].IntentosFallidos = 0;
+                            usr.IntentosFallidos = 0;
+                            ContextCine.usuario.Update(usr);
+                            ContextCine.SaveChanges();
                         }
-                    }
-                    else
+                        else
+                        {
+                            usr.IntentosFallidos++;
+                            if (usr.IntentosFallidos == 4)
+                            {
+                                usr.Bloqueado = true;
+                                ContextCine.usuario.Update(usr);
+                                ContextCine.SaveChanges();
+                            }
+                        }
+                    }else
                     {
-                        usuarios[i].IntentosFallidos++;
-                        if (usuarios[i].IntentosFallidos == 4)
-                            usuarios[i].Bloqueado = true;
+                        //USUARIO BLOQUEADO
                     }
                 }
+                else
+                {
+                    return false;
+                }
+
+                if (comprobar == "ok") return true;
+                else return false;
             }
-            if (comprobar == "ok") return true;
-            else return false;
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return false;
+            }
         }
 
         public int intentos(string mail)
         {
+            Usuario usr = ContextCine.usuario.Where(u => u.Mail == mail).FirstOrDefault();
             int a = 0;
-            for (int i = 0; i < this.usuarios.Count(); i++)
+            if (usr != null)
             {
-                if (usuarios[i].Mail == mail)
+                if (usr.Bloqueado == true)
                 {
-                    if (usuarios[i].Bloqueado == true)
-                    {
-                        a = 4;
-                    }
-                    else
-                    {
-                        a = usuarios[i].IntentosFallidos;
-                    }
+                    a = 4;
                 }
-            }
+                else
+                {
+                    a = usr.IntentosFallidos;
+                }
+            }        
             return a;
         }
 
@@ -782,19 +718,19 @@ namespace TP_grupoA_Cine
         }
         public List<Sala> mostrarSalas()
         {
-            return salas.ToList();
+            return ContextCine.salas.ToList();
         }
         public List<Pelicula> mostrarPeliculas()
         {
-            return peliculas.ToList();
+            return ContextCine.peliculas.ToList();
         }
         public List<Usuario> mostrarUsuarios()
         {
-            return usuarios.ToList();
+            return ContextCine.usuario.ToList();
         }
         public List<UsuarioFuncion> mostrarUsuarioFuncion() 
         {
-            return usFun.ToList();           
+            return ContextCine.UF.ToList();           
         }
         public List<Funcion> mostrarMisFunciones()
         {

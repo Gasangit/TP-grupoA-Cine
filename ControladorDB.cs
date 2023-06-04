@@ -42,7 +42,7 @@ namespace TP_grupoA_Cine
                     //mientras haya registros/filas en mi DataReader, sigo leyendo
                     while (reader.Read())
                     {
-                        user = new Usuario(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetDateTime(6), reader.GetBoolean(7), reader.GetBoolean(8), reader.GetDouble(9));
+                        user = new Usuario(reader.GetInt32(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetDateTime(6), reader.GetBoolean(7), reader.GetBoolean(8), reader.GetDouble(9));
                         misUsuarios.Add(user);
                     }
                     //En este punto ya recorrí todas las filas del resultado de la query
