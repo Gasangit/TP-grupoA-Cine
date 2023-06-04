@@ -24,7 +24,8 @@ namespace TP_grupoA_Cine
         public double Credito { get; set; }
         public DateTime FechaNacimiento { get; set; } = new DateTime();
         public bool EsAdmin { get; set; } = false;
-        
+        public List<UsuarioFuncion> UsuarioFuncion { get; set; }
+
 
         public Usuario() { }
 

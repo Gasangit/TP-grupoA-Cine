@@ -22,6 +22,7 @@ namespace TP_grupoA_Cine
         public DateTime Fecha { set; get; } = new DateTime();
         public int CantClientes { set; get; } = 0;
         public double Costo { set; get; } = 0.0;
+        public List<UsuarioFuncion> UsuarioFuncion { get; set; }
         //private static int idFuncion { set; get; }
 
         public Funcion() { }
