@@ -295,11 +295,8 @@ namespace TP_grupoA_Cine
                     dataGridView1.Rows.Add(funcion.ID.ToString(), funcion.MiPelicula.Nombre.ToString(), funcion.MiSala.Ubicacion.ToString(),
                                             funcion.Fecha.ToString(), funcion.Costo.ToString(), Image.FromStream(ms));
                     funcion_seleccionada.Text = "";
-                }
-
+                }   
             }
-
-
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
