@@ -111,7 +111,8 @@ namespace TP_grupoA_Cine
 
             modelBuilder.Entity<Usuario>().HasData(
                 new {ID = 1, Nombre = "Obdulio", Apellido="Gomez",DNI=45678964, Mail="m@mail", Password="123", IntentosFallidos = 0, Bloqueado=false, Credito=0.0, FechaNacimiento=new DateTime(1974,05,07), EsAdmin = true}
-            );         
+            );
+
 
             //ignoro, no agrego Cine a la base de datos.
             modelBuilder.Ignore<Cine>();

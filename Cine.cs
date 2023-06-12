@@ -167,59 +167,59 @@ namespace TP_grupoA_Cine
                 Debug.WriteLine(ex);
                 return false;
             }
-            
-            
+
+
         }
 
         public bool bajaSala(int idSala)
         {
-            
-                try
+
+            try
+            {
+                Sala sala = ContextCine.salas.Where(s => s.ID == idSala).FirstOrDefault();
+
+
+                if (sala != null)
                 {
-                    Sala sala = ContextCine.salas.Where(s => s.ID == idSala).FirstOrDefault();
-                    
-                       
-                    if (sala != null)
-                    {
-                        ContextCine.salas.Remove(sala);
-                        ContextCine.SaveChanges();
-                        Debug.WriteLine($">>> Se ELIMINÓ la SALA ubicada en {sala.Ubicacion}" +
-                                $" con capacidad para {sala.Capacidad} espectadores");
-                        return true;
-                    }
-                    return false;
+                    ContextCine.salas.Remove(sala);
+                    ContextCine.SaveChanges();
+                    Debug.WriteLine($">>> Se ELIMINÓ la SALA ubicada en {sala.Ubicacion}" +
+                            $" con capacidad para {sala.Capacidad} espectadores");
+                    return true;
                 }
-                catch (Exception)
-                {
-                    Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
-                    return false;
-                }
-            
+                return false;
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado.");
+                return false;
+            }
+
         }
 
         public bool modificacionSala(int idSala, string ubicacion, int capacidad)
         {
-            
-                try
+
+            try
+            {
+                Sala sala = ContextCine.salas.Where(s => s.ID == idSala).FirstOrDefault();
+
+                if (sala != null)
                 {
-                    Sala sala = ContextCine.salas.Where(s => s.ID == idSala).FirstOrDefault();
+                    sala.Ubicacion = ubicacion;
+                    sala.Capacidad = capacidad;
+                    ContextCine.salas.Update(sala);
+                    ContextCine.SaveChanges();
 
-                    if (sala !=  null)
-                    {
-                        sala.Ubicacion = ubicacion;
-                        sala.Capacidad = capacidad;
-                        ContextCine.salas.Update(sala);
-                        ContextCine.SaveChanges();
-
-                        return true;
-                    }
-                    return false;
+                    return true;
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(">>>Cine : modificarSala() : " + ex);
-                    return false;
-                }         
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(">>>Cine : modificarSala() : " + ex);
+                return false;
+            }
         }
 
         // FUNCION --------------------------------------------------------------------------------------------
@@ -250,7 +250,7 @@ namespace TP_grupoA_Cine
                                  $" para la película {nuevaFuncion.MiPelicula.Nombre} en la fecha {nuevaFuncion.Fecha} con un costo de {nuevaFuncion.Costo}");
                     return true;
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -258,31 +258,31 @@ namespace TP_grupoA_Cine
                 return false;
             }
         }
-            
+
         public bool modificarFuncion(int ID, int idSala, int idPelicula, DateTime fecha, double costo)//
         {
             try
             {
-                    Sala unaSala = ContextCine.salas.Where(s => s.ID == idSala).FirstOrDefault();
-                    Pelicula unaPelicula = ContextCine.peliculas.Where(p => p.ID == idPelicula).FirstOrDefault();
-                    Funcion funcion = ContextCine.funciones.Where(f => f.ID == ID).FirstOrDefault();
+                Sala unaSala = ContextCine.salas.Where(s => s.ID == idSala).FirstOrDefault();
+                Pelicula unaPelicula = ContextCine.peliculas.Where(p => p.ID == idPelicula).FirstOrDefault();
+                Funcion funcion = ContextCine.funciones.Where(f => f.ID == ID).FirstOrDefault();
 
-                    if (unaSala != null && unaPelicula != null && funcion != null) 
-                    {
-                        funcion.MiSala = unaSala;
-                        funcion.MiPelicula = unaPelicula;
-                        funcion.Fecha = fecha;
-                        funcion.Costo = costo;
+                if (unaSala != null && unaPelicula != null && funcion != null)
+                {
+                    funcion.MiSala = unaSala;
+                    funcion.MiPelicula = unaPelicula;
+                    funcion.Fecha = fecha;
+                    funcion.Costo = costo;
 
-                        ContextCine.funciones.Update(funcion);
-                        ContextCine.SaveChanges();
+                    ContextCine.funciones.Update(funcion);
+                    ContextCine.SaveChanges();
 
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception ex)
             {
@@ -293,25 +293,25 @@ namespace TP_grupoA_Cine
 
         public bool bajaFuncion(int ID)
         {
-           
-                try
-                {
-                    Funcion funcion = ContextCine.funciones.Where(f => f.ID == ID).FirstOrDefault();
-            //Ahora sí lo elimino en la lista
 
-            if (funcion != null)
-                        {
-                            ContextCine.funciones.Remove(funcion);
-                            ContextCine.SaveChanges();
-                            return true;
-                        }
-                    return false;
-                }
-                catch (Exception)
+            try
+            {
+                Funcion funcion = ContextCine.funciones.Where(f => f.ID == ID).FirstOrDefault();
+                //Ahora sí lo elimino en la lista
+
+                if (funcion != null)
                 {
-                    return false;
+                    ContextCine.funciones.Remove(funcion);
+                    ContextCine.SaveChanges();
+                    return true;
                 }
-           
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
         }
 
         // PELICULA -------------------------------------------------------------------------------------------
@@ -325,71 +325,71 @@ namespace TP_grupoA_Cine
                 ContextCine.SaveChanges();
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine($">>> Cine - altaPelicula() : {ex}");
                 return false;
             }
 
-            
+
         }
 
         public bool modificarPelicula(int id, string Nombre, string Sinopsis, int Duracion, string Poster)
         {
-            
-           
-                try
-                {
-                    Pelicula pelicula = ContextCine.peliculas.Where(p => p.ID == id).FirstOrDefault();
-            //Ahora sí lo MODIFICO en la lista
 
-            if (pelicula != null)
-                    {
-                        pelicula.Nombre = Nombre;
-                        pelicula.Sinopsis = Sinopsis;
-                        pelicula.Duracion = Duracion;
-                        pelicula.Poster = Poster;
-                        ContextCine.peliculas.Update(pelicula);
-                        ContextCine.SaveChanges();
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                catch (Exception ex)
+
+            try
+            {
+                Pelicula pelicula = ContextCine.peliculas.Where(p => p.ID == id).FirstOrDefault();
+                //Ahora sí lo MODIFICO en la lista
+
+                if (pelicula != null)
                 {
-                    Debug.WriteLine(">>>Cine : modificarPelicula : " + ex);
+                    pelicula.Nombre = Nombre;
+                    pelicula.Sinopsis = Sinopsis;
+                    pelicula.Duracion = Duracion;
+                    pelicula.Poster = Poster;
+                    ContextCine.peliculas.Update(pelicula);
+                    ContextCine.SaveChanges();
+                    return true;
+                }
+                else
+                {
                     return false;
                 }
-            
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(">>>Cine : modificarPelicula : " + ex);
+                return false;
+            }
+
         }
 
         public bool bajaPelicula(int id)
         {
             //primero me aseguro que lo pueda agregar a la base
-            
+
             try
             {
-                  Pelicula pelicula = ContextCine.peliculas.Where(p => p.ID == id).FirstOrDefault();
+                Pelicula pelicula = ContextCine.peliculas.Where(p => p.ID == id).FirstOrDefault();
                 //Ahora sí lo elimino en la lista
-                
-                    if (pelicula != null)
-                    {
-                        ContextCine.peliculas.Remove(pelicula);
-                        ContextCine.SaveChanges();
-                        return true;
-                    }
-                    else
-                        return false;
+
+                if (pelicula != null)
+                {
+                    ContextCine.peliculas.Remove(pelicula);
+                    ContextCine.SaveChanges();
+                    return true;
+                }
+                else
+                    return false;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($">>> Cine - bajaPelicula() : {ex}");
                 return false;
             }
-            
+
         }
 
         // TRANSACCIONES --------------------------------------------------------------------------------------
@@ -397,32 +397,32 @@ namespace TP_grupoA_Cine
         public void cargarCredito(int idUsuario, double importe)
         {
             double creditoNuevo = usuarioActual().Credito + importe;
- 
-                try
-                {
-                    Usuario usuario = ContextCine.usuarios.Where(u => u.ID == usuarioActual().ID).FirstOrDefault();
 
-                    if (usuario != null)
-                    {
-                        usuario.Credito = creditoNuevo;
-                        ContextCine.usuarios.Update(usuario);
-                        ContextCine.SaveChanges();
+            try
+            {
+                Usuario usuario = ContextCine.usuarios.Where(u => u.ID == usuarioActual().ID).FirstOrDefault();
 
-                        Debug.WriteLine($">>> (Cine - cargarCredito()) Se CARGARON $ {importe} quedando el CRÉDITO en {usuario.Credito} ID usuario : {usuario.ID}");
-                    }
-                    
-                }
-                catch (Exception ex)
+                if (usuario != null)
                 {
-                    Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado. Mensaje de error : " + ex);
+                    usuario.Credito = creditoNuevo;
+                    ContextCine.usuarios.Update(usuario);
+                    ContextCine.SaveChanges();
+
+                    Debug.WriteLine($">>> (Cine - cargarCredito()) Se CARGARON $ {importe} quedando el CRÉDITO en {usuario.Credito} ID usuario : {usuario.ID}");
                 }
-            
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado. Mensaje de error : " + ex);
+            }
+
         }
 
         public string comprarEntrada(int idUsuario, int idFuncion, int cantidad)
         {
             string mensaje = "";
-            
+
             try
             {
                 Usuario usuario = ContextCine.usuarios.Where(u => u.ID == idUsuario).FirstOrDefault();
@@ -470,8 +470,8 @@ namespace TP_grupoA_Cine
                         {
                             Debug.WriteLine(">>>Cine - comprarEntrada() : este usuario no tiene entradas compradas para esta FUNCIÓN");
 
-                            UsuarioFuncion UF = new UsuarioFuncion { MiUsuario = usuario, MiFuncion = funcion, cantidadCompra = cantidad};
-                            
+                            UsuarioFuncion UF = new UsuarioFuncion { MiUsuario = usuario, MiFuncion = funcion, cantidadCompra = cantidad };
+
                             Debug.WriteLine($"Cine - comprarEntrada : arg idUsuario -> {idUsuario} arg idFuncion -> {idFuncion}");
 
                             usuario.MisFunciones.Add(funcion);
@@ -497,7 +497,7 @@ namespace TP_grupoA_Cine
                     Debug.WriteLine($"No se a podido ingresar la compra (ID USUARIO : {idUsuario} ID FUNDION : {idFuncion})");
                     mensaje = "No se a podido ingresar la compra";
                 }
-            }catch (Exception ex)
+            } catch (Exception ex)
             {
                 Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado." + ex);
             }
@@ -591,25 +591,25 @@ namespace TP_grupoA_Cine
 
                 if (usr != null)
                 {
-                        if (usr.Password == password)
+                    if (usr.Password == password)
+                    {
+                        this.UsuarioActual = usr;
+                        comprobar = "ok";
+                        usr.IntentosFallidos = 0;
+                        ContextCine.usuarios.Update(usr);
+                        ContextCine.SaveChanges();
+                    }
+                    else
+                    {
+                        usr.IntentosFallidos++;
+                        if (usr.IntentosFallidos == 4)
                         {
-                            this.UsuarioActual = usr;
-                            comprobar = "ok";
-                            usr.IntentosFallidos = 0;
+                            usr.Bloqueado = true;
                             ContextCine.usuarios.Update(usr);
                             ContextCine.SaveChanges();
                         }
-                        else
-                        {
-                            usr.IntentosFallidos++;
-                            if (usr.IntentosFallidos == 4)
-                            {
-                                usr.Bloqueado = true;
-                                ContextCine.usuarios.Update(usr);
-                                ContextCine.SaveChanges();
-                            }
-                        }
-                    
+                    }
+
                 }
                 else
                 {
@@ -640,7 +640,7 @@ namespace TP_grupoA_Cine
                 {
                     a = usr.IntentosFallidos;
                 }
-            }        
+            }
             return a;
         }
 
@@ -653,18 +653,76 @@ namespace TP_grupoA_Cine
 
         /*  recordar que las listas se tienen que devolver (return) con el método ToList() para no
             devolver la lista original y que la misma no sea modificada.    */
-        public List<Funcion> mostrarFunciones() 
+        public List<Funcion> mostrarFunciones()
         {
             Debug.WriteLine(">>> Cine - mosterarFunciones : se crea lista");
 
-            IEnumerable<Funcion> listaFunciones = 
+            IEnumerable<Funcion> listaFunciones =
                from funcion in ContextCine.funciones
-               where funcion.Fecha.Date >= DateTime.UtcNow.Date
+               where funcion.Fecha.Date >= DateTime.UtcNow.Date // Filtro de funciones
                select funcion;
 
             Debug.WriteLine(">>> Cine - mosterarFunciones : se devuelve lista");
             return listaFunciones.ToList();
         }
+
+        public List<Funcion> mostrarFuncionesFiltradas(string pelicula, string sala, double costo, DateTime fecha)
+        {
+
+            IEnumerable<Funcion> funcionesFiltradas = ContextCine.funciones;
+
+            if (pelicula != "")
+            {
+
+                funcionesFiltradas = funcionesFiltradas.Where(f => f.MiPelicula.Nombre == pelicula);
+            }
+
+            if (sala != "")
+            {
+
+                funcionesFiltradas = funcionesFiltradas.Where(f => f.MiSala.Ubicacion == sala);
+            }
+
+            if (costo != 0)
+            {
+
+                funcionesFiltradas = funcionesFiltradas.Where(f => f.Costo == costo);
+            }
+
+            if (fecha.Date >= DateTime.UtcNow.Date)
+            {
+
+                funcionesFiltradas = funcionesFiltradas.Where(f => f.Fecha == fecha);
+            }
+
+            return funcionesFiltradas.ToList();
+        }
+
+        public List<Funcion> mostrarFuncionesXSala(int sala)
+        {
+            IEnumerable<Funcion> funcionXSala = ContextCine.funciones;
+            if (sala != 0)
+            {
+                funcionXSala = funcionXSala.Where(fs => fs.MiSala.ID == sala);
+            }
+            return funcionXSala.ToList();
+        }
+
+        public List<Funcion> mostrarFuncionesXPelicula(int pelicula)
+        {
+
+            IEnumerable<Funcion> funcionXPelicula = ContextCine.funciones;
+
+            if (pelicula != 0)
+            {
+
+                funcionXPelicula = funcionXPelicula.Where(fp => fp.MiPelicula.ID == pelicula);
+
+            }
+
+            return funcionXPelicula.ToList();
+        }
+
         public List<Sala> mostrarSalas()
         {
             return ContextCine.salas.ToList();
@@ -677,13 +735,24 @@ namespace TP_grupoA_Cine
         {
             return ContextCine.usuarios.ToList();
         }
-        public List<UsuarioFuncion> mostrarUsuarioFuncion() 
+        public List<UsuarioFuncion> mostrarUsuarioFuncion()
         {
-            return ContextCine.UF.ToList();           
+            return ContextCine.UF.ToList();
         }
         public List<Funcion> mostrarMisFunciones()
         {
             return usuarioActual().MisFunciones.ToList();
-        }       
+        }
+
+        public List<UsuarioFuncion> mostrarFuncionesDelUsuario(int usId)
+        {
+            IEnumerable<UsuarioFuncion> funcionesUsuario = ContextCine.UF;
+
+            funcionesUsuario = funcionesUsuario.Where(uf => uf.idUsuario == usId);
+
+            return funcionesUsuario.ToList();
+
+        }
+        
     }
 }

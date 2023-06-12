@@ -37,6 +37,8 @@ namespace TP_grupoA_Cine
         {
             dataGridView1.Rows.Clear();
 
+            dataGridView2.Rows.Clear();
+
             if (tabControl1.SelectedTab == tabPage1) //Pestaña de salas
             {
                 foreach (Sala s in cine.mostrarSalas())
@@ -57,18 +59,15 @@ namespace TP_grupoA_Cine
 
             dataGridView3.Rows.Clear(); // Limpia el grid de funciones_Salas
 
-            string idSala = dataGridView1[0, e.RowIndex].Value.ToString();
+            int idSala = Convert.ToInt32(dataGridView1[0, e.RowIndex].Value);
 
-            List<Funcion> listaFunciones = cine.mostrarFunciones();
-
-            foreach (Funcion funcion in listaFunciones)
+            List<Funcion> listaFunciones = cine.mostrarFuncionesXSala(idSala);
+            
+            foreach(Funcion funcion in listaFunciones)
             {
-                if (funcion.MiSala.ID == Convert.ToInt32(idSala))
-                {
-                    dataGridView3.Rows.Add(funcion.ToStringFunciones());
-                }
-
+                dataGridView3.Rows.Add(funcion.ToStringFunciones());
             }
+                   
         }
 
 
@@ -76,18 +75,15 @@ namespace TP_grupoA_Cine
         {
             dataGridView3.Rows.Clear(); //Limpia grid de funciones
 
-            string idPelicula = dataGridView2[0, e.RowIndex].Value.ToString();
+            int idPelicula = Convert.ToInt32(dataGridView2[0, e.RowIndex].Value);
 
-            List<Funcion> listaFunciones = cine.mostrarFunciones();
+            List<Funcion> listaFunciones = cine.mostrarFuncionesXPelicula(idPelicula);
 
-            foreach (Funcion funcion in listaFunciones)
+            foreach (Funcion funcion in listaFunciones) 
             {
-                if (funcion.MiPelicula.ID == Convert.ToInt32(idPelicula))
-                {
-                    dataGridView3.Rows.Add(funcion.ToStringFunciones());
-                }
-
-            }
+                dataGridView3.Rows.Add(funcion.ToStringFunciones());
+            }           
+              
         }
 
         private void dataGridView3_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
