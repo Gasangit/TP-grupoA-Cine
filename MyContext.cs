@@ -12,6 +12,7 @@ namespace TP_grupoA_Cine
 {
     public class MyContext : DbContext
     {
+        //DbSet
         public DbSet<Usuario> usuarios { get; set; }
 
         public DbSet<Funcion> funciones { get; set; }
@@ -22,15 +23,17 @@ namespace TP_grupoA_Cine
 
         public DbSet<UsuarioFuncion> UF { get; set; }
 
+        //Constructor
         public MyContext() { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(Properties.Resources.ConnectionStr);
+            optionsBuilder.UseSqlServer(Properties.Resources.ConnectionStr); //Vinculo a archivo para conecction String de la BD.
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //Creacion entidades/tablas
             modelBuilder.Entity<Usuario>()
                 .ToTable("Usuarios")
                 .HasKey(usuario => usuario.ID);
@@ -68,7 +71,7 @@ namespace TP_grupoA_Cine
                 .HasForeignKey(ObjetoFuncion => ObjetoFuncion.idSala);
 
 
-            //Propiedades de los datos
+            //Propiedades de los datos (tipos dato SQL)
             modelBuilder.Entity<Usuario>(
                 usr =>
                 {
@@ -109,10 +112,10 @@ namespace TP_grupoA_Cine
                     usr.Property(f => f.idPelicula).HasColumnType("int");
                 });
 
+            //Creacion de un admin por defecto
             modelBuilder.Entity<Usuario>().HasData(
                 new {ID = 1, Nombre = "Obdulio", Apellido="Gomez",DNI=45678964, Mail="m@mail", Password="123", IntentosFallidos = 0, Bloqueado=false, Credito=0.0, FechaNacimiento=new DateTime(1974,05,07), EsAdmin = true}
             );
-
 
             //ignoro, no agrego Cine a la base de datos.
             modelBuilder.Ignore<Cine>();

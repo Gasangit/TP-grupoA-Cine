@@ -34,7 +34,7 @@ namespace TP_grupoA_Cine
             hijoLogin.TransfEvento_LoginCarteleraBotonera += TransfDelegado_FormCarteleraBotonera; //evento de login a cartelera, si es usuario comun, o botonera, si es usuario admin
             hijoLogin.TransfEvento_LoginRegistro += TransfDelegado_FormRegistro; // evento de login a registro
 
-            hijoLogin.Show();
+            hijoLogin.Show();//Se inicia la pantalla con el login
 
         }
 

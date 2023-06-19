@@ -72,14 +72,13 @@ namespace TP_grupoA_Cine
             string duracion = dataGridView1[3, e.RowIndex].Value.ToString();
             string poster = dataGridView1[4, e.RowIndex].Value.ToString();
             string urlposter = dataGridView1[5, e.RowIndex].Value.ToString();
-            //Image poster = (Image)dataGridView1[4, e.RowIndex].Value;
+            
             Debug.WriteLine("");
             selectedPelicula = int.Parse(ID);
             id_pelicula.Text = ID;
             nombre_pelicula.Text = nombre;
             sinopsis_pelicula.Text = sinopsis;
-            duracion_pelicula.Text = duracion;
-            //tbPoster.Text = cine.mostrarPeliculas()[selectedPelicula].Poster.ToString();
+            duracion_pelicula.Text = duracion;            
             tbPoster.Text = urlposter;
         }
 
