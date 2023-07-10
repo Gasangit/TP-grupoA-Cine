@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -79,6 +79,11 @@ namespace TP_grupoA_Cine
             costofuncion_text.Text = Costo;
             selectedFuncion = int.Parse(ID);
 
+            //Este combobox pidio agregarlo en la defensa del tp agregarlo en mvc
+            //foreach (Pelicula p in cine.mostrarPeliculas())
+            //{
+            //    comboBox1.Items.Add(p.Nombre.ToString());
+            //}
         }
         //Modifica la funcion
 

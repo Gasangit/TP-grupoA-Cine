@@ -44,13 +44,18 @@ namespace TP_grupoA_Cine
 
             foreach (Pelicula p in cine.mostrarPeliculas())
             {
+                MemoryStream ms = null;
 
-                string url = p.Poster.ToString();
-                WebClient wc = new WebClient();
-                byte[] bytes = wc.DownloadData(url);
-                MemoryStream ms = new MemoryStream(bytes);
-                //nombre, sinopsis, duracion, poster
-                dataGridView1.Rows.Add(p.ID.ToString(), p.Nombre.ToString(), p.Sinopsis.ToString(),
+                if (p.Poster != null)
+                {
+                    string url = p.Poster.ToString();
+                    WebClient wc = new WebClient();
+                    byte[] bytes = wc.DownloadData(url);
+                    ms = new MemoryStream(bytes);
+                    //nombre, sinopsis, duracion, poster
+                }
+                    
+                    dataGridView1.Rows.Add(p.ID.ToString(), p.Nombre.ToString(), p.Sinopsis.ToString(),
                                         p.Duracion.ToString(), Image.FromStream(ms), p.Poster.ToString());
                 //dataGridView1.Rows.Add(p.ToString(),Image.FromStream(ms));
             }

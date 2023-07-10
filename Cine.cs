@@ -115,16 +115,34 @@ namespace TP_grupoA_Cine
         {
             try
             {
+                List<UsuarioFuncion> usuarioFuncion = ContextCine.UF.Where(uf => uf.idUsuario == Id).ToList();
+                foreach (UsuarioFuncion uf in usuarioFuncion)
+                {
+
+                    if (uf.MiFuncion.Fecha >= DateTime.Now)
+                    {
+                        uf.MiUsuario.Credito += uf.cantidadCompra * uf.MiFuncion.Costo;
+                        ContextCine.usuarios.Update(uf.MiUsuario);
+                        ContextCine.SaveChanges();
+                    }
+
+                }
+
                 Usuario usr = ContextCine.usuarios.Where(u => u.ID == Id).FirstOrDefault();
-                if (usr != null) {
+
+                if (usr != null)
+                {
                     ContextCine.usuarios.Remove(usr);//se remuve del contexto
                     ContextCine.SaveChanges();//se guarda en la base de datos
                     return true;
                 }
-                else {
+                else
+                {
                     return false;
                 }
-            } catch (Exception) {
+            }
+            catch (Exception)
+            {
                 return false;
             }
         }
@@ -164,7 +182,7 @@ namespace TP_grupoA_Cine
                 ContextCine.salas.Add(nuevo);
                 ContextCine.SaveChanges();
 
-                Debug.WriteLine($">>> (Cine - altaSala()) Se CREÓ la SALA ubicada en {nuevo.Ubicacion}" +
+                    Debug.WriteLine($">>> (Cine - altaSala()) Se CREÓ la SALA ubicada en {nuevo.Ubicacion}" +
                                 $" con capacidad para {nuevo.Capacidad} espectadores");
                 return true;
             }
@@ -184,8 +202,9 @@ namespace TP_grupoA_Cine
             try
             {
                 Sala sala = ContextCine.salas.Where(s => s.ID == idSala).FirstOrDefault();
+                IEnumerable<Funcion> misFunciones = sala.MisFunciones.Where(funcion => funcion.Fecha >= DateTime.Now);
 
-                if (sala != null)
+                if (sala != null && misFunciones == null)
                 {
                     ContextCine.salas.Remove(sala);
                     ContextCine.SaveChanges();
@@ -251,6 +270,8 @@ namespace TP_grupoA_Cine
                     nuevaSala.MisFunciones.Add(nuevaFuncion); //se agrega funcion a la sala
                     nuevaPelicula.MisFunciones.Add(nuevaFuncion); //se agrega funcion a pelicula
                     ContextCine.funciones.Add(nuevaFuncion); // se agraga funcion al contexto
+                    ContextCine.salas.Update(nuevaSala);
+                    ContextCine.peliculas.Update(nuevaPelicula);
                     ContextCine.SaveChanges();
 
                     Debug.WriteLine($">>> (Cine - altaFuncion()) Se CREÓ la FUNCION en la sala {nuevaFuncion.MiSala.ID}" +
@@ -270,15 +291,31 @@ namespace TP_grupoA_Cine
         {
             try
             {
-                //Se controla si existen FUNCION, SALA y PELICULA en la función a modificar
-                Sala unaSala = ContextCine.salas.Where(s => s.ID == idSala).FirstOrDefault();
-                Pelicula unaPelicula = ContextCine.peliculas.Where(p => p.ID == idPelicula).FirstOrDefault();
+                //Se controla si existen FUNCION, SALA y PELICULA en la función a modificar              
+
                 Funcion funcion = ContextCine.funciones.Where(f => f.ID == ID).FirstOrDefault();
 
-                if (unaSala != null && unaPelicula != null && funcion != null)
+                if (funcion.MiSala.ID != idSala)
                 {
+                    Sala unaSala = ContextCine.salas.Where(s => s.ID == idSala).FirstOrDefault();
+                    funcion.MiSala.MisFunciones.Remove(funcion);
                     funcion.MiSala = unaSala;
+                    unaSala.MisFunciones.Add(funcion);
+                    ContextCine.salas.Update(unaSala);
+                }
+
+                if (funcion.MiPelicula.ID != idPelicula)
+                {
+                    Pelicula unaPelicula = ContextCine.peliculas.Where(p => p.ID == idPelicula).FirstOrDefault();
+                    funcion.MiPelicula.MisFunciones.Remove(funcion);
                     funcion.MiPelicula = unaPelicula;
+                    unaPelicula.MisFunciones.Add(funcion);
+                    ContextCine.peliculas.Update(unaPelicula);
+                }
+
+                if (funcion != null)
+                {
+
                     funcion.Fecha = fecha;
                     funcion.Costo = costo;
 
@@ -288,6 +325,7 @@ namespace TP_grupoA_Cine
 
                     return true;
                 }
+
                 else
                 {
                     return false;
@@ -306,6 +344,19 @@ namespace TP_grupoA_Cine
             try
             {
                 Funcion funcion = ContextCine.funciones.Where(f => f.ID == ID).FirstOrDefault();
+
+                /*PROFE PIDIO DEVOLVER DINERO A TODOS LOS CLIENTES SI BAJO UNA FUNCION
+                if(funcion.Fecha > DateTime.Now)
+                {
+                    foreach(Usuario u in funcion.Clientes)
+                    {
+                        UsuarioFuncion uf = ContextCine.UF.Where(uf=>uf.idUsuario == u.ID && uf.idFuncion == funcion.ID).FirstOrDefault();
+                        u.Credito += funcion.Costo * uf.cantidadCompra;
+                        ContextCine.usuarios.Update(u);                   
+                    }
+
+                }
+                */
                 //Ahora sí lo elimino en la lista
 
                 if (funcion != null)
@@ -407,28 +458,14 @@ namespace TP_grupoA_Cine
         {
             double creditoNuevo = usuarioActual().Credito + importe;
 
-            try
-            {   
-                Usuario usuario = ContextCine.usuarios.Where(u => u.ID == usuarioActual().ID).FirstOrDefault();
+            usuarioActual().Credito = creditoNuevo;
+            ContextCine.usuarios.Update(usuarioActual());
+            ContextCine.SaveChanges();
 
-                if (usuario != null)
-                {
-                    usuario.Credito = creditoNuevo;
-                    ContextCine.usuarios.Update(usuario);
-                    ContextCine.SaveChanges();
-
-                    Debug.WriteLine($">>> (Cine - cargarCredito()) Se CARGARON $ {importe} quedando el CRÉDITO en {usuario.Credito} ID usuario : {usuario.ID}");
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Clase {this.GetType().Name} >>> OBJETO o ID no encontrado. Mensaje de error : " + ex);
-            }
-
+            Debug.WriteLine($">>> (Cine - cargarCredito()) Se CARGARON $ {importe} quedando el CRÉDITO en {usuarioActual().Credito} ID usuario : {usuarioActual().ID}");        
         }
 
-        public string comprarEntrada(int idUsuario, int idFuncion, int cantidad)
+        public string comprarEntrada(int idUsuario, int idFuncion, int cantidad) //Se puede hacer con UF
         {
             string mensaje = "";
 
@@ -590,9 +627,9 @@ namespace TP_grupoA_Cine
         public bool iniciarSesion(string mail, string password)
         {
             try
-            {
+          {
                 string comprobar = "";
-                Usuario usr = ContextCine.usuarios.Where(u => u.Mail == mail && u.Bloqueado == false).FirstOrDefault();     
+                Usuario usr = ContextCine.usuarios.Where(u => u.Mail == mail && u.Bloqueado == false).FirstOrDefault();
                 if (usr != null)
                 {
                     if (usr.Password == password)
@@ -605,21 +642,19 @@ namespace TP_grupoA_Cine
                     }
                     else
                     {
-                        usr.IntentosFallidos++; //Suma un intento fallido
-                        if (usr.IntentosFallidos == 4) // 
+                        usr.IntentosFallidos++;
+                        if (usr.IntentosFallidos == 4)
                         {
-                            usr.Bloqueado = true; //El usuario cambia a bloqueado en true
-                            ContextCine.usuarios.Update(usr); //Actualiza al usuario como bloqueado
-                            ContextCine.SaveChanges();
+                            usr.Bloqueado = true;
                         }
+                        ContextCine.usuarios.Update(usr);
+                        ContextCine.SaveChanges();
                     }
-
                 }
                 else
                 {
                     return false;
                 }
-
                 if (comprobar == "ok") return true;
                 else return false;
             }
@@ -666,7 +701,7 @@ namespace TP_grupoA_Cine
                where funcion.Fecha.Date >= DateTime.UtcNow.Date // Filtro de funciones
                select funcion;
 
-            Debug.WriteLine(">>> Cine - mosterarFunciones : se devuelve lista");
+           Debug.WriteLine(">>> Cine - mosterarFunciones : se devuelve lista");
             return listaFunciones.ToList();
         }
 
@@ -702,16 +737,23 @@ namespace TP_grupoA_Cine
 
         public List<Funcion> mostrarFuncionesXSala(int sala)
         {
+            return ContextCine.salas.Where(s => s.ID == sala).FirstOrDefault().MisFunciones.ToList();
+/*
             IEnumerable<Funcion> funcionXSala = ContextCine.funciones;
             if (sala != 0)
             {
                 funcionXSala = funcionXSala.Where(fs => fs.MiSala.ID == sala);
             }
             return funcionXSala.ToList();
+*/
         }
 
         public List<Funcion> mostrarFuncionesXPelicula(int pelicula)
         {
+
+            return ContextCine.peliculas.Where(p => p.ID == pelicula).FirstOrDefault().MisFunciones.ToList();
+                
+            /*
 
             IEnumerable<Funcion> funcionXPelicula = ContextCine.funciones;
 
@@ -723,6 +765,7 @@ namespace TP_grupoA_Cine
             }
 
             return funcionXPelicula.ToList();
+            */
         }
 
         public List<Sala> mostrarSalas()
@@ -748,11 +791,14 @@ namespace TP_grupoA_Cine
 
         public List<UsuarioFuncion> mostrarFuncionesDelUsuario(int usId)
         {
-            IEnumerable<UsuarioFuncion> funcionesUsuario = ContextCine.UF;
 
-            funcionesUsuario = funcionesUsuario.Where(uf => uf.idUsuario == usId);
+            return usuarioActual().UsuarioFuncion.ToList();
 
-            return funcionesUsuario.ToList();
+           // IEnumerable<UsuarioFuncion> funcionesUsuario = ContextCine.UF;
+
+           // funcionesUsuario = funcionesUsuario.Where(uf => uf.idUsuario == usId);
+
+           // return funcionesUsuario.ToList();
 
         }
         
